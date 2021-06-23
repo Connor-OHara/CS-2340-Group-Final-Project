@@ -1,21 +1,19 @@
-package main;
+package com.group19.javafxgame;
 
-import javafx.application.Application;
-//import javafx.fxml.FXMLLoader;
-//import javafx.scene.Parent;
+import com.almasb.fxgl.app.GameApplication;
+import com.almasb.fxgl.app.GameSettings;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
-public class Main extends Application {
+public class Main extends GameApplication {
 
     private int screenWidth = 600;
     private int screenHeight = 600;
 
-    //sets up main program
-    @Override
+    //sets up main programI
     public void start(Stage primaryStage) throws Exception {
 
         Pane root = new Pane();
@@ -46,5 +44,13 @@ public class Main extends Application {
     public static void main(String[] args) {
         //launches JavaFX application
         launch(args);
+    }
+
+    @Override
+    protected void initSettings(GameSettings settings) {
+        settings.setIntroEnabled(true);
+        settings.setMainMenuEnabled(true);
+        settings.setGameMenuEnabled(true);
+        System.out.println("testing");
     }
 }
