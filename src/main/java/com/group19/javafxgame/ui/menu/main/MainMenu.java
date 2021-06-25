@@ -6,7 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.ui.FXGLButton;
 import com.almasb.fxgl.ui.FontType;
 import com.group19.javafxgame.Constants;
-import com.group19.javafxgame.ui.menu.config.InitialConfigMenu;
 import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -59,11 +58,10 @@ public class MainMenu extends FXGLMenu {
         getContentRoot().getChildren().addAll(menuChildren);
 
         startButton.setOnAction(e -> {
-            InitialConfigMenu configMenu = new InitialConfigMenu(Constants.DEFAULT_DIFFICULTY, Constants.DEFAULT_WEAPON, onStartAction -> {
-                fireNewGame();
-            });
-            getContentRoot().getChildren().removeAll(menuChildren);
-            getContentRoot().getChildren().add(configMenu);
+            fireNewGame();
+//            InitialConfigMenu configMenu = new InitialConfigMenu(Constants.DEFAULT_DIFFICULTY, Constants.DEFAULT_WEAPON, onStartAction -> {
+//                fireNewGame();
+//            });
         });
     }
 

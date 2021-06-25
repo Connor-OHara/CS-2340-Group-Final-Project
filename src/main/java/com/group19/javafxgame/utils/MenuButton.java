@@ -1,4 +1,4 @@
-package com.group19.javafxgame.ui;
+package com.group19.javafxgame.utils;
 
 //Borrowing from FXGL Samples: GeoWars and Almas Baimagambetov
 
