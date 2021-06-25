@@ -2,6 +2,7 @@ package com.group19.javafxgame;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory;
@@ -37,14 +38,13 @@ public class Main extends GameApplication {
         getGameWorld().addEntityFactory(new CharacterFactory());
 
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
-
+        FXGL.setLevelFromMap("default2.tmx");
+        //System.out.println(geto("weapon").toString());
         player = spawn("Player");
-
         int dist = 50; //TODO: move to constants?
-        getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
-        getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
-
-
+        /**These lines are commented out because it messed up the walls*/
+        //getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
+        //getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
     }
 
 

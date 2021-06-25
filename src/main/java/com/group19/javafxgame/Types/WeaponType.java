@@ -1,5 +1,5 @@
 package com.group19.javafxgame.Types;
 
 public enum WeaponType {
-    SWORD, MACE, AXE
+    SWORD, SHURIKEN, SHIELD
 }

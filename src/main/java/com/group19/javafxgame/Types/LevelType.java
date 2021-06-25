@@ -1,2 +1,5 @@
-package com.group19.javafxgame.Types;public enum LevelType {
+package com.group19.javafxgame.Types;
+
+public enum LevelType {
+    WALL, DOOR
 }
