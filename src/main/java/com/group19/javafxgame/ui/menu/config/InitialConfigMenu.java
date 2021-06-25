@@ -1,29 +1,24 @@
-package com.group19.javafxgame.ui;
+package com.group19.javafxgame.ui.menu.config;
 
-import com.almasb.fxgl.app.scene.FXGLMenu;
-import com.almasb.fxgl.app.scene.MenuType;
 import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.Types.DifficultyLevel;
-import com.group19.javafxgame.utils.EnumUtil;
 import com.group19.javafxgame.Types.WeaponType;
-import javafx.beans.binding.StringBinding;
+import com.group19.javafxgame.utils.EnumUtil;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 
 import java.util.EnumSet;
 
-public class InitialConfigMenu extends FXGLMenu {
+public class InitialConfigMenu extends Pane {
 
     String playerName = "      ";
-    public InitialConfigMenu(DifficultyLevel defaultDiff, WeaponType defaultWeapon) {
-        super(MenuType.MAIN_MENU);
-
+    public InitialConfigMenu(DifficultyLevel defaultDiff, WeaponType defaultWeapon, EventHandler<ActionEvent> startGameAction) {
         EnumUtil<DifficultyLevel> difficultyLevelsEnumUtil = new EnumUtil<>();
         ObservableList<DifficultyLevel> diffs = difficultyLevelsEnumUtil
                 .enumToObservableList(EnumSet.allOf(DifficultyLevel.class));
@@ -61,9 +56,7 @@ public class InitialConfigMenu extends FXGLMenu {
         beginButton.setOnAction(event -> {
             if (playerName == null || playerName.trim().isEmpty()) {
                 FXGL.getDialogService().showErrorBox(new IllegalArgumentException("Choose name before starting!"));
-            } else {
-                fireNewGame();
-            }
+            } else startGameAction.handle(event);
         });//TODO: start initial room
 
         VBox box = new VBox(10);
@@ -78,47 +71,7 @@ public class InitialConfigMenu extends FXGLMenu {
         box.getChildren().add(weaponHBox);
         box.getChildren().add(beginButton);
 
-        getContentRoot().getChildren().addAll(box);
-
+        getChildren().addAll(box);
     }
-
-    
-    @Override
-    protected Button createActionButton( StringBinding stringBinding,
-                                         Runnable runnable) {
-        return new Button();
-    }
-
-    
-    @Override
-    protected Button createActionButton( String s,  Runnable runnable) {
-        return new Button();
-    }
-
-    
-    @Override
-    protected Node createBackground(double v, double v1) {
-        return FXGL.texture("background/SimplePaintBackground.png");
-    }
-
-    
-    @Override
-    protected Node createProfileView( String s) {
-        return new Rectangle();
-    }
-
-    
-    @Override
-    protected Node createTitleView( String s) {
-        return new Rectangle();
-    }
-
-    
-    @Override
-    protected Node createVersionView( String s) {
-        return new Rectangle();
-    }
-
-
 
 }

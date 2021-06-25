@@ -2,20 +2,14 @@ package com.group19.javafxgame;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
+import com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory;
 import javafx.scene.paint.Color;
 
-import com.almasb.fxgl.entity.Entity;
 import java.util.Map;
 
-import static com.almasb.fxgl.dsl.FXGL.getAppHeight;
-import static com.almasb.fxgl.dsl.FXGL.getAppWidth;
-import static com.almasb.fxgl.dsl.FXGL.getGameScene;
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
-import static com.almasb.fxgl.dsl.FXGL.geto;
-import static com.almasb.fxgl.dsl.FXGL.inc;
-import static com.almasb.fxgl.dsl.FXGL.showMessage;
-import static com.almasb.fxgl.dsl.FXGL.spawn;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
 
@@ -28,8 +22,7 @@ public class Main extends GameApplication {
         settings.setHeight(Constants.SCREEN_HEIGHT);
         settings.setVersion(Constants.GAME_VERSION);
         settings.setMainMenuEnabled(true);
-        settings.setSceneFactory(new InitialConfigMenuSceneFactory());
-
+        settings.setSceneFactory(new MainMenuSceneFactory());
     }
 
     @Override
