@@ -7,10 +7,14 @@ import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import java.util.Map;
-
 import static com.almasb.fxgl.dsl.FXGL.*;
+
+//import java.util.Map;
+//import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
 
@@ -33,6 +37,7 @@ public class Main extends GameApplication {
         vars.put("weapon", Constants.DEFAULT_WEAPON);
         vars.put("name", "");
         vars.put("configFinished", 0);
+        //vars.put("money", Constants.DEFAULT_MONEY);
     }
 
     @Override
@@ -54,6 +59,7 @@ public class Main extends GameApplication {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
                 spawnCharacters();
+                GameUI();
             }
         });
 
@@ -102,6 +108,18 @@ public class Main extends GameApplication {
         player = spawn("Player");
     }
 
+    protected void GameUI(){
+        Text goldText = new Text();
+        goldText.setTranslateX(getAppWidth() / 38.0);
+
+        goldText.setTranslateY(45);
+        goldText.setFill(Color.GOLD);
+        goldText.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        //makes goldText watch the gold game value in vars
+        goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
+
+        getGameScene().addUINode(goldText);
+    }
 
 
     private void nextLevel() {

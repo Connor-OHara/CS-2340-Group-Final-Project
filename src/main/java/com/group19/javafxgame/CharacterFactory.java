@@ -10,6 +10,7 @@ import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.PlayerComponent;
 
@@ -31,7 +32,26 @@ public class CharacterFactory implements EntityFactory {
           *///TODO: @Matthew remove?
         var texture = FXGL.texture("swordsman.png");
         WeaponType weapon = geto("weapon");
+        DifficultyLevel difficulty = geto("difficulty");
         System.out.println(weapon);
+        System.out.println(difficulty);
+
+        switch(difficulty){
+            case BEGINNER:
+                FXGL.set("money", 10);
+                FXGL.set("lives", 5);
+                break;
+            case INTERMEDIATE:
+                FXGL.set("money", 5);
+                FXGL.set("lives", 3);
+                break;
+            case VETERAN:
+                FXGL.set("money", 1);
+                FXGL.set("lives", 1);
+                break;
+        }
+
+
         switch(weapon) {
             case SWORD:
                 texture = FXGL.texture("swordsman.png");
