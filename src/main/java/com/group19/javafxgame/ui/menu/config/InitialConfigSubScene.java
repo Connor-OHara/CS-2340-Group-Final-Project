@@ -18,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import org.jetbrains.annotations.NotNull;
@@ -34,21 +35,14 @@ public class InitialConfigSubScene extends SubScene {
     public InitialConfigSubScene(DifficultyLevel defaultDiff,
                                  WeaponType defaultWeapon) {
 
-        // Title Positioning
-        StackPane titleContainer = new StackPane();
-        titleContainer.setAlignment(Pos.CENTER);
-        titleContainer.setPrefWidth(Constants.SCREEN_WIDTH);
-        titleContainer.setPrefHeight(Constants.SCREEN_HEIGHT);
 
         // Title
         Text title = FXGL.getUIFactoryService()
                 .newText("Configure Your Character",
                         Color.WHITE,
                         FontType.GAME,
-                        20);
+                        35);
         title.setTextAlignment(TextAlignment.CENTER);
-        title.setTranslateY(-100);
-        titleContainer.getChildren().addAll(title);
 
         //Choice Boxes
         ChoiceBox<DifficultyLevel> difficultyChoiceBox =
@@ -92,9 +86,10 @@ public class InitialConfigSubScene extends SubScene {
             }
         });
 
-        VBox box = new VBox(1);
+        VBox box = new VBox(10);
         box.setAlignment(Pos.CENTER);
         box.setPrefWidth(Constants.SCREEN_WIDTH);
+        box.setTranslateY(200);
 
         HBox diffHBox = new HBox(15,FXGL.getUIFactoryService().newText("Difficulty: "), difficultyChoiceBox);
         diffHBox.setAlignment(Pos.CENTER);
@@ -106,7 +101,7 @@ public class InitialConfigSubScene extends SubScene {
         weaponHBox.setPrefWidth(Constants.SCREEN_WIDTH);
 
 
-
+        box.getChildren().add(title);
         box.getChildren().add(nameBox);
         box.getChildren().add(nameButton);
         box.getChildren().add(diffHBox);

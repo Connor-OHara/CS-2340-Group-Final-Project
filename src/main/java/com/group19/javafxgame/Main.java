@@ -7,10 +7,14 @@ import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import javafx.scene.paint.Color;
-
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import java.util.Map;
-
 import static com.almasb.fxgl.dsl.FXGL.*;
+
+
+
 
 public class Main extends GameApplication {
 
@@ -33,11 +37,13 @@ public class Main extends GameApplication {
         vars.put("weapon", Constants.DEFAULT_WEAPON);
         vars.put("name", "");
         vars.put("configFinished", 0);
+        //vars.put("money", Constants.DEFAULT_MONEY);
     }
 
     @Override
     protected void initGame() {
         Entity background;
+        Entity dungeonFloor;
 
         getGameWorld().addEntityFactory(new CharacterFactory());
 
@@ -54,22 +60,13 @@ public class Main extends GameApplication {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
                 spawnCharacters();
+                GameUI();
             }
         });
 
 
-
-        //FXGL.setLevelFromMap("default2.tmx");
-
-
-
-
-//        getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
-//
-//        //System.out.println(geto("weapon").toString());
-//        player = spawn("Player");
 //        int dist = 50; //TODO: move to constants?
-        /**These lines are commented out because it messed up the walls*/
+        /**These lines are commented out because it messed up the walls*///TODO: @Matthew remove?
         //getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
         //getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
     }
@@ -78,6 +75,11 @@ public class Main extends GameApplication {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         return spawn("background");
     }
+
+    private Entity initDungeonFloor() {
+        return spawn("dungeonFloor");
+    }
+
     private void removeBackgroundAndConfigScreen(Entity background) {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         getGameScene().clearUINodes();
@@ -102,6 +104,25 @@ public class Main extends GameApplication {
         player = spawn("Player");
     }
 
+    protected void GameUI(){
+        Text goldText = new Text();
+        Text goldLabel = new Text("Gold:");
+
+        goldText.setTranslateX(getAppWidth() / 14.0);
+        goldLabel.setTranslateX(getAppWidth()/ 40.0);
+
+        goldText.setTranslateY(45);
+        goldText.setFill(Color.GOLD);
+        goldText.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        goldLabel.setTranslateY(45);
+        goldLabel.setFill(Color.GOLD);
+        goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        //makes goldText watch the gold game value in vars
+        goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
+
+        getGameScene().addUINode(goldText);
+        getGameScene().addUINode(goldLabel);
+    }
 
 
     private void nextLevel() {

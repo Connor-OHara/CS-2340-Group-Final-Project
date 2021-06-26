@@ -13,5 +13,5 @@ public class Constants {
             DifficultyLevel.BEGINNER;
     public static WeaponType DEFAULT_WEAPON =
             WeaponType.SWORD;
-
+    public static int DEFAULT_MONEY = 10;
 }
