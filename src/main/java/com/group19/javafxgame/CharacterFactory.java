@@ -69,7 +69,7 @@ public class CharacterFactory implements EntityFactory {
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
-                .at(getAppWidth() / 2 - texture.getWidth() / 2, getAppHeight() / 2 - texture.getHeight() / 2)
+                .at(getAppWidth() / 2.0 - texture.getWidth() / 2.0, getAppHeight() / 2.0 - texture.getHeight() / 2.0)
                 .viewWithBBox(texture)
                 .with(new PlayerComponent())
                 .build();

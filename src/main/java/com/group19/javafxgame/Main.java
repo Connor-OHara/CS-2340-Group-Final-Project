@@ -13,8 +13,8 @@ import javafx.scene.text.FontWeight;
 import java.util.Map;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
-//import java.util.Map;
-//import static com.almasb.fxgl.dsl.FXGL.*;
+
+
 
 public class Main extends GameApplication {
 
@@ -106,15 +106,22 @@ public class Main extends GameApplication {
 
     protected void GameUI(){
         Text goldText = new Text();
-        goldText.setTranslateX(getAppWidth() / 38.0);
+        Text goldLabel = new Text("Gold:");
+
+        goldText.setTranslateX(getAppWidth() / 14.0);
+        goldLabel.setTranslateX(getAppWidth()/ 40.0);
 
         goldText.setTranslateY(45);
         goldText.setFill(Color.GOLD);
         goldText.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        goldLabel.setTranslateY(45);
+        goldLabel.setFill(Color.GOLD);
+        goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD,22));
         //makes goldText watch the gold game value in vars
         goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
 
         getGameScene().addUINode(goldText);
+        getGameScene().addUINode(goldLabel);
     }
 
 

@@ -1,5 +1,8 @@
 package com.group19.javafxgame.component;
 import com.almasb.fxgl.entity.component.Component;
+import com.almasb.fxgl.core.collection.PropertyMap;
+import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 import javafx.geometry.Point2D;
 
@@ -54,6 +57,16 @@ public class PlayerComponent extends Component {
 
     public Point2D getLocation() {
         return location;
+    }
+
+    //can add positive or negative number
+    public int addFunds(int numb){
+        FXGL.inc("money", numb);
+        return geti("money");
+    }
+
+    public int showFunds(){
+        return geti("money");
     }
 
 
