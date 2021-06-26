@@ -44,7 +44,17 @@ public class PlayerComponent extends Component {
     }
 
 
+    public int getHealth() {
+        return health;
+    }
 
+    public int getStrength() {
+        return strength;
+    }
+
+    public Point2D getLocation() {
+        return location;
+    }
 
 
 }

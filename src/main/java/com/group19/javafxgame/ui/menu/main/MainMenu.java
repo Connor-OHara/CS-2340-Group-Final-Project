@@ -59,9 +59,6 @@ public class MainMenu extends FXGLMenu {
 
         startButton.setOnAction(e -> {
             fireNewGame();
-//            InitialConfigMenu configMenu = new InitialConfigMenu(Constants.DEFAULT_DIFFICULTY, Constants.DEFAULT_WEAPON, onStartAction -> {
-//                fireNewGame();
-//            });
         });
     }
 

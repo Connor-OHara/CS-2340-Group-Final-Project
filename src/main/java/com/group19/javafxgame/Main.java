@@ -6,7 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
-import com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory;
 import javafx.scene.paint.Color;
 
 import java.util.Map;
@@ -24,7 +23,7 @@ public class Main extends GameApplication {
         settings.setHeight(Constants.SCREEN_HEIGHT);
         settings.setVersion(Constants.GAME_VERSION);
         settings.setMainMenuEnabled(true);
-        settings.setSceneFactory(new MainMenuSceneFactory());
+        settings.setSceneFactory(new MainSceneFactory());
     }
 
     @Override

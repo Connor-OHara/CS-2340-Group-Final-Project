@@ -11,7 +11,7 @@ Single step:false
 App Mode: DEVELOPER
 Menu Key: ESCAPE
 Stage Style: DECORATED
-Scene Factory: class com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory
+Scene Factory: class com.group19.javafxgame.MainSceneFactory
 
 18:25:06.734 [JavaFX Application Thread] DEBUG FXGLApplication      - Initializing FXGL
 18:25:06.735 [JavaFX Application Thread] INFO  Engine               - FXGL-11.12 (11.12.2020 08.51) on WINDOWS (J:11.0.10 FX:15)
@@ -167,7 +167,7 @@ Scene Factory: class com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - saveFileExt: sav
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - scaledHeightProp$fxgl: DoubleProperty [bound, value: 720.0]
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - scaledWidthProp$fxgl: DoubleProperty [bound, value: 1280.0]
-18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - sceneFactory: com.group19.javafxgame.ui.menu.main.MainMenuSceneFactory@66cab6d9
+18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - sceneFactory: com.group19.javafxgame.MainSceneFactory@66cab6d9
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - secondsIn24h: 60
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - soundMenuBack: menu/back.wav
 18:25:10.435 [FXGL Background Thread 3 ] DEBUG Engine               - soundMenuPress: menu/press.wav
