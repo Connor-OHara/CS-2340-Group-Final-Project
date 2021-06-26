@@ -87,7 +87,7 @@ public class PlayerComponent extends Component {
     }
 
 
-    public int showFunds(){
+    public int showFunds() {
         return geti("money");
     }
 
