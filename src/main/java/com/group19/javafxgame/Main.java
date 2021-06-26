@@ -44,16 +44,6 @@ public class Main extends GameApplication {
 
         getGameWorld().addEntityFactory(new CharacterFactory());
 
-        /*
-        FXGL.run(()-> getSceneService().pushSubScene(
-                new InitialConfigSubScene(
-                        Constants.DEFAULT_DIFFICULTY,
-                        Constants.DEFAULT_WEAPON)
-                ),
-                Duration.hours(1)
-        );
-         */
-
         background = initBackground();
         initConfigScreen();
 
