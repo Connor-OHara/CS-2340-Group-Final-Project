@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-public class EnumUtil<T extends Enum<T>> {
+public class EnumUtils<T extends Enum<T>> {
 
     public ObservableList<T> enumToObservableList(EnumSet<T> tEnum) {
         List<T> vals = new ArrayList<>(10);

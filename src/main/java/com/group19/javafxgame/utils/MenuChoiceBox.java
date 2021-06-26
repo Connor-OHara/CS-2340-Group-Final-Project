@@ -28,11 +28,11 @@ public class MenuChoiceBox<T extends Enum<T>> extends ChoiceBox<T> {
     }
 
     public MenuChoiceBox(EnumSet<T> tEnumSet, T defaultT) {
-        this(new EnumUtil<T>().enumToObservableList(tEnumSet), defaultT);
+        this(new EnumUtils<T>().enumToObservableList(tEnumSet), defaultT);
     }
 
     public MenuChoiceBox(EnumSet<T> tEnumSet) {
-        this(new EnumUtil<T>().enumToObservableList(tEnumSet));
+        this(new EnumUtils<T>().enumToObservableList(tEnumSet));
     }
 
     public ChoiceBox<T> getChoiceBox() {

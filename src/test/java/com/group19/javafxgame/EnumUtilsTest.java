@@ -1,6 +1,6 @@
 package com.group19.javafxgame;
 
-import com.group19.javafxgame.utils.EnumUtil;
+import com.group19.javafxgame.utils.EnumUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Assertions;
@@ -10,17 +10,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-public class EnumUtilTest {
+public class EnumUtilsTest {
 
     private enum TestEnum {
         ONE, TWO, THREE
     }
 
-    private EnumUtil<TestEnum> testUtil;
+    private EnumUtils<TestEnum> testUtil;
 
     @BeforeEach
     public void setup() {
-        testUtil = new EnumUtil<>();
+        testUtil = new EnumUtils<>();
     }
 
     @Test
