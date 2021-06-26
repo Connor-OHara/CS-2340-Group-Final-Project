@@ -101,6 +101,4 @@ public class CharacterFactory implements EntityFactory {
                 .build();
     }
 
-
-
 }

@@ -43,6 +43,7 @@ public class Main extends GameApplication {
     @Override
     protected void initGame() {
         Entity background;
+        Entity dungeonFloor;
 
         getGameWorld().addEntityFactory(new CharacterFactory());
 
@@ -64,18 +65,8 @@ public class Main extends GameApplication {
         });
 
 
-
-        //FXGL.setLevelFromMap("default2.tmx");
-
-
-
-
-//        getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
-//
-//        //System.out.println(geto("weapon").toString());
-//        player = spawn("Player");
 //        int dist = 50; //TODO: move to constants?
-        /**These lines are commented out because it messed up the walls*/
+        /**These lines are commented out because it messed up the walls*///TODO: @Matthew remove?
         //getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
         //getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
     }
@@ -84,6 +75,11 @@ public class Main extends GameApplication {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         return spawn("background");
     }
+
+    private Entity initDungeonFloor() {
+        return spawn("dungeonFloor");
+    }
+
     private void removeBackgroundAndConfigScreen(Entity background) {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         getGameScene().clearUINodes();
