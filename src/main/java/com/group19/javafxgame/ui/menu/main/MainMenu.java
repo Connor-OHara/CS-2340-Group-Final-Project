@@ -26,11 +26,16 @@ public class MainMenu extends FXGLMenu {
         // Title Positioning
         StackPane titleContainer = new StackPane();
         titleContainer.setAlignment(Pos.CENTER);
-        titleContainer.setPrefWidth(Constants.SCREEN_WIDTH);
-        titleContainer.setPrefHeight(Constants.SCREEN_HEIGHT);
+        titleContainer.setPrefWidth(Constants.getScreenWidth());
+        titleContainer.setPrefHeight(Constants.getScreenHeight());
 
         // Title
-        Text title = FXGL.getUIFactoryService().newText("Dungeon Crawler", Color.WHITE, FontType.GAME, 50);
+        Text title = FXGL.getUIFactoryService().newText(
+            "Dungeon Crawler",
+            Color.WHITE,
+            FontType.GAME,
+            50
+        );
         title.setTextAlignment(TextAlignment.CENTER);
         title.setTranslateY(-100);
         titleContainer.getChildren().addAll(title);
@@ -48,18 +53,17 @@ public class MainMenu extends FXGLMenu {
 
         // Button Container
         double buttonBoxWidth = 300;
+        double tranlsateX = (Constants.getScreenWidth() - buttonBoxWidth) / 2;
         VBox buttonBox = new VBox(15, buttons);
         buttonBox.setPrefWidth(buttonBoxWidth);
         buttonBox.setFillWidth(true);
-        buttonBox.setTranslateX((Constants.SCREEN_WIDTH - buttonBoxWidth)/2);
+        buttonBox.setTranslateX(tranlsateX);
         buttonBox.setTranslateY(450);
 
         Node[] menuChildren = {titleContainer, buttonBox};
         getContentRoot().getChildren().addAll(menuChildren);
 
-        startButton.setOnAction(e -> {
-            fireNewGame();
-        });
+        startButton.setOnAction(e -> fireNewGame());
     }
 
 

@@ -1,11 +1,11 @@
 package com.group19.javafxgame.component;
+
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
-import com.almasb.fxgl.core.collection.PropertyMap;
-import com.almasb.fxgl.dsl.FXGL;
-import static com.almasb.fxgl.dsl.FXGL.*;
-
 import javafx.geometry.Point2D;
+
+import static com.almasb.fxgl.dsl.FXGL.geti;
 
 public class PlayerComponent extends Component {
 
@@ -25,7 +25,7 @@ public class PlayerComponent extends Component {
     }
 
     public PlayerComponent(Point2D location) {
-       this(DEFAULT_HEALTH, DEFAULT_STRENGTH, location);
+        this(DEFAULT_HEALTH, DEFAULT_STRENGTH, location);
     }
 
     public PlayerComponent() {
@@ -74,12 +74,12 @@ public class PlayerComponent extends Component {
     }
 
     //can add positive or negative number
-    public int addFunds(int numb){
+    public int addFunds(int numb) {
         FXGL.inc("money", numb);
         return geti("money");
     }
 
-    public int showFunds(){
+    public int showFunds() {
         return geti("money");
     }
 

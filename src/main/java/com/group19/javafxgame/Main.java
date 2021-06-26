@@ -18,14 +18,12 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
 
-    private Entity player;
-
     @Override
     protected void initSettings(GameSettings settings) {
-        settings.setTitle(Constants.GAME_NAME);
-        settings.setWidth(Constants.SCREEN_WIDTH);
-        settings.setHeight(Constants.SCREEN_HEIGHT);
-        settings.setVersion(Constants.GAME_VERSION);
+        settings.setTitle(Constants.getGameName());
+        settings.setWidth(Constants.getScreenWidth());
+        settings.setHeight(Constants.getScreenHeight());
+        settings.setVersion(Constants.getGameVersion());
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new MainSceneFactory());
     }
@@ -33,8 +31,8 @@ public class Main extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         super.initGameVars(vars);
-        vars.put("difficulty", Constants.DEFAULT_DIFFICULTY);
-        vars.put("weapon", Constants.DEFAULT_WEAPON);
+        vars.put("difficulty", Constants.getDefaultDifficulty());
+        vars.put("weapon", Constants.getDefaultWeapon());
         vars.put("name", "");
         vars.put("configFinished", 0);
         //vars.put("money", Constants.DEFAULT_MONEY);
@@ -43,14 +41,18 @@ public class Main extends GameApplication {
     @Override
     protected void initGame() {
         Entity background;
-        Entity dungeonFloor;
 
         getGameWorld().addEntityFactory(new CharacterFactory());
 
-
-
-//        FXGL.run(()-> getSceneService().pushSubScene(new InitialConfigSubScene(Constants.DEFAULT_DIFFICULTY,
-//                Constants.DEFAULT_WEAPON)),Duration.hours(1));
+        /*
+        FXGL.run(()-> getSceneService().pushSubScene(
+                new InitialConfigSubScene(
+                        Constants.DEFAULT_DIFFICULTY,
+                        Constants.DEFAULT_WEAPON)
+                ),
+                Duration.hours(1)
+        );
+         */
 
         background = initBackground();
         initConfigScreen();
@@ -60,15 +62,9 @@ public class Main extends GameApplication {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
                 spawnCharacters();
-                GameUI();
+                gameUI();
             }
         });
-
-
-//        int dist = 50; //TODO: move to constants?
-        /**These lines are commented out because it messed up the walls*///TODO: @Matthew remove?
-        //getGameScene().getViewport().setBounds(-dist, -dist, getAppWidth() + dist, getAppHeight() + dist);
-        //getGameScene().getViewport().bindToEntity(player, getAppWidth() / 2, getAppHeight() / 2);
     }
 
     private Entity initBackground() {
@@ -89,7 +85,7 @@ public class Main extends GameApplication {
 
     private void initConfigScreen() {
         InitialConfigSubScene configSubScene = new InitialConfigSubScene(
-                Constants.DEFAULT_DIFFICULTY, Constants.DEFAULT_WEAPON
+                Constants.getDefaultDifficulty(), Constants.getDefaultWeapon()
         );
 
         getGameScene().addUINodes(configSubScene.getContentRoot());
@@ -101,22 +97,22 @@ public class Main extends GameApplication {
     }
 
     private void spawnCharacters() {
-        player = spawn("Player");
+        Entity player = spawn("Player");
     }
 
-    protected void GameUI(){
+    protected void gameUI() {
         Text goldText = new Text();
         Text goldLabel = new Text("Gold:");
 
         goldText.setTranslateX(getAppWidth() / 14.0);
-        goldLabel.setTranslateX(getAppWidth()/ 40.0);
+        goldLabel.setTranslateX(getAppWidth() / 40.0);
 
         goldText.setTranslateY(45);
         goldText.setFill(Color.GOLD);
-        goldText.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        goldText.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
         goldLabel.setTranslateY(45);
         goldLabel.setFill(Color.GOLD);
-        goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD,22));
+        goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
         //makes goldText watch the gold game value in vars
         goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
 

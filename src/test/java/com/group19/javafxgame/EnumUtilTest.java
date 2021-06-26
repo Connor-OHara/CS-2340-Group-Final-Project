@@ -4,21 +4,19 @@ import com.group19.javafxgame.utils.EnumUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
 public class EnumUtilTest {
 
-    private enum testEnum {
+    private enum TestEnum {
         ONE, TWO, THREE
     }
 
-    EnumUtil<testEnum> testUtil;
+    private EnumUtil<TestEnum> testUtil;
 
     @BeforeEach
     public void setup() {
@@ -28,9 +26,9 @@ public class EnumUtilTest {
     @Test
     public void testEmptyEnum() {
         var result = testUtil
-                .enumToObservableList(EnumSet.noneOf(testEnum.class));
+                .enumToObservableList(EnumSet.noneOf(TestEnum.class));
 
-        ObservableList<testEnum> emptyList =
+        ObservableList<TestEnum> emptyList =
                 FXCollections.emptyObservableList();
 
         Assertions.assertEquals(emptyList, result);
@@ -39,12 +37,12 @@ public class EnumUtilTest {
     @Test
     public void testSingleElementEnum() {
         var result = testUtil
-                .enumToObservableList(EnumSet.of(testEnum.ONE));
+                .enumToObservableList(EnumSet.of(TestEnum.ONE));
 
-        ArrayList<testEnum> list = new ArrayList<testEnum>();
-        list.add(testEnum.ONE);
+        ArrayList<TestEnum> list = new ArrayList<TestEnum>();
+        list.add(TestEnum.ONE);
 
-        ObservableList<testEnum> oneList =
+        ObservableList<TestEnum> oneList =
                 FXCollections.observableList(list);
 
         Assertions.assertEquals(oneList, result);

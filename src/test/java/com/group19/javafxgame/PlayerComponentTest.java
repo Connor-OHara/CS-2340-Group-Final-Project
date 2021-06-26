@@ -1,7 +1,6 @@
 package com.group19.javafxgame;
 
 
-import com.almasb.fxgl.app.GameApplication;
 import com.group19.javafxgame.component.PlayerComponent;
 import javafx.geometry.Point2D;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,10 +14,10 @@ public class PlayerComponentTest {
     // Health: 10
     // Strength: 20
     // Location: (53, 14)
-    PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(53, 14));
+    private PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(53, 14));
 
     @BeforeAll
-    public static void setup() {}
+    public static void setup() { }
 
     @Test
     public void checkAttributes() {

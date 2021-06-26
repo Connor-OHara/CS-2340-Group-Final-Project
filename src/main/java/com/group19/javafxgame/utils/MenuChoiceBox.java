@@ -1,11 +1,11 @@
 package com.group19.javafxgame.utils;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.group19.javafxgame.utils.EnumUtil;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ChoiceBox;
+
 import java.util.EnumSet;
 
 public class MenuChoiceBox<T extends Enum<T>> extends ChoiceBox<T> {

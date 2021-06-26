@@ -46,7 +46,9 @@ public class MenuButton extends Button {
 
         // Event Handler
         setOnMouseClicked(e -> {
-            if (action != null) action.run();
+            if (action != null) {
+                action.run();
+            }
         });
     }
 
