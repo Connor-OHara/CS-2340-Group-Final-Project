@@ -1,4 +1,5 @@
 package com.group19.javafxgame.component;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 
 import javafx.geometry.Point2D;
@@ -11,12 +12,13 @@ public class PlayerComponent extends Component {
 
     private int health;
     private int strength;
-    private Point2D location;
 
     public PlayerComponent(int health, int strength, Point2D location) {
+        super();
+        this.entity = new Entity();
         this.health = health;
         this.strength = strength;
-        this.location = location;
+        this.entity.setPosition(location);
     }
 
     public PlayerComponent(Point2D location) {
@@ -27,20 +29,32 @@ public class PlayerComponent extends Component {
         this(DEFAULT_STARTING_POS);
     }
 
-    public void left() {
-        entity.translateX(-10);
+    public void translateLeft(Double dx) {
+        entity.translateX(-dx);
+    }
+    public void translateLeft() {
+        translateLeft(10d);
     }
 
-    public void right() {
-        entity.translateX(10);
+    public void translateRight(Double dx) {
+        entity.translateX(dx);
+    }
+    public void translateRight() {
+        translateRight(10d);
     }
 
-    public void up() {
-        entity.translateY(-10);
+    public void translateUp(Double dy) {
+        entity.translateY(-dy);
+    }
+    public void translateUp() {
+        translateUp(10d);
     }
 
-    public void down() {
-        entity.translateY(10);
+    public void translateDown(Double dy) {
+        entity.translateY(dy);
+    }
+    public void translateDown() {
+        translateDown(10d);
     }
 
 
@@ -53,7 +67,7 @@ public class PlayerComponent extends Component {
     }
 
     public Point2D getLocation() {
-        return location;
+        return entity.getPosition();
     }
 
 

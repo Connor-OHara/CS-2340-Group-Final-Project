@@ -21,18 +21,22 @@ public class PlayerComponentTest {
     public static void setup() {}
 
     @Test
-    public void checkHealthEquality() {
+    public void checkAttributes() {
         assertEquals(playerComponent.getHealth(), 10);
-    }
-
-    @Test
-    public void checkStrengthEquality() {
         assertEquals(playerComponent.getStrength(), 20);
+        assertEquals(playerComponent.getLocation(), new Point2D(53, 14));
     }
 
     @Test
-    public void checkLocationEquality() {
-        assertEquals(playerComponent.getLocation(), new Point2D(53, 14));
+    public void checkMovement() {
+        playerComponent.translateUp();
+        assertEquals(playerComponent.getLocation().getY(), 4, 0.001);
+        playerComponent.translateDown();
+        assertEquals(playerComponent.getLocation().getY(), 14, 0.001);
+        playerComponent.translateLeft();
+        assertEquals(playerComponent.getLocation().getX(), 43, 0.001);
+        playerComponent.translateRight();
+        assertEquals(playerComponent.getLocation().getX(), 53, 0.001);
     }
 
 
