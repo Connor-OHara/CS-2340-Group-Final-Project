@@ -46,7 +46,21 @@ public class EnumUtilsTest {
                 FXCollections.observableList(list);
 
         Assertions.assertEquals(oneList, result);
+    }
 
+    @Test
+    public void testElementOrderFullEnum() {
+        var result = testUtil
+                .enumToObservableList(EnumSet.allOf(TestEnum.class));
+
+        ArrayList<TestEnum> list = new ArrayList<>();
+
+        list.addAll(new ArrayList<>(EnumSet.allOf(TestEnum.class)));
+
+        ObservableList<TestEnum> oneList =
+                FXCollections.observableList(list);
+
+        Assertions.assertEquals(oneList, result);
     }
 
 }
