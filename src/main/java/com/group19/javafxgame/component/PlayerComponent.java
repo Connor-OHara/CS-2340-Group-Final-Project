@@ -15,6 +15,7 @@ public class PlayerComponent extends Component {
 
     private int health;
     private int strength;
+    private int money;
 
     public PlayerComponent(int health, int strength, Point2D location) {
         super();
@@ -22,6 +23,7 @@ public class PlayerComponent extends Component {
         this.health = health;
         this.strength = strength;
         this.entity.setPosition(location);
+        this.money = geti("money");
     }
 
     public PlayerComponent(Point2D location) {
@@ -74,13 +76,24 @@ public class PlayerComponent extends Component {
     }
 
     //can add positive or negative number
+
+
     public int addFunds(int numb) {
+
         FXGL.inc("money", numb);
-        return geti("money");
+        money += numb;
+        int retval = geti("money");
+        return retval;
     }
+
 
     public int showFunds() {
         return geti("money");
+    }
+
+
+    public int showGlobalFunds() {
+        return money;
     }
 
 

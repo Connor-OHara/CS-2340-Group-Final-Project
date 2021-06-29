@@ -9,6 +9,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.texture.Texture;
 import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.PlayerComponent;
@@ -19,10 +20,11 @@ import static com.group19.javafxgame.Types.LevelType.*;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class CharacterFactory implements EntityFactory {
-
+    //this is static to allow for junit tests to access it
+    private static Texture texture;
     @Spawns("Player")
     public Entity spawnPlayer(SpawnData data) {
-        var texture = FXGL.texture("swordsman.png");
+        texture = FXGL.texture("swordsman.png");
         WeaponType weapon = geto("weapon");
         DifficultyLevel difficulty = geto("difficulty");
         System.out.println(weapon);
@@ -108,4 +110,7 @@ public class CharacterFactory implements EntityFactory {
                 .build();
     }
 
+    public static Texture getTexture() {
+        return texture;
+    }
 }
