@@ -33,15 +33,12 @@ public class CharacterFactory implements EntityFactory {
         switch (difficulty) {
         case BEGINNER:
             FXGL.set("money", 10);
-            FXGL.set("lives", 5);
             break;
         case INTERMEDIATE:
             FXGL.set("money", 5);
-            FXGL.set("lives", 3);
             break;
         case VETERAN:
             FXGL.set("money", 1);
-            FXGL.set("lives", 1);
             break;
         default:
             break;

@@ -48,6 +48,7 @@ public class MoneyTest {
 
     @Test
     public void checkShowFunds() {
+        System.out.println("Starting checkShowFunds");
         //TODO: Check. This starts at 10 as shown below. And then funds are added.
         //IF relying on previous test, you would expect it to be six. It starts here with 10.
         //Is there permanence to this?
