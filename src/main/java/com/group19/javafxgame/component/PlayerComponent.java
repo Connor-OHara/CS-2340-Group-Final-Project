@@ -1,12 +1,13 @@
 package com.group19.javafxgame.component;
 
+
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.Constants;
+import com.group19.javafxgame.Types.DifficultyLevel;
 import javafx.geometry.Point2D;
 
-import static com.almasb.fxgl.dsl.FXGL.geti;
+import static com.almasb.fxgl.dsl.FXGL.geto;
+
 
 public class PlayerComponent extends CharacterComponent {
 
@@ -18,7 +19,20 @@ public class PlayerComponent extends CharacterComponent {
 
     public PlayerComponent(int health, int strength, Point2D location, int money) {
         super(health, strength, location);
-        this.money = money;
+        DifficultyLevel difficulty = geto("difficulty");
+        switch (difficulty) {
+            case BEGINNER:
+                this.money = 10;
+                break;
+            case INTERMEDIATE:
+                this.money = 5;
+                break;
+            case VETERAN:
+                this.money = 1;
+                break;
+            default:
+                break;
+        }
     }
 
     public PlayerComponent(Point2D location) {
@@ -49,13 +63,17 @@ public class PlayerComponent extends CharacterComponent {
         //TODO: Connor check if this implementation is sufficient.
         //FXGL.inc("money", numb);
         money += numb;
+
         //int retval = geti("money");
         return money;//retval
+
+        //return geti("money");
+
     }
 
 
     public int showFunds() {
-        return money;//return geti("money");
+        return money;
     }
 
 

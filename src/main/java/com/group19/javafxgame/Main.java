@@ -111,7 +111,7 @@ public class Main extends GameApplication {
         goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
 
         String money = String.valueOf(player.showFunds());
-        //TODO: Check if this actually "watches"
+        //TODO: Check if this actually "watches" - done
         //makes goldText watch the gold game value in vars
         //goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
         goldText.textProperty().bind( new SimpleStringProperty(money));

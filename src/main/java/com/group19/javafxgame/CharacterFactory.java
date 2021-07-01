@@ -26,23 +26,8 @@ public class CharacterFactory implements EntityFactory {
     public Entity spawnPlayer(SpawnData data) {
         texture = FXGL.texture("swordsman.png");
         WeaponType weapon = geto("weapon");
-        DifficultyLevel difficulty = geto("difficulty");
         System.out.println(weapon);
-        System.out.println(difficulty);
 
-        switch (difficulty) {
-        case BEGINNER:
-            FXGL.set("money", 10);
-            break;
-        case INTERMEDIATE:
-            FXGL.set("money", 5);
-            break;
-        case VETERAN:
-            FXGL.set("money", 1);
-            break;
-        default:
-            break;
-        }
 
 
         switch (weapon) {
