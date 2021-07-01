@@ -1,11 +1,9 @@
 package com.group19.javafxgame.component;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.component.Component;
 import javafx.geometry.Point2D;
 
 public class FriendlyComponent extends CharacterComponent {
 
-    public boolean haveInteracted;
+    private boolean haveInteracted;
     /**
      *
      * Another thing we could have is that doors in the current
@@ -27,4 +25,11 @@ public class FriendlyComponent extends CharacterComponent {
         this.haveInteracted = false;
     }
 
+    public boolean isHaveInteracted() {
+        return haveInteracted;
+    }
+
+    public void setHaveInteracted(boolean haveInteracted) {
+        this.haveInteracted = haveInteracted;
+    }
 }

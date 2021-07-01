@@ -8,8 +8,6 @@ import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.PlayerComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableStringValue;
-import javafx.collections.FXCollections;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -39,7 +37,7 @@ public class Main extends GameApplication {
         vars.put("weapon", Constants.getDefaultWeapon());
         vars.put("name", "");
         vars.put("configFinished", 0);
-        vars.put("money", Constants.getDefaultMoney());//TODO: Verify if this is what we want to move forward with.
+        vars.put("money", Constants.getDefaultMoney());
     }
 
     @Override
@@ -111,10 +109,7 @@ public class Main extends GameApplication {
         goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
 
         String money = String.valueOf(player.showFunds());
-        //TODO: Check if this actually "watches"
-        //makes goldText watch the gold game value in vars
-        //goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
-        goldText.textProperty().bind( new SimpleStringProperty(money));
+        goldText.textProperty().bind(new SimpleStringProperty(money));
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);

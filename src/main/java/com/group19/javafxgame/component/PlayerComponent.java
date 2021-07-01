@@ -1,12 +1,8 @@
 package com.group19.javafxgame.component;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
 
-import static com.almasb.fxgl.dsl.FXGL.geti;
 
 public class PlayerComponent extends CharacterComponent {
 
@@ -46,21 +42,14 @@ public class PlayerComponent extends CharacterComponent {
 
 
     public int addFunds(int numb) {
-        //TODO: Connor check if this implementation is sufficient.
-        //FXGL.inc("money", numb);
         money += numb;
-        //int retval = geti("money");
-        return money;//retval
+        return money;
     }
-
 
     public int showFunds() {
-        return money;//return geti("money");
+        return money;
     }
 
-
-    //TODO: Remove from Player Component. Not tied to this entity.
-    //TODO: If tied to this entity, then let's not have two places where this lives
     public int showGlobalFunds() {
         return money;
     }

@@ -5,11 +5,6 @@ import javafx.geometry.Point2D;
 
 import com.almasb.fxgl.entity.component.Component;
 
-import static com.almasb.fxgl.dsl.FXGL.geti;
-
-/**
- * TODO: See if abstract works
- */
 public abstract class CharacterComponent extends Component {
     private static final int DEFAULT_HEALTH = 100;
     private static final int DEFAULT_STRENGTH = 100;
