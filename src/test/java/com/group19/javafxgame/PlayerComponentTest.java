@@ -14,7 +14,7 @@ public class PlayerComponentTest {
     // Health: 10
     // Strength: 20
     // Location: (53, 14)
-    private PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(53, 14));
+    private PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(53, 14), 10);
 
     @BeforeAll
     public static void setup() { }

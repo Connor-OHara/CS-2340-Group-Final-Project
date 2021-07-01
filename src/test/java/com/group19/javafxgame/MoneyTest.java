@@ -12,11 +12,16 @@ import com.almasb.fxgl.app.GameApplication;
 
 public class MoneyTest {
 
-    private PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(100, 100));
+    private PlayerComponent playerComponent =
+            new PlayerComponent(10,
+                        20,
+                                new Point2D(100, 100),
+                                10);
 
     @BeforeAll
     public static void setup() {
         GameApplication.launch(Main.class, new String[] {});
+        System.out.println("New Setup");
     }
 
 
@@ -33,15 +38,20 @@ public class MoneyTest {
     @Test
     public void checkAddSubtractFunds() {
         int funds = playerComponent.addFunds(4);
+        System.out.println(playerComponent.showFunds());
         Assertions.assertEquals(14, funds);
 
-        int subfunds = playerComponent.addFunds(-8);
-        Assertions.assertEquals(6, subfunds);
+        Assertions.assertEquals(6, playerComponent.addFunds(-8));
+
+        System.out.println(playerComponent.showFunds());
     }
 
     @Test
     public void checkShowFunds() {
+
+        System.out.println("Starting checkShowFunds");
+        System.out.println(playerComponent.showFunds());
         playerComponent.addFunds(4);
-        Assertions.assertEquals(playerComponent.showGlobalFunds(), 10);
+        Assertions.assertEquals(14, playerComponent.showGlobalFunds());
     }
 }

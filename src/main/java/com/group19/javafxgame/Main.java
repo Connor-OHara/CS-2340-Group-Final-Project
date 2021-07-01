@@ -5,7 +5,9 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
+import com.group19.javafxgame.component.PlayerComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -35,7 +37,7 @@ public class Main extends GameApplication {
         vars.put("weapon", Constants.getDefaultWeapon());
         vars.put("name", "");
         vars.put("configFinished", 0);
-        //vars.put("money", Constants.DEFAULT_MONEY);
+        vars.put("money", Constants.getDefaultMoney());
     }
 
     @Override
@@ -51,8 +53,10 @@ public class Main extends GameApplication {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
+                Entity player = spawn("Player");
+                PlayerComponent playerComponent = player.getComponent(PlayerComponent.class);
                 spawnCharacters();
-                gameUI();
+                gameUI(playerComponent);
             }
         });
     }
@@ -90,7 +94,7 @@ public class Main extends GameApplication {
         Entity player = spawn("Player");
     }
 
-    protected void gameUI() {
+    protected void gameUI(PlayerComponent player) {
         Text goldText = new Text();
         Text goldLabel = new Text("Gold:");
 
@@ -103,8 +107,10 @@ public class Main extends GameApplication {
         goldLabel.setTranslateY(45);
         goldLabel.setFill(Color.GOLD);
         goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
-        //makes goldText watch the gold game value in vars
-        goldText.textProperty().bind(getWorldProperties().intProperty("money").asString());
+
+        String money = String.valueOf(player.showFunds());
+        goldText.textProperty().bind(new SimpleStringProperty(money));
+        goldText.textProperty().bind(new SimpleStringProperty(money));
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
