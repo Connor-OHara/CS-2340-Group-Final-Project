@@ -39,8 +39,6 @@ public class PlayerComponent extends CharacterComponent {
     }
 
     //can add positive or negative number
-
-
     public int addFunds(int numb) {
         money += numb;
         return money;
