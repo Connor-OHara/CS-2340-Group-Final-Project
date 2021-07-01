@@ -1,8 +1,12 @@
 package com.group19.javafxgame.component;
 
+
 import com.group19.javafxgame.Constants;
+import com.group19.javafxgame.Types.DifficultyLevel;
 import javafx.geometry.Point2D;
 
+
+import static com.almasb.fxgl.dsl.FXGL.geto;
 
 public class PlayerComponent extends CharacterComponent {
 
@@ -14,7 +18,20 @@ public class PlayerComponent extends CharacterComponent {
 
     public PlayerComponent(int health, int strength, Point2D location, int money) {
         super(health, strength, location);
-        this.money = money;
+        DifficultyLevel difficulty = geto("difficulty");
+        switch (difficulty) {
+        case BEGINNER:
+            this.money = 10;
+            break;
+        case INTERMEDIATE:
+            this.money = 5;
+            break;
+        case VETERAN:
+            this.money = 1;
+            break;
+        default:
+            break;
+        }
     }
 
     public PlayerComponent(Point2D location) {
@@ -51,6 +68,5 @@ public class PlayerComponent extends CharacterComponent {
     public int showGlobalFunds() {
         return money;
     }
-
 
 }

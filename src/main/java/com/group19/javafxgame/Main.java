@@ -110,6 +110,7 @@ public class Main extends GameApplication {
 
         String money = String.valueOf(player.showFunds());
         goldText.textProperty().bind(new SimpleStringProperty(money));
+        goldText.textProperty().bind(new SimpleStringProperty(money));
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);

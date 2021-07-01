@@ -48,9 +48,10 @@ public class MoneyTest {
 
     @Test
     public void checkShowFunds() {
+
+        System.out.println("Starting checkShowFunds");
         System.out.println(playerComponent.showFunds());
         playerComponent.addFunds(4);
-
         Assertions.assertEquals(14, playerComponent.showGlobalFunds());
     }
 }
