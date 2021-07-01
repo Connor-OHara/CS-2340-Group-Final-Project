@@ -1,15 +1,12 @@
 package com.group19.javafxgame.component;
 
 import com.almasb.fxgl.entity.Entity;
+import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
 
 import com.almasb.fxgl.entity.component.Component;
 
 public abstract class CharacterComponent extends Component {
-    private static final int DEFAULT_HEALTH = 100;
-    private static final int DEFAULT_STRENGTH = 100;
-    private static final Point2D DEFAULT_STARTING_POS = new Point2D(100, 100);
-
     protected int health;
     protected int strength;
 
@@ -23,11 +20,13 @@ public abstract class CharacterComponent extends Component {
     }
 
     public CharacterComponent(Point2D location) {
-        this(DEFAULT_HEALTH, DEFAULT_STRENGTH, location);
+        this(Constants.getDefaultPlayerHealth(),
+                Constants.getDefaultPlayerStrength(),
+                location);
     }
 
     public CharacterComponent() {
-        this(DEFAULT_STARTING_POS);
+        this(Constants.getDefaultPosition());
     }
 
     public void translateLeft(Double dx) {

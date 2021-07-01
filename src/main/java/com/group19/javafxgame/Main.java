@@ -5,7 +5,7 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Types.WeaponType;
-import com.group19.javafxgame.component.PlayerComponent;
+import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.paint.Color;
@@ -54,9 +54,9 @@ public class Main extends GameApplication {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
                 Entity player = spawn("Player");
-                PlayerComponent playerComponent = player.getComponent(PlayerComponent.class);
+                MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 spawnCharacters();
-                gameUI(playerComponent);
+                gameUI(moneyComponent);
             }
         });
     }
@@ -94,7 +94,7 @@ public class Main extends GameApplication {
         Entity player = spawn("Player");
     }
 
-    protected void gameUI(PlayerComponent player) {
+    protected void gameUI(MoneyComponent moneyComponent) {
         Text goldText = new Text();
         Text goldLabel = new Text("Gold:");
 
@@ -108,7 +108,7 @@ public class Main extends GameApplication {
         goldLabel.setFill(Color.GOLD);
         goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
 
-        String money = String.valueOf(player.showFunds());
+        String money = String.valueOf(moneyComponent.showFunds());
         goldText.textProperty().bind(new SimpleStringProperty(money));
         goldText.textProperty().bind(new SimpleStringProperty(money));
 
@@ -122,7 +122,6 @@ public class Main extends GameApplication {
             showMessage("You finished the demo!");
             return;
         }
-
     }
 
 
