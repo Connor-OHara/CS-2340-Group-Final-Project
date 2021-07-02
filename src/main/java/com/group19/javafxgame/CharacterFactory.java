@@ -61,42 +61,6 @@ public class CharacterFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("wall")
-    public Entity newWall(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .type(WALL)
-                .bbox(
-                        new HitBox(
-                                BoundingShape.box(data.<Integer>get("width"),
-                                data.<Integer>get("height"))
-                        )
-                )
-                .with(new PhysicsComponent())
-                .build();
-    }
-
-    @Spawns("door")
-    public Entity newExit(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .type(DOOR)
-                .bbox(
-                        new HitBox(
-                                BoundingShape.box(data.<Integer>get("width"),
-                                data.<Integer>get("height"))
-                        )
-                )
-                .with(new CollidableComponent(true))
-                .build();
-    }
-
-    @Spawns("background")
-    public Entity newBackground(SpawnData data) {
-        return FXGL.entityBuilder(data)
-                .type(BACKGROUND)
-                .view("background/MainMenuBackground.jpg")
-                .build();
-    }
-
     public static Texture getTexture() {
         return texture;
     }

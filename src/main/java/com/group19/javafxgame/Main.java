@@ -4,6 +4,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.level.Level;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
@@ -45,6 +46,7 @@ public class Main extends GameApplication {
         Entity background;
 
         getGameWorld().addEntityFactory(new CharacterFactory());
+        getGameWorld().addEntityFactory(new RoomFactory());
 
         background = initBackground();
         initConfigScreen();
@@ -87,7 +89,14 @@ public class Main extends GameApplication {
     }
 
     private void loadRoom() {
-        FXGL.setLevelFromMap("default2.tmx");
+
+
+        Entity room = spawn("Room");
+//        Level map = FXGL.setLevelFromMap("Middle5.tmx");
+//
+//        System.out.println(map.getEntities());
+
+
     }
 
     private void spawnCharacters() {
