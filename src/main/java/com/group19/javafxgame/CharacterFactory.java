@@ -12,6 +12,7 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.texture.Texture;
 import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
+import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerComponent;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -26,28 +27,7 @@ public class CharacterFactory implements EntityFactory {
     public Entity spawnPlayer(SpawnData data) {
         texture = FXGL.texture("swordsman.png");
         WeaponType weapon = geto("weapon");
-        DifficultyLevel difficulty = geto("difficulty");
-        System.out.println(weapon);
-        System.out.println(difficulty);
-
-        switch (difficulty) {
-        case BEGINNER:
-            FXGL.set("money", 10);
-            FXGL.set("lives", 5);
-            break;
-        case INTERMEDIATE:
-            FXGL.set("money", 5);
-            FXGL.set("lives", 3);
-            break;
-        case VETERAN:
-            FXGL.set("money", 1);
-            FXGL.set("lives", 1);
-            break;
-        default:
-            break;
-        }
-
-
+        DifficultyLevel difficultyLevel = geto("difficulty");
         switch (weapon) {
         case SWORD:
             texture = FXGL.texture("swordsman.png");
@@ -63,6 +43,12 @@ public class CharacterFactory implements EntityFactory {
             break;
         }
 
+        PlayerComponent player =
+                new PlayerComponent();
+
+        MoneyComponent money = new MoneyComponent(difficultyLevel);
+
+
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
                 .at(
@@ -70,7 +56,8 @@ public class CharacterFactory implements EntityFactory {
                         getAppHeight() / 2.0 - texture.getHeight() / 2.0
                 )
                 .viewWithBBox(texture)
-                .with(new PlayerComponent())
+                .with(player)
+                .with(money)
                 .build();
     }
 

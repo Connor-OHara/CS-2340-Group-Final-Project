@@ -2,8 +2,7 @@ package com.group19.javafxgame;
 
 import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
-import com.group19.javafxgame.component.PlayerComponent;
-import javafx.geometry.Point2D;
+import com.group19.javafxgame.component.MoneyComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,11 +11,13 @@ import com.almasb.fxgl.app.GameApplication;
 
 public class MoneyTest {
 
-    private PlayerComponent playerComponent = new PlayerComponent(10, 20, new Point2D(100, 100));
+    private MoneyComponent moneyComponent =
+            new MoneyComponent(Constants.getDefaultDifficulty());
 
     @BeforeAll
     public static void setup() {
         GameApplication.launch(Main.class, new String[] {});
+        System.out.println("New Setup");
     }
 
 
@@ -32,16 +33,21 @@ public class MoneyTest {
 
     @Test
     public void checkAddSubtractFunds() {
-        int funds = playerComponent.addFunds(4);
+        int funds = moneyComponent.addFunds(4);
+        System.out.println(moneyComponent.showFunds());
         Assertions.assertEquals(14, funds);
 
-        int subfunds = playerComponent.addFunds(-8);
-        Assertions.assertEquals(6, subfunds);
+        Assertions.assertEquals(6, moneyComponent.addFunds(-8));
+
+        System.out.println(moneyComponent.showFunds());
     }
 
     @Test
     public void checkShowFunds() {
-        playerComponent.addFunds(4);
-        Assertions.assertEquals(playerComponent.showGlobalFunds(), 10);
+
+        System.out.println("Starting checkShowFunds");
+        System.out.println(moneyComponent.showFunds());
+        moneyComponent.addFunds(4);
+        Assertions.assertEquals(14, moneyComponent.showGlobalFunds());
     }
 }
