@@ -54,7 +54,7 @@ public class Main extends GameApplication {
         Entity background;
 
         getGameWorld().addEntityFactory(entityFactory);
-        getPhysicsWorld().setGravity(0,0);
+        getPhysicsWorld().setGravity(0, 0);
 
         background = initBackground();
         initConfigScreen();
@@ -197,12 +197,14 @@ public class Main extends GameApplication {
     @Override
     protected void initPhysics() {
         super.initPhysics();
-        getPhysicsWorld().addCollisionHandler(new CollisionHandler(LevelType.DOOR, CharacterType.PLAYER) {
-            @Override
-            protected void onCollisionBegin(Entity a, Entity b) {
-                super.onCollisionBegin(a, b);
-                System.out.println("Collided with door");
+        getPhysicsWorld().addCollisionHandler(
+            new CollisionHandler(LevelType.DOOR, CharacterType.PLAYER) {
+                @Override
+                protected void onCollisionBegin(Entity a, Entity b) {
+                    super.onCollisionBegin(a, b);
+                    System.out.println("Collided with door");
+                }
             }
-        });
+        );
     }
 }
