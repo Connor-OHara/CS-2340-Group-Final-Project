@@ -124,9 +124,33 @@
   <object id="25" type="wall" x="1264" y="0" width="16" height="256"/>
   <object id="26" type="wall" x="0" y="704" width="416" height="16"/>
   <object id="27" type="wall" x="720" y="0" width="560" height="16"/>
-  <object id="28" type="door" x="416" y="704" width="304" height="16"/>
-  <object id="31" type="door" x="416" y="0" width="304" height="16"/>
-  <object id="32" type="door" x="0" y="256" width="16" height="112"/>
-  <object id="34" type="door" x="1264" y="256" width="16" height="112"/>
+  <object id="28" type="door" x="416" y="704" width="304" height="16">
+   <properties>
+    <property name="currRoom" value="MiddleFromDefault.tmx"/>
+    <property name="nextRoom" value="DeadEnd1.tmx"/>
+    <property name="side" value="bottom"/>
+   </properties>
+  </object>
+  <object id="31" type="door" x="416" y="0" width="304" height="16">
+   <properties>
+    <property name="currRoom" value="MiddleFromDefault.tmx"/>
+    <property name="nextRoom" value="DeadEnd1.tmx"/>
+    <property name="side" value="top"/>
+   </properties>
+  </object>
+  <object id="32" type="door" x="0" y="256" width="16" height="112">
+   <properties>
+    <property name="currRoom" value="MiddleFromDefault.tmx"/>
+    <property name="nextRoom" value="DeadEnd1.tmx"/>
+    <property name="side" value="left"/>
+   </properties>
+  </object>
+  <object id="34" type="door" x="1264" y="256" width="16" height="112">
+   <properties>
+    <property name="currRoom" value="MiddleFromDefault.tmx"/>
+    <property name="nextRoom" value="DeadEnd1.tmx"/>
+    <property name="side" value="right"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

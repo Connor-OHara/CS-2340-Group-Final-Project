@@ -4,22 +4,35 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.level.Level;
+import com.almasb.fxgl.entity.SpawnData;
+import com.group19.javafxgame.Factories.CharacterFactory;
+import com.group19.javafxgame.Factories.MainSceneFactory;
+import com.group19.javafxgame.Factories.RoomFactory;
+import com.group19.javafxgame.Rooms.DoorComponent;
+import com.group19.javafxgame.Rooms.RoomComponent;
+import com.group19.javafxgame.Types.LevelType;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
+import com.group19.javafxgame.utils.RoomCoordinate;
+import com.group19.javafxgame.utils.RoomDoorUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import java.util.Map;
+import java.util.Random;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
-
-
+import static com.group19.javafxgame.Types.CharacterType.PLAYER;
+import static com.group19.javafxgame.Types.LevelType.DOOR;
 
 
 public class Main extends GameApplication {
+
+    private Entity player;
+    private RoomComponent currRoom;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -54,14 +67,17 @@ public class Main extends GameApplication {
         getWorldProperties().<Integer>addListener("configFinished", (prev, now) -> {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
-                loadRoom();
-                Entity player = spawn("Player");
+                loadRoom("MiddleFromDefault.tmx", 6, 6);
+                player = spawn("Player");
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 spawnCharacters();
                 gameUI(moneyComponent);
             }
         });
+
     }
+
+
 
     private Entity initBackground() {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
@@ -88,6 +104,11 @@ public class Main extends GameApplication {
 
     }
 
+    private void goToRoom() {
+
+    }
+
+
     private void loadRoom() {
 
 
@@ -99,8 +120,25 @@ public class Main extends GameApplication {
 
     }
 
+    private void loadRoom(String filename, int xGrid, int yGrid) {
+        if (RoomComponent.getMaze()[xGrid][yGrid] != null) {
+            currRoom = RoomComponent.getMaze()[xGrid][yGrid];
+            currRoom.setLevelFromRoom();
+        } else if (xGrid > 11 || xGrid < 1 || yGrid > 11 || yGrid < 1 ) {
+            //TODO: add final room and set it.
+            System.out.println("You've Reached the Final Room");
+        } else {
+            RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
+            RoomComponent[][] currMaze = RoomComponent.getMaze();
+            currMaze[xGrid][yGrid] = newRoom;
+            RoomComponent.setMaze(currMaze);
+            currRoom = newRoom;
+            currRoom.setLevelFromRoom();
+        }
+    }
+
     private void spawnCharacters() {
-        Entity player = spawn("Player");
+        player = spawn("Player");
     }
 
     protected void gameUI(MoneyComponent moneyComponent) {
@@ -123,6 +161,75 @@ public class Main extends GameApplication {
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
+
+        onCollisionOneTimeOnly(PLAYER, DOOR, (player, door) -> {
+
+            DoorComponent currDoor = door.getComponent(DoorComponent.class);
+            String doorType = currDoor.getSide();
+            RoomCoordinate nextCoordinate = new
+                    RoomDoorUtils()
+                    .doorSideToRoomCoordinate(doorType, currRoom);
+
+            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx"};
+
+            Random rand = new Random();
+            String nextRoomName = rooms[rand.nextInt(rooms.length) + 1];
+            int x = nextCoordinate.getxGrid();
+            int y = nextCoordinate.getyGrid();
+
+            loadRoom(nextRoomName, x, y);
+
+        });
+
+
+
+
+
+        var leftButton = FXGL.getUIFactoryService().newButton("Left");
+        leftButton.setMinSize(30, 15);
+
+        leftButton.setOnAction(event -> {
+            RoomCoordinate nextCoordinate = new
+                    RoomDoorUtils()
+                    .doorSideToRoomCoordinate("left", currRoom);
+
+            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx", "Middle2.tmx", "Tunnel1.tmx"};
+
+            Random rand = new Random();
+            String nextRoomName = rooms[rand.nextInt(rooms.length)];
+            int x = nextCoordinate.getxGrid();
+            int y = nextCoordinate.getyGrid();
+
+            loadRoom(nextRoomName, x, y);
+            player.setZ(Integer.MAX_VALUE);
+        });
+
+
+        var rightButton = FXGL.getUIFactoryService().newButton("Right");
+        rightButton.setMinSize(30, 15);
+        rightButton.setTranslateX(200);
+        rightButton.setOnAction(event -> {
+
+            RoomCoordinate nextCoordinate = new
+                    RoomDoorUtils()
+                    .doorSideToRoomCoordinate("right", currRoom);
+
+            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx", "Middle2.tmx", "Tunnel1.tmx"};
+
+            Random rand = new Random();
+            String nextRoomName = rooms[rand.nextInt(rooms.length)];
+            int x = nextCoordinate.getxGrid();
+            int y = nextCoordinate.getyGrid();
+
+            loadRoom(nextRoomName, x, y);
+            player.setZ(Integer.MAX_VALUE);
+        });
+
+
+        getGameScene().addUINodes(leftButton);
+        getGameScene().addUINodes(rightButton);
+
+
     }
 
 

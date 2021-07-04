@@ -9,7 +9,7 @@
  <tileset firstgid="1840" name="DungeonSet" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="0x72_16x16DungeonTileset.v3.png" width="256" height="256"/>
  </tileset>
- <layer id="7" name="Tile Layer 1" width="80" height="45">
+ <layer id="7" name="Tile Layer 1" width="80" height="45" visible="0">
   <data encoding="csv">
 1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,
 1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,
@@ -120,7 +120,11 @@
   <object id="25" type="wall" x="1264" y="0" width="16" height="205.34"/>
   <object id="26" type="wall" x="1.94847" y="705" width="736.523" height="16"/>
   <object id="27" type="wall" x="720" y="0" width="560" height="16"/>
-  <object id="32" type="door" x="0" y="256" width="16" height="112"/>
+  <object id="32" type="door" x="0" y="256" width="16" height="112">
+   <properties>
+    <property name="side" value="left"/>
+   </properties>
+  </object>
   <object id="35" type="wall" x="863.154" y="63.1192" width="337.124" height="16"/>
   <object id="36" type="wall" x="1201.21" y="209.229" width="335.176" height="16" rotation="180"/>
   <object id="38" type="wall" x="895.117" y="369.093" width="16" height="398.8" rotation="90"/>
@@ -128,7 +132,11 @@
   <object id="54" type="wall" x="878.555" y="62.9878" width="16" height="396.214" rotation="90"/>
   <object id="55" type="wall" x="175.156" y="240.299" width="16" height="174.088" rotation="90"/>
   <object id="57" type="wall" x="735.342" y="562.772" width="16" height="156.552"/>
-  <object id="58" type="door" x="1280.61" y="208.28" width="78.9512" height="16" rotation="90"/>
+  <object id="58" type="door" x="1280.61" y="208.28" width="78.9512" height="16" rotation="90">
+   <properties>
+    <property name="side" value="right"/>
+   </properties>
+  </object>
   <object id="59" type="wall" x="1264.38" y="289.011" width="16" height="77.6387"/>
   <object id="60" type="wall" x="703.593" y="145.929" width="177.274" height="127.062"/>
   <object id="62" type="wall" x="528.804" y="160.412" width="16" height="77.6383"/>

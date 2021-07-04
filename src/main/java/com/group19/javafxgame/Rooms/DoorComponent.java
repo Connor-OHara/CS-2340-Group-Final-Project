@@ -6,21 +6,17 @@ import com.almasb.fxgl.entity.component.Component;
 
 public class DoorComponent extends Component {
 
-    public DoorComponent() {
-        this.nextRoom = new RoomComponent();
-    }
+    private final String side;
 
-    private RoomComponent nextRoom;
+    public DoorComponent(String side) {
+        this.side = side;
+    }
 
     public void goToNextRoom() {
-        FXGL.setLevelFromMap(nextRoom.filename);
+
     }
 
-    public void setNextRoom(RoomComponent nextRoom) {
-        this.nextRoom = nextRoom;
-    }
-
-    public RoomComponent getNextRoom() {
-        return nextRoom;
+    public String getSide() {
+        return side;
     }
 }
