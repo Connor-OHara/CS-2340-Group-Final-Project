@@ -46,5 +46,9 @@ public class Constants {
         return 100;
     }
 
+    public static double getDefaultVelocity() {
+        return 150;
+    }
+
 
 }

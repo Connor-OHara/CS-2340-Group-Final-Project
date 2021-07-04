@@ -10,7 +10,10 @@ import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
+import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
 import com.group19.javafxgame.component.MoneyComponent;
@@ -44,11 +47,15 @@ public class CharacterFactory implements EntityFactory {
             break;
         }
 
-        PlayerComponent player =
-                new PlayerComponent();
-
+        PlayerComponent player = new PlayerComponent();
         MoneyComponent money = new MoneyComponent(difficultyLevel);
+        PhysicsComponent physics = new PhysicsComponent();
 
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.setGravityScale(0);
+        bodyDef.setActive(true);
+
+        physics.setBodyType(BodyType.DYNAMIC);
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
@@ -60,6 +67,9 @@ public class CharacterFactory implements EntityFactory {
                 .viewWithBBox(texture)
                 .with(player)
                 .with(money)
+                .with(physics)
+                .with(new CollidableComponent(true))
+                .with(new PlayerInteractionComponent())
                 .build();
     }
 
