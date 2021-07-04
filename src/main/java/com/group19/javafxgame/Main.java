@@ -108,18 +108,6 @@ public class Main extends GameApplication {
 
     }
 
-
-    private void loadRoom() {
-
-
-        Entity room = spawn("Room");
-//        Level map = FXGL.setLevelFromMap("Middle5.tmx");
-//
-//        System.out.println(map.getEntities());
-
-
-    }
-
     private void loadRoom(String filename, int xGrid, int yGrid) {
         if (RoomComponent.getMaze()[xGrid][yGrid] != null) {
             currRoom = RoomComponent.getMaze()[xGrid][yGrid];

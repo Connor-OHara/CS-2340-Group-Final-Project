@@ -46,7 +46,6 @@ public class RoomComponent extends Component {
     }
 
 
-
 //
 //        if (numberOfRooms == 0) {
 //            numberOfRooms++;
