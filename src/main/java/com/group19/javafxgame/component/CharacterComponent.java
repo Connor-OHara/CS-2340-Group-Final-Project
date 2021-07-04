@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 
 import com.almasb.fxgl.entity.component.Component;
 
-public abstract class CharacterComponent extends Component {
+public class CharacterComponent extends Component {
     protected int health;
     protected int strength;
 
@@ -33,28 +33,28 @@ public abstract class CharacterComponent extends Component {
         entity.translateX(-dx);
     }
     public void translateLeft() {
-        translateLeft(10d);
+        translateLeft(1.5d);
     }
 
     public void translateRight(Double dx) {
         entity.translateX(dx);
     }
     public void translateRight() {
-        translateRight(10d);
+        translateRight(1.5d);
     }
 
     public void translateUp(Double dy) {
         entity.translateY(-dy);
     }
     public void translateUp() {
-        translateUp(10d);
+        translateUp(1.5d);
     }
 
     public void translateDown(Double dy) {
         entity.translateY(dy);
     }
     public void translateDown() {
-        translateDown(10d);
+        translateDown(1.5d);
     }
 
 

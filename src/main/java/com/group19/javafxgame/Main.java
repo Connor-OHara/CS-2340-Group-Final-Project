@@ -4,21 +4,30 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.group19.javafxgame.Types.WeaponType;
+import com.almasb.fxgl.entity.EntityFactory;
+import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.CollisionHandler;
 import com.group19.javafxgame.component.MoneyComponent;
+import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.types.CharacterType;
+import com.group19.javafxgame.types.LevelType;
+import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
 import java.util.Map;
+
 import static com.almasb.fxgl.dsl.FXGL.*;
 
-
-
-
 public class Main extends GameApplication {
+
+    private EntityFactory entityFactory = new CharacterFactory();
+    private Entity player;
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -44,7 +53,8 @@ public class Main extends GameApplication {
     protected void initGame() {
         Entity background;
 
-        getGameWorld().addEntityFactory(new CharacterFactory());
+        getGameWorld().addEntityFactory(entityFactory);
+        getPhysicsWorld().setGravity(0,0);
 
         background = initBackground();
         initConfigScreen();
@@ -53,9 +63,8 @@ public class Main extends GameApplication {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
                 loadRoom();
-                Entity player = spawn("Player");
+                player = spawn("Player");
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
-                spawnCharacters();
                 gameUI(moneyComponent);
             }
         });
@@ -88,10 +97,6 @@ public class Main extends GameApplication {
 
     private void loadRoom() {
         FXGL.setLevelFromMap("default2.tmx");
-    }
-
-    private void spawnCharacters() {
-        Entity player = spawn("Player");
     }
 
     protected void gameUI(MoneyComponent moneyComponent) {
@@ -130,7 +135,74 @@ public class Main extends GameApplication {
         launch(args);
     }
 
+    @Override
+    protected void initInput() {
+        getInput().addAction(new UserAction("Left") {
+            @Override
+            protected void onActionBegin() {
+                super.onActionBegin();
+                player.getComponent(PlayerInteractionComponent.class).translateLeft();
+            }
 
+            @Override
+            protected void onActionEnd() {
+                super.onActionEnd();
+                player.getComponent(PlayerInteractionComponent.class).stopLeft();
+            }
+        }, KeyCode.LEFT);
 
+        getInput().addAction(new UserAction("Right") {
+            @Override
+            protected void onActionBegin() {
+                super.onActionBegin();
+                player.getComponent(PlayerInteractionComponent.class).translateRight();
+            }
 
+            @Override
+            protected void onActionEnd() {
+                super.onActionEnd();
+                player.getComponent(PlayerInteractionComponent.class).stopRight();
+            }
+        }, KeyCode.RIGHT);
+
+        getInput().addAction(new UserAction("Up") {
+            @Override
+            protected void onActionBegin() {
+                super.onActionBegin();
+                player.getComponent(PlayerInteractionComponent.class).translateUp();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                super.onActionEnd();
+                player.getComponent(PlayerInteractionComponent.class).stopUp();
+            }
+        }, KeyCode.UP);
+
+        getInput().addAction(new UserAction("Down") {
+            @Override
+            protected void onActionBegin() {
+                super.onActionBegin();
+                player.getComponent(PlayerInteractionComponent.class).translateDown();
+            }
+
+            @Override
+            protected void onActionEnd() {
+                super.onActionEnd();
+                player.getComponent(PlayerInteractionComponent.class).stopDown();
+            }
+        }, KeyCode.DOWN);
+    }
+
+    @Override
+    protected void initPhysics() {
+        super.initPhysics();
+        getPhysicsWorld().addCollisionHandler(new CollisionHandler(LevelType.DOOR, CharacterType.PLAYER) {
+            @Override
+            protected void onCollisionBegin(Entity a, Entity b) {
+                super.onCollisionBegin(a, b);
+                System.out.println("Collided with door");
+            }
+        });
+    }
 }

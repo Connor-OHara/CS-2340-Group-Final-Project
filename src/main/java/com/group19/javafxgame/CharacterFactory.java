@@ -9,15 +9,18 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
-import com.group19.javafxgame.Types.DifficultyLevel;
-import com.group19.javafxgame.Types.WeaponType;
+import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.types.DifficultyLevel;
+import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerComponent;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.group19.javafxgame.Types.CharacterType.PLAYER;
-import static com.group19.javafxgame.Types.LevelType.*;
+import static com.group19.javafxgame.types.CharacterType.PLAYER;
+import static com.group19.javafxgame.types.LevelType.*;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class CharacterFactory implements EntityFactory {
@@ -43,11 +46,15 @@ public class CharacterFactory implements EntityFactory {
             break;
         }
 
-        PlayerComponent player =
-                new PlayerComponent();
-
+        PlayerComponent player = new PlayerComponent();
         MoneyComponent money = new MoneyComponent(difficultyLevel);
+        PhysicsComponent physics = new PhysicsComponent();
 
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.setGravityScale(0);
+        bodyDef.setActive(true);
+
+        physics.setBodyType(BodyType.DYNAMIC);
 
         return FXGL.entityBuilder(data)
                 .type(PLAYER)
@@ -58,6 +65,9 @@ public class CharacterFactory implements EntityFactory {
                 .viewWithBBox(texture)
                 .with(player)
                 .with(money)
+                .with(physics)
+                .with(new CollidableComponent(true))
+                .with(new PlayerInteractionComponent())
                 .build();
     }
 
