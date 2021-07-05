@@ -2,7 +2,7 @@ package com.group19.javafxgame.component;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.Constants;
-import com.group19.javafxgame.types.DifficultyLevel;
+import com.group19.javafxgame.Types.DifficultyLevel;
 
 public class MoneyComponent extends Component {
 

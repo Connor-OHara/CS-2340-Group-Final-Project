@@ -4,15 +4,22 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.group19.javafxgame.Factories.CharacterFactory;
+import com.group19.javafxgame.Factories.MainSceneFactory;
+import com.group19.javafxgame.Factories.RoomFactory;
+import com.group19.javafxgame.Rooms.DoorComponent;
+import com.group19.javafxgame.Rooms.RoomComponent;
+import com.group19.javafxgame.Types.LevelType;
+import com.group19.javafxgame.Types.WeaponType;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
-import com.group19.javafxgame.types.CharacterType;
-import com.group19.javafxgame.types.LevelType;
-import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
+import com.group19.javafxgame.utils.RandomRoomUtils;
+import com.group19.javafxgame.utils.RoomCoordinate;
+import com.group19.javafxgame.utils.RoomDoorUtils;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
 import javafx.application.Platform;
@@ -21,16 +28,22 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-
 import java.util.Map;
+import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.group19.javafxgame.Types.CharacterType.PLAYER;
+
+import javafx.scene.text.Text;
 
 public class Main extends GameApplication {
 
-    private EntityFactory entityFactory = new CharacterFactory();
     private Entity player;
+    private RoomComponent currRoom;
+
+    private EntityFactory entityFactory = new CharacterFactory();
+
+
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -60,7 +73,9 @@ public class Main extends GameApplication {
         Entity background;
 
         getGameWorld().addEntityFactory(entityFactory);
+        getGameWorld().addEntityFactory(new RoomFactory());
         getPhysicsWorld().setGravity(0, 0);
+
 
         background = initBackground();
         initConfigScreen();
@@ -68,7 +83,7 @@ public class Main extends GameApplication {
         getWorldProperties().<Integer>addListener("configFinished", (prev, now) -> {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
-                loadRoom();
+                loadRoom("MiddleFromDefault.tmx", 6, 6);
                 player = spawn("Player");
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
@@ -76,6 +91,7 @@ public class Main extends GameApplication {
                 //FXGL.set("gameWin", 1);
             }
         });
+
 
         getWorldProperties().<Integer>addListener("endGame", (prev, now) -> {
             if (now == 1) {
@@ -103,6 +119,7 @@ public class Main extends GameApplication {
         });
 
     }
+
 
     private Entity initBackground() {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
@@ -146,8 +163,28 @@ public class Main extends GameApplication {
 
     }
 
-    private void loadRoom() {
-        FXGL.setLevelFromMap("default2.tmx");
+    private void goToRoom() {
+
+    }
+
+    private void loadRoom(String filename, int xGrid, int yGrid) {
+
+        RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
+        RoomComponent[][] currMaze = RoomComponent.getMaze();
+        currMaze[xGrid][yGrid] = newRoom;
+        RoomComponent.setMaze(currMaze);
+        currRoom = newRoom;
+        currRoom.setLevelFromRoom();
+
+    }
+
+    private void loadRoom(RoomComponent room) {
+        currRoom = room;
+        currRoom.setLevelFromRoom();
+    }
+
+    private void spawnCharacters() {
+        player = spawn("Player");
     }
 
     protected void gameUI(MoneyComponent moneyComponent) {
@@ -170,6 +207,26 @@ public class Main extends GameApplication {
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
+
+        var leftButton = FXGL.getUIFactoryService().newButton("Left");
+        leftButton.setMinSize(30, 15);
+
+        leftButton.setOnAction(event -> {
+            RoomCoordinate nextCoordinate = new
+                    RoomDoorUtils()
+                    .doorSideToRoomCoordinate("left", currRoom);
+
+            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx", "Middle2.tmx", "Tunnel1.tmx"};
+
+            Random rand = new Random();
+            String nextRoomName = rooms[rand.nextInt(rooms.length)];
+            int x = nextCoordinate.getxGrid();
+            int y = nextCoordinate.getyGrid();
+
+            loadRoom(nextRoomName, x, y);
+            player.setZ(Integer.MAX_VALUE);
+        });
+
     }
 
     protected void removeGameUI() {
@@ -247,14 +304,56 @@ public class Main extends GameApplication {
     @Override
     protected void initPhysics() {
         super.initPhysics();
+
         getPhysicsWorld().addCollisionHandler(
-            new CollisionHandler(LevelType.DOOR, CharacterType.PLAYER) {
-                @Override
-                protected void onCollisionBegin(Entity a, Entity b) {
-                    super.onCollisionBegin(a, b);
-                    System.out.println("Collided with door");
+                new CollisionHandler(LevelType.DOOR, PLAYER) {
+                    @Override
+                    protected void onCollisionBegin(Entity a, Entity b) {
+                        super.onCollisionBegin(a, b);
+
+
+                            DoorComponent currDoor = a.getComponent(DoorComponent.class);
+                            String doorType = currDoor.getSide();
+
+                            RoomCoordinate nextCoordinate = new
+                                    RoomDoorUtils()
+                                    .doorSideToRoomCoordinate(doorType, currRoom);
+
+                            System.out.println("Curr x" + currRoom.getxGrid() + " y"  + currRoom.getyGrid());
+
+                            int x = nextCoordinate.getxGrid();
+                            int y = nextCoordinate.getyGrid();
+                            String roomFile;
+                            System.out.println("Next x" + x + " y"  + y);
+
+                            if (RoomComponent.getMaze()[x][y] != null) {
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(RoomComponent.getMaze()[x][y]);
+                                String filename = RoomComponent.getMaze()[x][y].getFilename();
+                                System.out.println("Went back to " + filename);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            } else if (x > 11 || x < 1 || y > 11 || y < 1 ) {
+                                System.out.println("Made to the final room");
+                                roomFile = RandomRoomUtils.getInstance().getRandomRoom("final" + doorType);
+                                System.out.println("Final file name: " + roomFile);
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(roomFile, x, y);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            } else {
+                                System.out.println(doorType);
+                                roomFile = RandomRoomUtils.getInstance().getRandomRoom(doorType);
+                                System.out.println("Currently at : " + roomFile);
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(roomFile, x, y);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            }
+
+                        System.out.println("Collided with door");
+                    }
                 }
-            }
         );
     }
 

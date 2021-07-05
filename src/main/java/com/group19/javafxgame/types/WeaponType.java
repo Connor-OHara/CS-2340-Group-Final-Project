@@ -1,4 +1,4 @@
-package com.group19.javafxgame.types;
+package com.group19.javafxgame.Types;
 
 public enum WeaponType {
     SWORD, SHURIKEN, SHIELD

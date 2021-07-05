@@ -1,8 +1,11 @@
 package com.group19.javafxgame;
 
-import com.group19.javafxgame.types.DifficultyLevel;
-import com.group19.javafxgame.types.WeaponType;
+import com.group19.javafxgame.Types.DifficultyLevel;
+import com.group19.javafxgame.Types.WeaponType;
 import javafx.geometry.Point2D;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Constants {
 
