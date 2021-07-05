@@ -17,6 +17,7 @@ import com.almasb.fxgl.physics.CollisionHandler;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
+import com.group19.javafxgame.utils.RandomRoomUtils;
 import com.group19.javafxgame.utils.RoomCoordinate;
 import com.group19.javafxgame.utils.RoomDoorUtils;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,14 +30,8 @@ import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.group19.javafxgame.Types.CharacterType.PLAYER;
-import static com.group19.javafxgame.Types.LevelType.DOOR;
 
 import javafx.scene.text.Text;
-
-import java.util.Map;
-
-
-import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
 
@@ -92,7 +87,6 @@ public class Main extends GameApplication {
     }
 
 
-
     private Entity initBackground() {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         return spawn("background");
@@ -123,22 +117,20 @@ public class Main extends GameApplication {
     }
 
     private void loadRoom(String filename, int xGrid, int yGrid) {
-        if (RoomComponent.getMaze()[xGrid][yGrid] != null) {
-            currRoom = RoomComponent.getMaze()[xGrid][yGrid];
-            currRoom.setLevelFromRoom();
-        } else if (xGrid > 11 || xGrid < 1 || yGrid > 11 || yGrid < 1 ) {
-            //TODO: add final room and set it.
-            System.out.println("You've Reached the Final Room");
-        } else {
-            RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
-            RoomComponent[][] currMaze = RoomComponent.getMaze();
-            currMaze[xGrid][yGrid] = newRoom;
-            RoomComponent.setMaze(currMaze);
-            currRoom = newRoom;
-            currRoom.setLevelFromRoom();
-        }
+
+        RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
+        RoomComponent[][] currMaze = RoomComponent.getMaze();
+        currMaze[xGrid][yGrid] = newRoom;
+        RoomComponent.setMaze(currMaze);
+        currRoom = newRoom;
+        currRoom.setLevelFromRoom();
+
     }
 
+    private void loadRoom(RoomComponent room) {
+        currRoom = room;
+        currRoom.setLevelFromRoom();
+    }
 
     private void spawnCharacters() {
         player = spawn("Player");
@@ -165,29 +157,6 @@ public class Main extends GameApplication {
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
 
-        onCollisionOneTimeOnly(PLAYER, DOOR, (player, door) -> {
-
-            DoorComponent currDoor = door.getComponent(DoorComponent.class);
-            String doorType = currDoor.getSide();
-            RoomCoordinate nextCoordinate = new
-                    RoomDoorUtils()
-                    .doorSideToRoomCoordinate(doorType, currRoom);
-
-            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx"};
-
-            Random rand = new Random();
-            String nextRoomName = rooms[rand.nextInt(rooms.length) + 1];
-            int x = nextCoordinate.getxGrid();
-            int y = nextCoordinate.getyGrid();
-
-            loadRoom(nextRoomName, x, y);
-
-        });
-
-
-
-
-
         var leftButton = FXGL.getUIFactoryService().newButton("Left");
         leftButton.setMinSize(30, 15);
 
@@ -206,32 +175,6 @@ public class Main extends GameApplication {
             loadRoom(nextRoomName, x, y);
             player.setZ(Integer.MAX_VALUE);
         });
-
-
-        var rightButton = FXGL.getUIFactoryService().newButton("Right");
-        rightButton.setMinSize(30, 15);
-        rightButton.setTranslateX(200);
-        rightButton.setOnAction(event -> {
-
-            RoomCoordinate nextCoordinate = new
-                    RoomDoorUtils()
-                    .doorSideToRoomCoordinate("right", currRoom);
-
-            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx", "Middle2.tmx", "Tunnel1.tmx"};
-
-            Random rand = new Random();
-            String nextRoomName = rooms[rand.nextInt(rooms.length)];
-            int x = nextCoordinate.getxGrid();
-            int y = nextCoordinate.getyGrid();
-
-            loadRoom(nextRoomName, x, y);
-            player.setZ(Integer.MAX_VALUE);
-        });
-
-
-        getGameScene().addUINodes(leftButton);
-        getGameScene().addUINodes(rightButton);
-
 
     }
 
@@ -311,14 +254,56 @@ public class Main extends GameApplication {
     @Override
     protected void initPhysics() {
         super.initPhysics();
+
         getPhysicsWorld().addCollisionHandler(
-            new CollisionHandler(LevelType.DOOR, PLAYER) {
-                @Override
-                protected void onCollisionBegin(Entity a, Entity b) {
-                    super.onCollisionBegin(a, b);
-                    System.out.println("Collided with door");
+                new CollisionHandler(LevelType.DOOR, PLAYER) {
+                    @Override
+                    protected void onCollisionBegin(Entity a, Entity b) {
+                        super.onCollisionBegin(a, b);
+
+
+                            DoorComponent currDoor = a.getComponent(DoorComponent.class);
+                            String doorType = currDoor.getSide();
+
+                            RoomCoordinate nextCoordinate = new
+                                    RoomDoorUtils()
+                                    .doorSideToRoomCoordinate(doorType, currRoom);
+
+                            System.out.println("Curr x" + currRoom.getxGrid() + " y"  + currRoom.getyGrid());
+
+                            int x = nextCoordinate.getxGrid();
+                            int y = nextCoordinate.getyGrid();
+                            String roomFile;
+                            System.out.println("Next x" + x + " y"  + y);
+
+                            if (RoomComponent.getMaze()[x][y] != null) {
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(RoomComponent.getMaze()[x][y]);
+                                String filename = RoomComponent.getMaze()[x][y].getFilename();
+                                System.out.println("Went back to " + filename);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            } else if (x > 11 || x < 1 || y > 11 || y < 1 ) {
+                                System.out.println("Made to the final room");
+                                roomFile = RandomRoomUtils.getInstance().getRandomRoom("final" + doorType);
+                                System.out.println("Final file name: " + roomFile);
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(roomFile, x, y);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            } else {
+                                System.out.println(doorType);
+                                roomFile = RandomRoomUtils.getInstance().getRandomRoom(doorType);
+                                System.out.println("Currently at : " + roomFile);
+                                player.setPosition(Constants.getDefaultPosition());
+                                loadRoom(roomFile, x, y);
+                                player.setZ(Integer.MAX_VALUE);
+
+                            }
+
+                        System.out.println("Collided with door");
+                    }
                 }
-            }
         );
     }
 }

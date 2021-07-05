@@ -1,6 +1,5 @@
 package com.group19.javafxgame.utils;
 
-import com.group19.javafxgame.Rooms.DoorComponent;
 import com.group19.javafxgame.Rooms.RoomComponent;
 
 public class RoomDoorUtils {
@@ -18,8 +17,9 @@ public class RoomDoorUtils {
         } else if (side.equals("bottom")) {
             yGrid -= 1;
         } else {
-            throw new IllegalArgumentException("Side must be one of" +
-                    "left, right, top, bottom");
+            throw new IllegalArgumentException(side + " Side must be one of" +
+                    "left, right, top, bottom" +
+                    "failing on " + room.getFilename());
         }
         return new RoomCoordinate(xGrid, yGrid);
     }

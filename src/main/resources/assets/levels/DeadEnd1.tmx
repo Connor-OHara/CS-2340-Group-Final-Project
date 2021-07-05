@@ -118,7 +118,11 @@
   <object id="25" type="wall" x="1264" y="0" width="16" height="205.34"/>
   <object id="26" type="wall" x="1.94847" y="705" width="738.472" height="16"/>
   <object id="27" type="wall" x="720" y="0" width="560" height="16"/>
-  <object id="31" type="door" x="591.388" y="0" width="127.663" height="16"/>
+  <object id="31" type="door" x="591.388" y="0" width="127.663" height="16">
+   <properties>
+    <property name="size" value="top"/>
+   </properties>
+  </object>
   <object id="35" type="wall" x="863.154" y="63.1192" width="337.124" height="16"/>
   <object id="36" type="wall" x="1200.24" y="63.0935" width="304.975" height="16" rotation="90"/>
   <object id="37" type="wall" x="1183.68" y="351.494" width="96.4875" height="16"/>

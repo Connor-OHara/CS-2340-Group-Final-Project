@@ -126,7 +126,7 @@
   </object>
   <object id="31" type="door" x="591.388" y="0" width="127.663" height="16">
    <properties>
-    <property name="side" value="up"/>
+    <property name="side" value="top"/>
    </properties>
   </object>
   <object id="32" type="door" x="0" y="256" width="16" height="112">
