@@ -5,9 +5,7 @@ import com.almasb.fxgl.scene.SubScene;
 import com.almasb.fxgl.ui.FXGLButton;
 import com.almasb.fxgl.ui.FontType;
 import com.group19.javafxgame.Constants;
-import com.group19.javafxgame.types.WeaponType;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -19,7 +17,7 @@ import javafx.scene.text.TextAlignment;
 
 public class GameWinSubScene extends SubScene {
 
-    public GameWinSubScene(WeaponType defaultWeapon) {
+    public GameWinSubScene() {
 
 
         //StackPane for text
@@ -30,8 +28,8 @@ public class GameWinSubScene extends SubScene {
 
 
         //Game Over Text
-        Text youDied = FXGL.getUIFactoryService()
-                .newText( "You Win!",
+        Text youWon = FXGL.getUIFactoryService()
+                .newText("You Win!",
                         Color.BLUE,
                         FontType.GAME,
                         35);
@@ -39,17 +37,17 @@ public class GameWinSubScene extends SubScene {
         //Name Over Text - uses player name and sits under You Died
         Text nameOver = FXGL.getUIFactoryService()
                 .newText((FXGL.gets("name") + ", you live to fight another day"),
-                        Color.RED,
+                        Color.BLUE,
                         FontType.GAME,
                         35);
 
-        youDied.setTextAlignment(TextAlignment.CENTER);
+        youWon.setTextAlignment(TextAlignment.CENTER);
         nameOver.setTextAlignment(TextAlignment.CENTER);
-        Text[] deathText = {youDied, nameOver};
-        deathContainer.getChildren().addAll(deathText);
+
 
         //TODO: Find a way to implement score into game. Score would be shown here.
-        //We could also keep track of total coins picked up and not increment on that and count that as score?
+        // We could also keep track of total coins
+        // picked up and not increment on that and count that as score?
 
 
         //quit button
@@ -58,7 +56,7 @@ public class GameWinSubScene extends SubScene {
             FXGL.set("endGame", 1);
         });
 
-        quitButton.setMaxWidth(Double.POSITIVE_INFINITY);
+        quitButton.setMaxWidth(Constants.getScreenWidth() / 2);
         quitButton.setPrefHeight(40);
 
         //Button Container
@@ -70,8 +68,17 @@ public class GameWinSubScene extends SubScene {
         buttonBox.setTranslateX(tranlsateX);
         buttonBox.setTranslateY(450);
 
-        Node[] gameOverChildren = {deathContainer, buttonBox};
-        getContentRoot().getChildren().addAll(gameOverChildren);
+
+        VBox box = new VBox(10);
+        box.setAlignment(Pos.CENTER);
+        box.setPrefWidth(Constants.getScreenWidth());
+        box.setTranslateY(200);
+
+        box.getChildren().add(youWon);
+        box.getChildren().add(nameOver);
+        box.getChildren().add(quitButton);
+
+        getContentRoot().getChildren().addAll(box);
 
     }
 

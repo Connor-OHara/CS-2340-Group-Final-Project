@@ -14,6 +14,7 @@ import com.group19.javafxgame.types.LevelType;
 import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
+import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.input.KeyCode;
@@ -49,6 +50,7 @@ public class Main extends GameApplication {
         vars.put("name", "");
         vars.put("configFinished", 0);
         vars.put("gameOver", 0);
+        vars.put("gameWin", 0);
         vars.put("endGame", 0);
         vars.put("money", Constants.getDefaultMoney());
     }
@@ -71,7 +73,7 @@ public class Main extends GameApplication {
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
                 //TODO: Game over test code is below, remove after end room/enemies are added
-                FXGL.set("gameOver", 1);
+                //FXGL.set("gameWin", 1);
             }
         });
 
@@ -85,6 +87,18 @@ public class Main extends GameApplication {
             if (now == 1) {
                 initBackground();
                 initGameOverScreen();
+                removeGameUI();
+
+            }
+        });
+        //TODO: remove once the end room is placed
+        // (load end screen upon touching the ladder to leave)
+        getWorldProperties().<Integer>addListener("gameWin", (prev, now) -> {
+            if (now == 1) {
+                initBackground();
+                initGameWinScreen();
+                removeGameUI();
+
             }
         });
 
@@ -107,10 +121,19 @@ public class Main extends GameApplication {
 
     private void initGameOverScreen() {
         GameOverSubScene gameOverSubScene = new GameOverSubScene(
-                FXGL.geto("weapon")
+
         );
 
         getGameScene().addUINodes(gameOverSubScene.getContentRoot());
+    }
+
+
+    private void initGameWinScreen() {
+        GameWinSubScene gameWinSubcScene = new GameWinSubScene(
+               
+        );
+
+        getGameScene().addUINodes(gameWinSubcScene.getContentRoot());
     }
 
 
@@ -149,6 +172,9 @@ public class Main extends GameApplication {
         getGameScene().addUINode(goldLabel);
     }
 
+    protected void removeGameUI() {
+        getGameScene().removeUINodes();
+    }
 
     private void nextLevel() {
         if (geto("weapon") == WeaponType.SWORD) {
