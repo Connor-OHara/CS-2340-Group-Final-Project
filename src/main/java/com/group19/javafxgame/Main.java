@@ -83,7 +83,7 @@ public class Main extends GameApplication {
         getWorldProperties().<Integer>addListener("configFinished", (prev, now) -> {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
-                loadRoom("MiddleFromDefault.tmx", 6, 6);
+                loadRoom("Middle1.tmx", 6, 6);
                 player = spawn("Player");
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
