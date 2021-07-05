@@ -20,6 +20,9 @@ import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.utils.RandomRoomUtils;
 import com.group19.javafxgame.utils.RoomCoordinate;
 import com.group19.javafxgame.utils.RoomDoorUtils;
+import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
+import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -59,6 +62,9 @@ public class Main extends GameApplication {
         vars.put("weapon", Constants.getDefaultWeapon());
         vars.put("name", "");
         vars.put("configFinished", 0);
+        vars.put("gameOver", 0);
+        vars.put("gameWin", 0);
+        vars.put("endGame", 0);
         vars.put("money", Constants.getDefaultMoney());
     }
 
@@ -81,6 +87,34 @@ public class Main extends GameApplication {
                 player = spawn("Player");
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
+                //TODO: Game over test code is below, remove after end room/enemies are added
+                //FXGL.set("gameWin", 1);
+            }
+        });
+
+
+        getWorldProperties().<Integer>addListener("endGame", (prev, now) -> {
+            if (now == 1) {
+                Platform.exit();
+            }
+        });
+
+        getWorldProperties().<Integer>addListener("gameOver", (prev, now) -> {
+            if (now == 1) {
+                initBackground();
+                initGameOverScreen();
+                removeGameUI();
+
+            }
+        });
+        //TODO: remove once the end room is placed
+        // (load end screen upon touching the ladder to leave)
+        getWorldProperties().<Integer>addListener("gameWin", (prev, now) -> {
+            if (now == 1) {
+                initBackground();
+                initGameWinScreen();
+                removeGameUI();
+
             }
         });
 
@@ -100,6 +134,23 @@ public class Main extends GameApplication {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         getGameScene().clearUINodes();
         background.removeFromWorld();
+    }
+
+    private void initGameOverScreen() {
+        GameOverSubScene gameOverSubScene = new GameOverSubScene(
+
+        );
+
+        getGameScene().addUINodes(gameOverSubScene.getContentRoot());
+    }
+
+
+    private void initGameWinScreen() {
+        GameWinSubScene gameWinSubcScene = new GameWinSubScene(
+               
+        );
+
+        getGameScene().addUINodes(gameWinSubcScene.getContentRoot());
     }
 
 
@@ -178,6 +229,9 @@ public class Main extends GameApplication {
 
     }
 
+    protected void removeGameUI() {
+        getGameScene().removeUINodes();
+    }
 
     private void nextLevel() {
         if (geto("weapon") == WeaponType.SWORD) {
@@ -187,10 +241,6 @@ public class Main extends GameApplication {
     }
 
 
-    public static void main(String[] args) {
-        //launches JavaFX application
-        launch(args);
-    }
 
     @Override
     protected void initInput() {
@@ -306,4 +356,10 @@ public class Main extends GameApplication {
                 }
         );
     }
+
+    public static void main(String[] args) {
+        //launches JavaFX application
+        launch(args);
+    }
+
 }
