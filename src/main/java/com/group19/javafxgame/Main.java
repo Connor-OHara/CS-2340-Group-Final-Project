@@ -114,7 +114,6 @@ public class Main extends GameApplication {
                 initBackground();
                 initGameWinScreen();
                 removeGameUI();
-
             }
         });
 
@@ -207,25 +206,6 @@ public class Main extends GameApplication {
 
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
-
-        var leftButton = FXGL.getUIFactoryService().newButton("Left");
-        leftButton.setMinSize(30, 15);
-
-        leftButton.setOnAction(event -> {
-            RoomCoordinate nextCoordinate = new
-                    RoomDoorUtils()
-                    .doorSideToRoomCoordinate("left", currRoom);
-
-            String[] rooms = {"Middle1.tmx", "MiddleFromDefault.tmx", "Middle2.tmx", "Tunnel1.tmx"};
-
-            Random rand = new Random();
-            String nextRoomName = rooms[rand.nextInt(rooms.length)];
-            int x = nextCoordinate.getxGrid();
-            int y = nextCoordinate.getyGrid();
-
-            loadRoom(nextRoomName, x, y);
-            player.setZ(Integer.MAX_VALUE);
-        });
 
     }
 
