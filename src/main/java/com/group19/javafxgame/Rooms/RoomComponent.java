@@ -1,13 +1,10 @@
 package com.group19.javafxgame.Rooms;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +19,8 @@ public class RoomComponent extends Component {
     HashSet<Room> visitedRooms = new HashSet<Room>();
 
     public RoomComponent() {
-        currentLocation = new Point2I(maze[0].length/2, maze.length/2);
-        Room startRoom = Room.start.clone();
+        currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
+        Room startRoom = Room.START.clone();
         maze[currentLocation.getY()][currentLocation.getX()] = startRoom;
         visitedRooms.add(startRoom);
     }
@@ -34,16 +31,16 @@ public class RoomComponent extends Component {
         }
 
         if (coordinates.getX() <= 0) {
-            setRoom(Room.finalRight, coordinates);
+            setRoom(Room.FINAL_RIGHT, coordinates);
             return;
         } else if (coordinates.getX() >= maze[0].length - 1) {
-            setRoom(Room.finalLeft, coordinates);
+            setRoom(Room.FINAL_LEFT, coordinates);
             return;
         } else if (coordinates.getY() <= 0) {
-            setRoom(Room.finalBottom, coordinates);
+            setRoom(Room.FINAL_BOTTOM, coordinates);
             return;
         } else if (coordinates.getY() >= maze.length - 1) {
-            setRoom(Room.finalTop, coordinates);
+            setRoom(Room.FINAL_TOP, coordinates);
             return;
         }
 
@@ -55,14 +52,16 @@ public class RoomComponent extends Component {
             } else {
                 requiredDoors.add(DoorLocation.RIGHT);
             }
-            if (coordinates.getY() > 0 && maze[coordinates.getY() - 1][coordinates.getX()] != null) {
+            if (coordinates.getY() > 0 &&
+                    maze[coordinates.getY() - 1][coordinates.getX()] != null) {
                 if (maze[coordinates.getY() - 1][coordinates.getX()].getBottomSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.TOP);
                 } else {
                     requiredDoors.add(DoorLocation.TOP);
                 }
             }
-            if (coordinates.getY() < maze.length - 1 && maze[coordinates.getY() + 1][coordinates.getX()] != null) {
+            if (coordinates.getY() < maze.length - 1 &&
+                    maze[coordinates.getY() + 1][coordinates.getX()] != null) {
                 if (maze[coordinates.getY() + 1][coordinates.getX()].getTopSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.BOTTOM);
                 } else {
@@ -75,14 +74,16 @@ public class RoomComponent extends Component {
             } else {
                 requiredDoors.add(DoorLocation.BOTTOM);
             }
-            if (coordinates.getX() > 0 && maze[coordinates.getY()][coordinates.getX() - 1] != null) {
+            if (coordinates.getX() > 0 &&
+                    maze[coordinates.getY()][coordinates.getX() - 1] != null) {
                 if (maze[coordinates.getY()][coordinates.getX() - 1].getRightSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.LEFT);
                 } else {
                     requiredDoors.add(DoorLocation.LEFT);
                 }
             }
-            if (coordinates.getX() < maze[0].length - 1 && maze[coordinates.getY()][coordinates.getX() + 1] != null) {
+            if (coordinates.getX() < maze[0].length - 1 &&
+                    maze[coordinates.getY()][coordinates.getX() + 1] != null) {
                 if (maze[coordinates.getY()][coordinates.getX() + 1].getLeftSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.RIGHT);
                 } else {

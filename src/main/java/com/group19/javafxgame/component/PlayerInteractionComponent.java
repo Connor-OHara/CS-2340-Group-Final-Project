@@ -77,8 +77,8 @@ public class PlayerInteractionComponent extends Component {
 
     public void setPosition(Point2D location) {
         double newX = physicsWorld.toMeters(location.getX());
-        double newY = physicsWorld.toMeters(Constants.getScreenHeight()) -
-                physicsWorld.toMeters(location.getY());
+        double newY = physicsWorld.toMeters(Constants.getScreenHeight())
+                - physicsWorld.toMeters(location.getY());
         Vec2 vec = new Vec2(newX, newY);
         getPhysics().getBody().setTransform(vec, 0);
     }

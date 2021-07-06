@@ -154,16 +154,6 @@ public class Main extends GameApplication {
 
     }
 
-//    private void loadRoom(String filename, int xGrid, int yGrid) {
-//        RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
-//        RoomComponent[][] currMaze = RoomComponent.getMaze();
-//        currMaze[xGrid][yGrid] = newRoom;
-//        RoomComponent.setMaze(currMaze);
-//        currRoom = newRoom;
-//        currRoom.setLevelFromRoom();
-//
-//    }
-
     private void spawnCharacters() {
         player = spawn("Player");
     }

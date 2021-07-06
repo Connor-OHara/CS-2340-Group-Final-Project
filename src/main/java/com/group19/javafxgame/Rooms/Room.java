@@ -7,7 +7,6 @@ import javafx.geometry.Point2D;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Random;
 
 public class Room {
 
@@ -75,7 +74,7 @@ public class Room {
             null
     );
 
-    public final static Room start = new Room(
+    final public static Room START = new Room(
             "Start.tmx",
             new Point2I(2, 19),
             new Point2I(77, 19),
@@ -83,7 +82,7 @@ public class Room {
             new Point2I(35, 42)
     );
 
-    public final static Room finalLeft = new Room(
+    final public static Room FINAL_LEFT = new Room(
             "FinalLeft.tmx",
             new Point2I(2, 21),
             null,
@@ -91,7 +90,7 @@ public class Room {
             null
     );
 
-    public final static Room finalRight = new Room(
+    final public static Room FINAL_RIGHT = new Room(
             "FinalRight.tmx",
             null,
             new Point2I(77, 18),
@@ -99,7 +98,7 @@ public class Room {
             null
     );
 
-    public final static Room finalTop = new Room(
+    final public static Room FINAL_TOP = new Room(
             "FinalTop.tmx",
             null,
             null,
@@ -107,7 +106,7 @@ public class Room {
             null
     );
 
-    public final static Room finalBottom = new Room(
+    public final static Room FINAL_BOTTOM = new Room(
             "FinalBottom.tmx",
             null,
             null,
