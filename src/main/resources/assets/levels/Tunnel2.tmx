@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="64">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="64">
  <tileset firstgid="1" name="Wall" tilewidth="16" tileheight="16" tilecount="1020" columns="20">
   <image source="Wall.png" width="320" height="816"/>
  </tileset>
@@ -9,7 +9,7 @@
  <tileset firstgid="1840" name="DungeonSet" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="0x72_16x16DungeonTileset.v3.png" width="256" height="256"/>
  </tileset>
- <layer id="7" name="Tile Layer 1" width="80" height="45" visible="0">
+ <layer id="7" name="Tile Layer 1" width="80" height="45">
   <data encoding="csv">
 1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,
 1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,1940,
@@ -110,22 +110,30 @@
  <objectgroup id="2" name="Object Layer 1">
   <object id="8" type="wall" x="0" y="368" width="16" height="352"/>
   <object id="10" type="wall" x="0" y="0" width="1280" height="16"/>
-  <object id="12" type="wall" x="1264" y="381.639" width="16" height="338.361"/>
-  <object id="15" type="wall" x="656.449" y="368" width="16" height="144"/>
-  <object id="19" type="wall" x="994.246" y="429.676" width="223.063" height="207.924"/>
+  <object id="12" type="wall" x="1264" y="384" width="16" height="336"/>
+  <object id="15" type="wall" x="656.449" y="368" width="15.551" height="144"/>
+  <object id="19" type="wall" x="992" y="432" width="224" height="208"/>
   <object id="23" type="wall" x="0" y="0" width="16" height="256"/>
   <object id="25" type="wall" x="1264" y="0" width="16" height="272"/>
   <object id="26" type="wall" x="0" y="704" width="1280" height="16"/>
-  <object id="32" type="door" x="0" y="256" width="16" height="112"/>
+  <object id="32" type="door" x="0" y="256" width="16" height="112">
+   <properties>
+    <property name="side" value="left"/>
+   </properties>
+  </object>
   <object id="35" type="wall" x="416" y="64" width="608" height="16"/>
   <object id="48" type="wall" x="192" y="576" width="192" height="16"/>
   <object id="51" type="wall" x="63.3438" y="48.5059" width="192.656" height="175.494"/>
-  <object id="52" type="wall" x="1117.44" y="45.5574" width="111.026" height="49.1237"/>
+  <object id="52" type="wall" x="1120" y="48" width="112" height="48"/>
   <object id="54" type="wall" x="784" y="240" width="16" height="400"/>
-  <object id="55" type="wall" x="367.081" y="576" width="16" height="64"/>
-  <object id="56" type="wall" x="112.805" y="496" width="16" height="144"/>
+  <object id="55" type="wall" x="368" y="576" width="16" height="64"/>
+  <object id="56" type="wall" x="112" y="496" width="16" height="144"/>
   <object id="57" type="wall" x="192" y="576" width="16" height="64"/>
-  <object id="58" type="door" x="1264.35" y="272.292" width="16" height="112"/>
+  <object id="58" type="door" x="1264" y="272" width="16" height="112">
+   <properties>
+    <property name="side" value="right"/>
+   </properties>
+  </object>
   <object id="59" type="wall" x="1008" y="64" width="16" height="208"/>
   <object id="60" type="wall" x="0" y="240" width="800" height="16"/>
   <object id="61" type="wall" x="0" y="368" width="672" height="16"/>

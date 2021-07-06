@@ -37,7 +37,6 @@ public class RoomFactory implements EntityFactory {
                         )
                 )
                 .with(new PhysicsComponent())
-                .rotate(10)
                 .build();
     }
 

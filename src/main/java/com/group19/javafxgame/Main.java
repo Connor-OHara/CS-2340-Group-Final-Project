@@ -2,24 +2,19 @@ package com.group19.javafxgame;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Factories.CharacterFactory;
 import com.group19.javafxgame.Factories.MainSceneFactory;
 import com.group19.javafxgame.Factories.RoomFactory;
-import com.group19.javafxgame.Rooms.DoorComponent;
+import com.group19.javafxgame.Rooms.PlayerDoorCollisionHandler;
 import com.group19.javafxgame.Rooms.RoomComponent;
 import com.group19.javafxgame.Types.LevelType;
 import com.group19.javafxgame.Types.WeaponType;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
-import com.group19.javafxgame.utils.RandomRoomUtils;
-import com.group19.javafxgame.utils.RoomCoordinate;
-import com.group19.javafxgame.utils.RoomDoorUtils;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
 import javafx.application.Platform;
@@ -29,7 +24,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import java.util.Map;
-import java.util.Random;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.group19.javafxgame.Types.CharacterType.PLAYER;
@@ -38,12 +32,9 @@ import javafx.scene.text.Text;
 
 public class Main extends GameApplication {
 
-    private Entity player;
-    private RoomComponent currRoom;
+    private static Entity player;
 
     private EntityFactory entityFactory = new CharacterFactory();
-
-
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -83,8 +74,9 @@ public class Main extends GameApplication {
         getWorldProperties().<Integer>addListener("configFinished", (prev, now) -> {
             if (now == 1) {
                 removeBackgroundAndConfigScreen(background);
-                loadRoom("Middle1.tmx", 6, 6);
                 player = spawn("Player");
+                player.getComponent(RoomComponent.class).getCurrentRoom().applyLevel();
+                player.setZ(Integer.MAX_VALUE);
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
                 //TODO: Game over test code is below, remove after end room/enemies are added
@@ -162,25 +154,15 @@ public class Main extends GameApplication {
 
     }
 
-    private void goToRoom() {
-
-    }
-
-    private void loadRoom(String filename, int xGrid, int yGrid) {
-
-        RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
-        RoomComponent[][] currMaze = RoomComponent.getMaze();
-        currMaze[xGrid][yGrid] = newRoom;
-        RoomComponent.setMaze(currMaze);
-        currRoom = newRoom;
-        currRoom.setLevelFromRoom();
-
-    }
-
-    private void loadRoom(RoomComponent room) {
-        currRoom = room;
-        currRoom.setLevelFromRoom();
-    }
+//    private void loadRoom(String filename, int xGrid, int yGrid) {
+//        RoomComponent newRoom = new RoomComponent(filename, xGrid, yGrid);
+//        RoomComponent[][] currMaze = RoomComponent.getMaze();
+//        currMaze[xGrid][yGrid] = newRoom;
+//        RoomComponent.setMaze(currMaze);
+//        currRoom = newRoom;
+//        currRoom.setLevelFromRoom();
+//
+//    }
 
     private void spawnCharacters() {
         player = spawn("Player");
@@ -207,6 +189,7 @@ public class Main extends GameApplication {
         getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
 
+        System.out.println(getPhysicsWorld().toMeters(Constants.getScreenWidth()));
     }
 
     protected void removeGameUI() {
@@ -286,55 +269,12 @@ public class Main extends GameApplication {
         super.initPhysics();
 
         getPhysicsWorld().addCollisionHandler(
-                new CollisionHandler(LevelType.DOOR, PLAYER) {
-                    @Override
-                    protected void onCollisionBegin(Entity a, Entity b) {
-                        super.onCollisionBegin(a, b);
-
-
-                            DoorComponent currDoor = a.getComponent(DoorComponent.class);
-                            String doorType = currDoor.getSide();
-
-                            RoomCoordinate nextCoordinate = new
-                                    RoomDoorUtils()
-                                    .doorSideToRoomCoordinate(doorType, currRoom);
-
-                            System.out.println("Curr x" + currRoom.getxGrid() + " y"  + currRoom.getyGrid());
-
-                            int x = nextCoordinate.getxGrid();
-                            int y = nextCoordinate.getyGrid();
-                            String roomFile;
-                            System.out.println("Next x" + x + " y"  + y);
-
-                            if (RoomComponent.getMaze()[x][y] != null) {
-                                player.setPosition(Constants.getDefaultPosition());
-                                loadRoom(RoomComponent.getMaze()[x][y]);
-                                String filename = RoomComponent.getMaze()[x][y].getFilename();
-                                System.out.println("Went back to " + filename);
-                                player.setZ(Integer.MAX_VALUE);
-
-                            } else if (x > 11 || x < 1 || y > 11 || y < 1 ) {
-                                System.out.println("Made to the final room");
-                                roomFile = RandomRoomUtils.getInstance().getRandomRoom("final" + doorType);
-                                System.out.println("Final file name: " + roomFile);
-                                player.setPosition(Constants.getDefaultPosition());
-                                loadRoom(roomFile, x, y);
-                                player.setZ(Integer.MAX_VALUE);
-
-                            } else {
-                                System.out.println(doorType);
-                                roomFile = RandomRoomUtils.getInstance().getRandomRoom(doorType);
-                                System.out.println("Currently at : " + roomFile);
-                                player.setPosition(Constants.getDefaultPosition());
-                                loadRoom(roomFile, x, y);
-                                player.setZ(Integer.MAX_VALUE);
-
-                            }
-
-                        System.out.println("Collided with door");
-                    }
-                }
+            new PlayerDoorCollisionHandler(LevelType.DOOR, PLAYER)
         );
+    }
+
+    public static Entity getPlayer() {
+        return player;
     }
 
     public static void main(String[] args) {

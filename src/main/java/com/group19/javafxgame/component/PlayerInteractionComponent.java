@@ -1,8 +1,11 @@
 package com.group19.javafxgame.component;
 
+import com.almasb.fxgl.core.math.Vec2;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.PhysicsWorld;
 import com.group19.javafxgame.Constants;
+import javafx.geometry.Point2D;
 
 public class PlayerInteractionComponent extends Component {
 
@@ -10,6 +13,11 @@ public class PlayerInteractionComponent extends Component {
     private double rightVelocity = 0;
     private double upVelocity = 0;
     private double downVelocity = 0;
+    private PhysicsWorld physicsWorld;
+
+    public PlayerInteractionComponent(PhysicsWorld physicsWorld) {
+        this.physicsWorld = physicsWorld;
+    }
 
     private PhysicsComponent getPhysics() {
         return getEntity().getComponent(PhysicsComponent.class);
@@ -65,6 +73,14 @@ public class PlayerInteractionComponent extends Component {
 
     public double getYVelocity() {
         return downVelocity - upVelocity;
+    }
+
+    public void setPosition(Point2D location) {
+        double newX = physicsWorld.toMeters(location.getX());
+        double newY = physicsWorld.toMeters(Constants.getScreenHeight()) -
+                physicsWorld.toMeters(location.getY());
+        Vec2 vec = new Vec2(newX, newY);
+        getPhysics().getBody().setTransform(vec, 0);
     }
 
     public void updatePhysics() {

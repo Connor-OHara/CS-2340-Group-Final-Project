@@ -13,6 +13,7 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
+import com.group19.javafxgame.Rooms.RoomComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.Types.DifficultyLevel;
 import com.group19.javafxgame.Types.WeaponType;
@@ -69,7 +70,8 @@ public class CharacterFactory implements EntityFactory {
                 .with(money)
                 .with(physics)
                 .with(new CollidableComponent(true))
-                .with(new PlayerInteractionComponent())
+                .with(new PlayerInteractionComponent(getPhysicsWorld()))
+                .with(new RoomComponent())
                 .build();
     }
 
