@@ -46,7 +46,7 @@ public class GameOverSubScene extends SubScene {
         //quit button
         Button quitButton = new FXGLButton("Quit");
         quitButton.setOnAction(e -> {
-            FXGL.set("endGame", 1);
+            FXGL.set("closeGame", 1);
         });
 
         quitButton.setMaxWidth(Constants.getScreenWidth() / 2);

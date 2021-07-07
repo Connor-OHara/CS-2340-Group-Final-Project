@@ -55,7 +55,7 @@ public class Main extends GameApplication {
         vars.put("configFinished", 0);
         vars.put("gameOver", 0);
         vars.put("gameWin", 0);
-        vars.put("endGame", 0);
+        vars.put("closeGame", 0);
         vars.put("money", Constants.getDefaultMoney());
     }
 
@@ -83,7 +83,7 @@ public class Main extends GameApplication {
         });
 
 
-        getWorldProperties().<Integer>addListener("endGame", (prev, now) -> {
+        getWorldProperties().<Integer>addListener("closeGame", (prev, now) -> {
             if (now == 1) {
                 Platform.exit();
             }
