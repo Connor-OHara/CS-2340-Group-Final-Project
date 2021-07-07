@@ -114,7 +114,7 @@
   <object id="27" type="wall" x="720" y="0" width="560" height="16"/>
   <object id="31" type="door" x="592" y="0" width="128" height="16">
    <properties>
-    <property name="size" value="top"/>
+    <property name="side" value="top"/>
    </properties>
   </object>
   <object id="37" type="wall" x="1184" y="352" width="96" height="16"/>

@@ -43,12 +43,6 @@ public class GameOverSubScene extends SubScene {
         youDied.setTextAlignment(TextAlignment.CENTER);
         nameOver.setTextAlignment(TextAlignment.CENTER);
 
-
-        //TODO: Find a way to implement score into game. Score would be shown here.
-        // We could also keep track of total coins picked
-        // up and not increment on that and count that as score?
-
-
         //quit button
         Button quitButton = new FXGLButton("Quit");
         quitButton.setOnAction(e -> {

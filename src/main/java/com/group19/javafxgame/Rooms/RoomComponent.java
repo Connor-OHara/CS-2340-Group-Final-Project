@@ -100,8 +100,10 @@ public class RoomComponent extends Component {
         visitedRooms.add(room);
     }
 
-    private Room generateNewRoom(List<DoorLocation> requiredDoors, List<DoorLocation> forbiddenDoors) {
-        HashSet<Room> roomsWithRequiredDoors = (HashSet<Room>) Room.roomsWithDoor(requiredDoors.get(0)).clone();
+    private Room generateNewRoom(List<DoorLocation> requiredDoors,
+                                 List<DoorLocation> forbiddenDoors) {
+        HashSet<Room> roomsWithRequiredDoors =
+                (HashSet<Room>) Room.roomsWithDoor(requiredDoors.get(0)).clone();
         for (int i = 1; i < requiredDoors.size(); i++) {
             roomsWithRequiredDoors.retainAll(Room.roomsWithDoor(requiredDoors.get(i)));
         }
@@ -152,7 +154,8 @@ public class RoomComponent extends Component {
         generateNewRoomIfNeeded(newCoordinate);
         Room newRoom = maze[newCoordinate.getY()][newCoordinate.getX()];
         currentLocation = newCoordinate;
-        PlayerInteractionComponent interaction = getEntity().getComponent(PlayerInteractionComponent.class);
+        PlayerInteractionComponent interaction =
+                getEntity().getComponent(PlayerInteractionComponent.class);
 
         switch (outDoor) {
         case LEFT:

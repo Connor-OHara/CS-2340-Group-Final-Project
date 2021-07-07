@@ -10,8 +10,7 @@ import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.group19.javafxgame.Rooms.DoorComponent;
-
-import static com.group19.javafxgame.Types.LevelType.*;
+import com.group19.javafxgame.types.LevelType;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class RoomFactory implements EntityFactory {
@@ -20,7 +19,7 @@ public class RoomFactory implements EntityFactory {
     public Entity newWall(SpawnData data) {
 
         return FXGL.entityBuilder(data)
-                .type(WALL)
+                .type(LevelType.WALL)
                 .bbox(
                     new HitBox(
                         BoundingShape.box(data.<Integer>get("width"),
@@ -35,12 +34,12 @@ public class RoomFactory implements EntityFactory {
     public Entity newDoor(SpawnData data) {
         String side = data.get("side");
         return FXGL.entityBuilder(data)
-                .type(DOOR)
+                .type(LevelType.DOOR)
                 .bbox(
-                        new HitBox(
-                                BoundingShape.box(data.<Integer>get("width"),
-                                        data.<Integer>get("height"))
-                        )
+                    new HitBox(
+                        BoundingShape.box(data.<Integer>get("width"),
+                        data.<Integer>get("height"))
+                    )
                 )
                 .with(new CollidableComponent(true))
                 .with(new DoorComponent(side))
@@ -50,8 +49,22 @@ public class RoomFactory implements EntityFactory {
     @Spawns("background")
     public Entity newBackground(SpawnData data) {
         return FXGL.entityBuilder(data)
-                .type(BACKGROUND)
+                .type(LevelType.BACKGROUND)
                 .view("background/MainMenuBackground.jpg")
+                .build();
+    }
+
+    @Spawns("end_game_platform")
+    public Entity newEndGamePlatform(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .type(LevelType.END_GAME_PLATFORM)
+                .bbox(
+                    new HitBox(
+                        BoundingShape.box(data.<Integer>get("width"),
+                        data.<Integer>get("height"))
+                    )
+                )
+                .with(new CollidableComponent(true))
                 .build();
     }
 

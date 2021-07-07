@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Types;
+package com.group19.javafxgame.types;
 
 public enum DirectionType {
 

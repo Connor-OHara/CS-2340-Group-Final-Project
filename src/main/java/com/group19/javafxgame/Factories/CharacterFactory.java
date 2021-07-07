@@ -12,14 +12,14 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
 import com.group19.javafxgame.Rooms.RoomComponent;
-import com.group19.javafxgame.Types.DifficultyLevel;
-import com.group19.javafxgame.Types.WeaponType;
+import com.group19.javafxgame.types.CharacterType;
+import com.group19.javafxgame.types.DifficultyLevel;
+import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.group19.javafxgame.Types.CharacterType.PLAYER;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class CharacterFactory implements EntityFactory {
@@ -56,7 +56,7 @@ public class CharacterFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
 
         return FXGL.entityBuilder(data)
-                .type(PLAYER)
+                .type(CharacterType.PLAYER)
                 .at(
                         getAppWidth() / 2.0 - texture.getWidth() / 2.0,
                         getAppHeight() / 2.0 - texture.getHeight() / 2.0

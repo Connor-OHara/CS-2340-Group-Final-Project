@@ -3,17 +3,18 @@ package com.group19.javafxgame;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.EntityFactory;
+import com.almasb.fxgl.input.UserAction;
 import com.group19.javafxgame.Factories.CharacterFactory;
 import com.group19.javafxgame.Factories.MainSceneFactory;
 import com.group19.javafxgame.Factories.RoomFactory;
 import com.group19.javafxgame.Rooms.PlayerDoorCollisionHandler;
+import com.group19.javafxgame.Rooms.PlayerEndGamePlatformCollisionHandler;
 import com.group19.javafxgame.Rooms.RoomComponent;
-import com.group19.javafxgame.Types.LevelType;
-import com.group19.javafxgame.Types.WeaponType;
-import com.almasb.fxgl.entity.EntityFactory;
-import com.almasb.fxgl.input.UserAction;
 import com.group19.javafxgame.component.MoneyComponent;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.types.CharacterType;
+import com.group19.javafxgame.types.LevelType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
@@ -23,18 +24,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.group19.javafxgame.Types.CharacterType.PLAYER;
-
-import javafx.scene.text.Text;
 
 public class Main extends GameApplication {
 
     private static Entity player;
 
-    private EntityFactory entityFactory = new CharacterFactory();
+    private final EntityFactory entityFactory = new CharacterFactory();
 
     @Override
     protected void initSettings(GameSettings settings) {
@@ -79,8 +79,6 @@ public class Main extends GameApplication {
                 player.setZ(Integer.MAX_VALUE);
                 MoneyComponent moneyComponent = player.getComponent(MoneyComponent.class);
                 gameUI(moneyComponent);
-                //TODO: Game over test code is below, remove after end room/enemies are added
-                //FXGL.set("gameWin", 1);
             }
         });
 
@@ -99,8 +97,7 @@ public class Main extends GameApplication {
 
             }
         });
-        //TODO: remove once the end room is placed
-        // (load end screen upon touching the ladder to leave)
+
         getWorldProperties().<Integer>addListener("gameWin", (prev, now) -> {
             if (now == 1) {
                 initBackground();
@@ -115,10 +112,6 @@ public class Main extends GameApplication {
     private Entity initBackground() {
         getGameScene().setBackgroundColor(Color.color(0.5, 0.5, 0.5, 1.0));
         return spawn("background");
-    }
-
-    private Entity initDungeonFloor() {
-        return spawn("dungeonFloor");
     }
 
     private void removeBackgroundAndConfigScreen(Entity background) {
@@ -137,11 +130,11 @@ public class Main extends GameApplication {
 
 
     private void initGameWinScreen() {
-        GameWinSubScene gameWinSubcScene = new GameWinSubScene(
+        GameWinSubScene gameWinSubScene = new GameWinSubScene(
                
         );
 
-        getGameScene().addUINodes(gameWinSubcScene.getContentRoot());
+        getGameScene().addUINodes(gameWinSubScene.getContentRoot());
     }
 
 
@@ -152,10 +145,6 @@ public class Main extends GameApplication {
 
         getGameScene().addUINodes(configSubScene.getContentRoot());
 
-    }
-
-    private void spawnCharacters() {
-        player = spawn("Player");
     }
 
     protected void gameUI(MoneyComponent moneyComponent) {
@@ -184,13 +173,7 @@ public class Main extends GameApplication {
 
     protected void removeGameUI() {
         getGameScene().removeUINodes();
-    }
-
-    private void nextLevel() {
-        if (geto("weapon") == WeaponType.SWORD) {
-            showMessage("You finished the demo!");
-            return;
-        }
+        despawnWithScale(player);
     }
 
 
@@ -259,12 +242,14 @@ public class Main extends GameApplication {
         super.initPhysics();
 
         getPhysicsWorld().addCollisionHandler(
-            new PlayerDoorCollisionHandler(LevelType.DOOR, PLAYER)
+            new PlayerEndGamePlatformCollisionHandler(
+                CharacterType.PLAYER,
+                LevelType.END_GAME_PLATFORM
+            )
         );
-    }
-
-    public static Entity getPlayer() {
-        return player;
+        getPhysicsWorld().addCollisionHandler(
+            new PlayerDoorCollisionHandler(CharacterType.PLAYER, LevelType.DOOR)
+        );
     }
 
     public static void main(String[] args) {

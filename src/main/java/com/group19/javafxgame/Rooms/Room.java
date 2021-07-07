@@ -50,7 +50,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    public final static Room middle6 = new Room(
+    private static Room middle6 = new Room(
             "Middle6.tmx",
             new Point2I(2, 19),
             new Point2I(77, 15),
@@ -67,30 +67,30 @@ public class Room {
     );
 
     private static Room tunnel2 = new Room(
-            "Tunnel2.tmx",
-            new Point2I(2, 19),
-            new Point2I(77, 20),
-            null,
-            null
+        "Tunnel2.tmx",
+        new Point2I(2, 19),
+        new Point2I(77, 20),
+        null,
+        null
     );
 
     private static Room vertTunnel1 = new Room(
-            "VertTunnel1.tmx",
-            null,
-            null,
-            new Point2I(41, 2),
-            new Point2I(35, 42)
+        "VertTunnel1.tmx",
+        null,
+        null,
+        new Point2I(41, 2),
+        new Point2I(35, 42)
     );
 
     private static Room deadEndTop = new Room(
-            "DeadEndTop.tmx",
-            null,
-            null,
-            new Point2I(41, 2),
-            null
+        "DeadEndTop.tmx",
+        null,
+        null,
+        new Point2I(41, 2),
+        null
     );
 
-    final public static Room START = new Room(
+    public static final Room START = new Room(
             "Start.tmx",
             new Point2I(2, 19),
             new Point2I(77, 19),
@@ -98,7 +98,7 @@ public class Room {
             new Point2I(35, 42)
     );
 
-    final public static Room FINAL_LEFT = new Room(
+    public static final Room FINAL_LEFT = new Room(
             "FinalLeft.tmx",
             new Point2I(2, 21),
             null,
@@ -106,7 +106,7 @@ public class Room {
             null
     );
 
-    final public static Room FINAL_RIGHT = new Room(
+    public static final Room FINAL_RIGHT = new Room(
             "FinalRight.tmx",
             null,
             new Point2I(77, 18),
@@ -114,7 +114,7 @@ public class Room {
             null
     );
 
-    final public static Room FINAL_TOP = new Room(
+    public static final Room FINAL_TOP = new Room(
             "FinalTop.tmx",
             null,
             null,
@@ -122,7 +122,7 @@ public class Room {
             null
     );
 
-    public final static Room FINAL_BOTTOM = new Room(
+    public static final Room FINAL_BOTTOM = new Room(
             "FinalBottom.tmx",
             null,
             null,
