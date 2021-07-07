@@ -92,15 +92,15 @@ public class Room {
 
     public static final Room START = new Room(
             "Start.tmx",
-            new Point2I(2, 19),
-            new Point2I(77, 19),
-            new Point2I(35, 2),
-            new Point2I(35, 42)
+            new Point2I(2, 22),
+            new Point2I(77, 22),
+            new Point2I(39, 2),
+            new Point2I(39, 42)
     );
 
     public static final Room FINAL_LEFT = new Room(
             "FinalLeft.tmx",
-            new Point2I(2, 21),
+            new Point2I(2, 22),
             null,
             null,
             null
@@ -109,7 +109,7 @@ public class Room {
     public static final Room FINAL_RIGHT = new Room(
             "FinalRight.tmx",
             null,
-            new Point2I(77, 18),
+            new Point2I(77, 22),
             null,
             null
     );
@@ -118,7 +118,7 @@ public class Room {
             "FinalTop.tmx",
             null,
             null,
-            new Point2I(41, 2),
+            new Point2I(39, 2),
             null
     );
 
@@ -127,7 +127,7 @@ public class Room {
             null,
             null,
             null,
-            new Point2I(36, 42)
+            new Point2I(39, 42)
     );
 
     private static final HashSet<Room> ROOMS_LEFT_DOOR = new HashSet<>();
