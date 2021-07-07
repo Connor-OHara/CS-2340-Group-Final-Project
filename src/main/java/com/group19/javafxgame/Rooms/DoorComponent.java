@@ -1,7 +1,6 @@
 package com.group19.javafxgame.Rooms;
 
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.types.DoorLocation;
 

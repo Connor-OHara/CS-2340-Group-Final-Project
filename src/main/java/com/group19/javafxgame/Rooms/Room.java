@@ -252,15 +252,15 @@ public class Room {
 
     public static HashSet<Room> roomsWithDoor(DoorLocation doorLocation) {
         switch (doorLocation) {
-            case LEFT:
+        case LEFT:
             return Room.getRoomsLeftDoor();
-            case RIGHT:
+        case RIGHT:
             return (HashSet<Room>) Room.getRoomsRightDoor().clone();
-            case TOP:
+        case TOP:
             return (HashSet<Room>) Room.getRoomsTopDoor().clone();
-            case BOTTOM:
+        case BOTTOM:
             return (HashSet<Room>) Room.getRoomsBottomDoor().clone();
-            default:
+        default:
             throw new IllegalStateException("Unexpected value: " + doorLocation);
         }
     }

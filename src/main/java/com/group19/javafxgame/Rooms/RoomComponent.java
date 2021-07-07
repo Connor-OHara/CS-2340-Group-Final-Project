@@ -16,7 +16,7 @@ public class RoomComponent extends Component {
     private Room[][] maze = new Room[13][13];
     private Point2I currentLocation;
 
-    HashSet<Room> visitedRooms = new HashSet<Room>();
+    private HashSet<Room> visitedRooms = new HashSet<Room>();
 
     public RoomComponent() {
         currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
@@ -115,9 +115,9 @@ public class RoomComponent extends Component {
         unvisitedRooms.removeAll(visitedRooms);
         System.out.println("ROOMS AFTER: " + unvisitedRooms.size());
         System.out.println("UNVISITED ROOMS EMPTY: " + unvisitedRooms.isEmpty());
-        Object[] roomArray = unvisitedRooms.isEmpty() ?
-            roomsWithRequiredDoors.toArray() :
-            unvisitedRooms.toArray();
+        Object[] roomArray = unvisitedRooms.isEmpty()
+                ? roomsWithRequiredDoors.toArray()
+                : unvisitedRooms.toArray();
         Random random = new Random();
         int randomNumber = random.nextInt(roomArray.length);
         Room selectedRoom = ((Room) roomArray[randomNumber]).clone();
@@ -128,24 +128,24 @@ public class RoomComponent extends Component {
         Point2I newCoordinate;
         DoorLocation outDoor;
         switch (doorLocation) {
-            //checkstyle hates this indentation :/
-            case LEFT:
+        //checkstyle hates this indentation :/
+        case LEFT:
             newCoordinate = new Point2I(currentLocation.getX() - 1, currentLocation.getY());
             outDoor = DoorLocation.RIGHT;
             break;
-            case RIGHT:
+        case RIGHT:
             newCoordinate = new Point2I(currentLocation.getX() + 1, currentLocation.getY());
             outDoor = DoorLocation.LEFT;
             break;
-            case TOP:
+        case TOP:
             newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() - 1);
             outDoor = DoorLocation.BOTTOM;
             break;
-            case BOTTOM:
+        case BOTTOM:
             newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() + 1);
             outDoor = DoorLocation.TOP;
             break;
-            default:
+        default:
             throw new NoSuchElementException("There is just no possible way...");
         }
 
@@ -155,18 +155,21 @@ public class RoomComponent extends Component {
         PlayerInteractionComponent interaction = getEntity().getComponent(PlayerInteractionComponent.class);
 
         switch (outDoor) {
-            case LEFT:
-                interaction.setPosition(newRoom.getLeftSpawn());
-                break;
-            case RIGHT:
-                interaction.setPosition(newRoom.getRightSpawn());
-                break;
-            case TOP:
-                interaction.setPosition(newRoom.getTopSpawn());
-                break;
-            case BOTTOM:
-                interaction.setPosition(newRoom.getBottomSpawn());
-                break;
+        case LEFT:
+            interaction.setPosition(newRoom.getLeftSpawn());
+            break;
+        case RIGHT:
+            interaction.setPosition(newRoom.getRightSpawn());
+            break;
+        case TOP:
+            interaction.setPosition(newRoom.getTopSpawn());
+            break;
+        case BOTTOM:
+            interaction.setPosition(newRoom.getBottomSpawn());
+            break;
+        default:
+            System.out.println("ERROR IN outDoor Switch case");
+            break;
         }
 
         newRoom.applyLevel();
