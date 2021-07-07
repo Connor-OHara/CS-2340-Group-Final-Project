@@ -44,13 +44,29 @@ public class RoomComponent extends Component {
             return;
         }
 
-        LinkedList<DoorLocation> requiredDoors = new LinkedList<DoorLocation>();
-        LinkedList<DoorLocation> forbiddenDoors = new LinkedList<DoorLocation>();
+        LinkedList<DoorLocation> requiredDoors = new LinkedList<>();
+        LinkedList<DoorLocation> forbiddenDoors = new LinkedList<>();
         if (coordinates.getX() != currentLocation.getX()) {
             if (coordinates.getX() > currentLocation.getX()) {
                 requiredDoors.add(DoorLocation.LEFT);
+                if (coordinates.getX() < maze[0].length - 1
+                        && maze[coordinates.getY()][coordinates.getX() + 1] != null) {
+                    if (maze[coordinates.getY()][coordinates.getX() + 1].getLeftSpawn() == null) {
+                        forbiddenDoors.add(DoorLocation.RIGHT);
+                    } else {
+                        requiredDoors.add(DoorLocation.RIGHT);
+                    }
+                }
             } else {
                 requiredDoors.add(DoorLocation.RIGHT);
+                if (coordinates.getX() > 0
+                        && maze[coordinates.getY()][coordinates.getX() - 1] != null) {
+                    if (maze[coordinates.getY()][coordinates.getX() - 1].getRightSpawn() == null) {
+                        forbiddenDoors.add(DoorLocation.LEFT);
+                    } else {
+                        requiredDoors.add(DoorLocation.LEFT);
+                    }
+                }
             }
             if (coordinates.getY() > 0
                     && maze[coordinates.getY() - 1][coordinates.getX()] != null) {
@@ -71,8 +87,24 @@ public class RoomComponent extends Component {
         } else if (coordinates.getY() != currentLocation.getY()) {
             if (coordinates.getY() > currentLocation.getY()) {
                 requiredDoors.add(DoorLocation.TOP);
+                if (coordinates.getY() < maze.length - 1
+                        && maze[coordinates.getY() + 1][coordinates.getX()] != null) {
+                    if (maze[coordinates.getY() + 1][coordinates.getX()].getTopSpawn() == null) {
+                        forbiddenDoors.add(DoorLocation.BOTTOM);
+                    } else {
+                        requiredDoors.add(DoorLocation.BOTTOM);
+                    }
+                }
             } else {
                 requiredDoors.add(DoorLocation.BOTTOM);
+                if (coordinates.getY() > 0
+                        && maze[coordinates.getY() - 1][coordinates.getX()] != null) {
+                    if (maze[coordinates.getY() - 1][coordinates.getX()].getBottomSpawn() == null) {
+                        forbiddenDoors.add(DoorLocation.TOP);
+                    } else {
+                        requiredDoors.add(DoorLocation.TOP);
+                    }
+                }
             }
             if (coordinates.getX() > 0
                     && maze[coordinates.getY()][coordinates.getX() - 1] != null) {
