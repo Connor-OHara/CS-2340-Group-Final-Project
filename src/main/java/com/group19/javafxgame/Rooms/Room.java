@@ -50,6 +50,14 @@ public class Room {
         new Point2I(41, 42)
     );
 
+    public final static Room middle6 = new Room(
+            "Middle6.tmx",
+            new Point2I(2, 19),
+            new Point2I(77, 15),
+            new Point2I(41, 2),
+            new Point2I(41, 42)
+    );
+
     private static Room tunnel1 = new Room(
         "Tunnel1.tmx",
         new Point2I(2, 19),
@@ -64,6 +72,14 @@ public class Room {
             new Point2I(77, 20),
             null,
             null
+    );
+
+    private static Room vertTunnel1 = new Room(
+            "VertTunnel1.tmx",
+            null,
+            null,
+            new Point2I(41, 2),
+            new Point2I(35, 42)
     );
 
     private static Room deadEndTop = new Room(
@@ -126,6 +142,7 @@ public class Room {
             middle3,
             middle4,
             middle5,
+            middle6,
             tunnel1,
             tunnel2
         }));
@@ -136,6 +153,7 @@ public class Room {
             middle3,
             middle4,
             middle5,
+            middle6,
             tunnel1,
             tunnel2
         }));
@@ -146,7 +164,9 @@ public class Room {
             middle3,
             middle4,
             middle5,
-            deadEndTop
+            middle6,
+            deadEndTop,
+            vertTunnel1
         }));
 
         roomsBottomDoor.addAll(Arrays.asList(new Room[] {
@@ -154,7 +174,9 @@ public class Room {
             middle2,
             middle3,
             middle4,
-            middle5
+            middle5,
+            middle6,
+            vertTunnel1
         }));
     }
 
@@ -170,14 +192,14 @@ public class Room {
                 Point2I topSpawn,
                 Point2I bottomSpawn) {
         this.filename = filename;
-        this.leftSpawn = leftSpawn == null ? null :
-            new Point2D(leftSpawn.getX() * 16, leftSpawn.getY() * 16);
-        this.rightSpawn = rightSpawn == null ? null :
-            new Point2D(rightSpawn.getX() * 16, rightSpawn.getY() * 16);
-        this.topSpawn = topSpawn == null ? null :
-            new Point2D(topSpawn.getX() * 16, topSpawn.getY() * 16);
-        this.bottomSpawn = bottomSpawn == null ? null :
-            new Point2D(bottomSpawn.getX() * 16, bottomSpawn.getY() * 16);
+        this.leftSpawn = leftSpawn == null ? null
+                : new Point2D(leftSpawn.getX() * 16, leftSpawn.getY() * 16);
+        this.rightSpawn = rightSpawn == null ? null
+                : new Point2D(rightSpawn.getX() * 16, rightSpawn.getY() * 16);
+        this.topSpawn = topSpawn == null ? null
+                : new Point2D(topSpawn.getX() * 16, topSpawn.getY() * 16);
+        this.bottomSpawn = bottomSpawn == null ? null
+                : new Point2D(bottomSpawn.getX() * 16, bottomSpawn.getY() * 16);
     }
 
     public void applyLevel() {
@@ -231,15 +253,15 @@ public class Room {
     public static HashSet<Room> roomsWithDoor(DoorLocation doorLocation) {
         switch (doorLocation) {
             case LEFT:
-                return Room.getRoomsLeftDoor();
+            return Room.getRoomsLeftDoor();
             case RIGHT:
-                return (HashSet<Room>) Room.getRoomsRightDoor().clone();
+            return (HashSet<Room>) Room.getRoomsRightDoor().clone();
             case TOP:
-                return (HashSet<Room>) Room.getRoomsTopDoor().clone();
+            return (HashSet<Room>) Room.getRoomsTopDoor().clone();
             case BOTTOM:
-                return (HashSet<Room>) Room.getRoomsBottomDoor().clone();
+            return (HashSet<Room>) Room.getRoomsBottomDoor().clone();
             default:
-                throw new IllegalStateException("Unexpected value: " + doorLocation);
+            throw new IllegalStateException("Unexpected value: " + doorLocation);
         }
     }
 }

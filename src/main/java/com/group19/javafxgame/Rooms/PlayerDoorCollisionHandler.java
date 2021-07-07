@@ -62,6 +62,7 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
 //
 //        }
 
+
         System.out.println("Collided with door");
     }
 }

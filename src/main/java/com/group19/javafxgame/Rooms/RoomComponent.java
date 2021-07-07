@@ -52,16 +52,16 @@ public class RoomComponent extends Component {
             } else {
                 requiredDoors.add(DoorLocation.RIGHT);
             }
-            if (coordinates.getY() > 0 &&
-                    maze[coordinates.getY() - 1][coordinates.getX()] != null) {
+            if (coordinates.getY() > 0
+                    && maze[coordinates.getY() - 1][coordinates.getX()] != null) {
                 if (maze[coordinates.getY() - 1][coordinates.getX()].getBottomSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.TOP);
                 } else {
                     requiredDoors.add(DoorLocation.TOP);
                 }
             }
-            if (coordinates.getY() < maze.length - 1 &&
-                    maze[coordinates.getY() + 1][coordinates.getX()] != null) {
+            if (coordinates.getY() < maze.length - 1
+                    && maze[coordinates.getY() + 1][coordinates.getX()] != null) {
                 if (maze[coordinates.getY() + 1][coordinates.getX()].getTopSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.BOTTOM);
                 } else {
@@ -74,16 +74,16 @@ public class RoomComponent extends Component {
             } else {
                 requiredDoors.add(DoorLocation.BOTTOM);
             }
-            if (coordinates.getX() > 0 &&
-                    maze[coordinates.getY()][coordinates.getX() - 1] != null) {
+            if (coordinates.getX() > 0
+                    && maze[coordinates.getY()][coordinates.getX() - 1] != null) {
                 if (maze[coordinates.getY()][coordinates.getX() - 1].getRightSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.LEFT);
                 } else {
                     requiredDoors.add(DoorLocation.LEFT);
                 }
             }
-            if (coordinates.getX() < maze[0].length - 1 &&
-                    maze[coordinates.getY()][coordinates.getX() + 1] != null) {
+            if (coordinates.getX() < maze[0].length - 1
+                    && maze[coordinates.getY()][coordinates.getX() + 1] != null) {
                 if (maze[coordinates.getY()][coordinates.getX() + 1].getLeftSpawn() == null) {
                     forbiddenDoors.add(DoorLocation.RIGHT);
                 } else {
@@ -128,24 +128,25 @@ public class RoomComponent extends Component {
         Point2I newCoordinate;
         DoorLocation outDoor;
         switch (doorLocation) {
+            //checkstyle hates this indentation :/
             case LEFT:
-                newCoordinate = new Point2I(currentLocation.getX() - 1, currentLocation.getY());
-                outDoor = DoorLocation.RIGHT;
-                break;
+            newCoordinate = new Point2I(currentLocation.getX() - 1, currentLocation.getY());
+            outDoor = DoorLocation.RIGHT;
+            break;
             case RIGHT:
-                newCoordinate = new Point2I(currentLocation.getX() + 1, currentLocation.getY());
-                outDoor = DoorLocation.LEFT;
-                break;
+            newCoordinate = new Point2I(currentLocation.getX() + 1, currentLocation.getY());
+            outDoor = DoorLocation.LEFT;
+            break;
             case TOP:
-                newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() - 1);
-                outDoor = DoorLocation.BOTTOM;
-                break;
+            newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() - 1);
+            outDoor = DoorLocation.BOTTOM;
+            break;
             case BOTTOM:
-                newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() + 1);
-                outDoor = DoorLocation.TOP;
-                break;
+            newCoordinate = new Point2I(currentLocation.getX(), currentLocation.getY() + 1);
+            outDoor = DoorLocation.TOP;
+            break;
             default:
-                throw new NoSuchElementException("There is just no possible way...");
+            throw new NoSuchElementException("There is just no possible way...");
         }
 
         generateNewRoomIfNeeded(newCoordinate);
