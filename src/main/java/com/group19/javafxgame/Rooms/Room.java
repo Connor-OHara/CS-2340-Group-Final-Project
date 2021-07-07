@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class Room {
 
-    private static final Room middle1 = new Room(
+    private static final Room MIDDLE_1 = new Room(
         "Middle1.tmx",
         new Point2I(2, 19),
         new Point2I(77, 18),
@@ -18,7 +18,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static final Room middle2 = new Room(
+    private static final Room MIDDLE_2 = new Room(
         "Middle2.tmx",
         new Point2I(2, 19),
         new Point2I(77, 18),
@@ -26,7 +26,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static final Room middle3 = new Room(
+    private static final Room MIDDLE_3 = new Room(
         "Middle3.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -34,7 +34,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static final Room middle4 = new Room(
+    private static final Room MIDDLE_4 = new Room(
         "Middle4.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -42,7 +42,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static final Room middle5 = new Room(
+    private static final Room MIDDLE_5 = new Room(
         "Middle5.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -50,7 +50,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static final Room middle6 = new Room(
+    private static final Room MIDDLE_6 = new Room(
         "Middle6.tmx",
         new Point2I(2, 22),
         new Point2I(77, 22),
@@ -58,7 +58,7 @@ public class Room {
         new Point2I(40, 42)
     );
 
-    private static final Room tunnel1 = new Room(
+    private static final Room TUNNEL_1 = new Room(
         "Tunnel1.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -66,7 +66,7 @@ public class Room {
         null
     );
 
-    private static final Room tunnel2 = new Room(
+    private static final Room TUNNEL_2 = new Room(
         "Tunnel2.tmx",
         new Point2I(2, 19),
         new Point2I(77, 20),
@@ -74,7 +74,7 @@ public class Room {
         null
     );
 
-    private static final Room vertTunnel1 = new Room(
+    private static final Room VERTICAL_TUNNEL_1 = new Room(
         "VertTunnel1.tmx",
         null,
         null,
@@ -82,7 +82,7 @@ public class Room {
         new Point2I(35, 42)
     );
 
-    private static final Room deadEndTop = new Room(
+    private static final Room DEAD_END_TOP = new Room(
         "DeadEndTop.tmx",
         null,
         null,
@@ -130,53 +130,53 @@ public class Room {
             new Point2I(36, 42)
     );
 
-    private static final HashSet<Room> roomsLeftDoor = new HashSet<>();
-    private static final HashSet<Room> roomsRightDoor = new HashSet<>();
-    private static final HashSet<Room> roomsTopDoor = new HashSet<>();
-    private static final HashSet<Room> roomsBottomDoor = new HashSet<>();
+    private static final HashSet<Room> ROOMS_LEFT_DOOR = new HashSet<>();
+    private static final HashSet<Room> ROOMS_RIGHT_DOOR = new HashSet<>();
+    private static final HashSet<Room> ROOMS_TOP_DOOR = new HashSet<>();
+    private static final HashSet<Room> ROOMS_BOTTOM_DOOR = new HashSet<>();
 
     static {
-        roomsLeftDoor.addAll(Arrays.asList(
-            middle1,
-            middle2,
-            middle3,
-            middle4,
-            middle5,
-            middle6,
-            tunnel1,
-            tunnel2
+        ROOMS_LEFT_DOOR.addAll(Arrays.asList(
+                MIDDLE_1,
+                MIDDLE_2,
+                MIDDLE_3,
+                MIDDLE_4,
+                MIDDLE_5,
+                MIDDLE_6,
+                TUNNEL_1,
+                TUNNEL_2
         ));
 
-        roomsRightDoor.addAll(Arrays.asList(
-            middle1,
-            middle2,
-            middle3,
-            middle4,
-            middle5,
-            middle6,
-            tunnel1,
-            tunnel2
+        ROOMS_RIGHT_DOOR.addAll(Arrays.asList(
+                MIDDLE_1,
+                MIDDLE_2,
+                MIDDLE_3,
+                MIDDLE_4,
+                MIDDLE_5,
+                MIDDLE_6,
+                TUNNEL_1,
+                TUNNEL_2
         ));
 
-        roomsTopDoor.addAll(Arrays.asList(
-            middle1,
-            middle2,
-            middle3,
-            middle4,
-            middle5,
-            middle6,
-            deadEndTop,
-            vertTunnel1
+        ROOMS_TOP_DOOR.addAll(Arrays.asList(
+                MIDDLE_1,
+                MIDDLE_2,
+                MIDDLE_3,
+                MIDDLE_4,
+                MIDDLE_5,
+                MIDDLE_6,
+                DEAD_END_TOP,
+                VERTICAL_TUNNEL_1
         ));
 
-        roomsBottomDoor.addAll(Arrays.asList(
-            middle1,
-            middle2,
-            middle3,
-            middle4,
-            middle5,
-            middle6,
-            vertTunnel1
+        ROOMS_BOTTOM_DOOR.addAll(Arrays.asList(
+                MIDDLE_1,
+                MIDDLE_2,
+                MIDDLE_3,
+                MIDDLE_4,
+                MIDDLE_5,
+                MIDDLE_6,
+                VERTICAL_TUNNEL_1
         ));
     }
 
@@ -237,19 +237,19 @@ public class Room {
 
 
     public static HashSet<Room> getRoomsLeftDoor() {
-        return roomsLeftDoor;
+        return ROOMS_LEFT_DOOR;
     }
 
     public static HashSet<Room> getRoomsRightDoor() {
-        return roomsRightDoor;
+        return ROOMS_RIGHT_DOOR;
     }
 
     public static HashSet<Room> getRoomsTopDoor() {
-        return roomsTopDoor;
+        return ROOMS_TOP_DOOR;
     }
 
     public static HashSet<Room> getRoomsBottomDoor() {
-        return roomsBottomDoor;
+        return ROOMS_BOTTOM_DOOR;
     }
 
     public Room clone() {
