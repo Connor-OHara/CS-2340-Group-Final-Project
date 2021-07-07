@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class Room {
 
-    private static Room middle1 = new Room(
+    private static final Room middle1 = new Room(
         "Middle1.tmx",
         new Point2I(2, 19),
         new Point2I(77, 18),
@@ -18,7 +18,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static Room middle2 = new Room(
+    private static final Room middle2 = new Room(
         "Middle2.tmx",
         new Point2I(2, 19),
         new Point2I(77, 18),
@@ -26,7 +26,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static Room middle3 = new Room(
+    private static final Room middle3 = new Room(
         "Middle3.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -34,7 +34,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static Room middle4 = new Room(
+    private static final Room middle4 = new Room(
         "Middle4.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -42,7 +42,7 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static Room middle5 = new Room(
+    private static final Room middle5 = new Room(
         "Middle5.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -50,15 +50,15 @@ public class Room {
         new Point2I(41, 42)
     );
 
-    private static Room middle6 = new Room(
-            "Middle6.tmx",
-            new Point2I(2, 19),
-            new Point2I(77, 15),
-            new Point2I(41, 2),
-            new Point2I(41, 42)
+    private static final Room middle6 = new Room(
+        "Middle6.tmx",
+        new Point2I(2, 22),
+        new Point2I(77, 22),
+        new Point2I(40, 2),
+        new Point2I(40, 42)
     );
 
-    private static Room tunnel1 = new Room(
+    private static final Room tunnel1 = new Room(
         "Tunnel1.tmx",
         new Point2I(2, 19),
         new Point2I(77, 15),
@@ -66,7 +66,7 @@ public class Room {
         null
     );
 
-    private static Room tunnel2 = new Room(
+    private static final Room tunnel2 = new Room(
         "Tunnel2.tmx",
         new Point2I(2, 19),
         new Point2I(77, 20),
@@ -74,7 +74,7 @@ public class Room {
         null
     );
 
-    private static Room vertTunnel1 = new Room(
+    private static final Room vertTunnel1 = new Room(
         "VertTunnel1.tmx",
         null,
         null,
@@ -82,7 +82,7 @@ public class Room {
         new Point2I(35, 42)
     );
 
-    private static Room deadEndTop = new Room(
+    private static final Room deadEndTop = new Room(
         "DeadEndTop.tmx",
         null,
         null,
@@ -130,13 +130,13 @@ public class Room {
             new Point2I(36, 42)
     );
 
-    private static HashSet<Room> roomsLeftDoor = new HashSet<Room>();
-    private static HashSet<Room> roomsRightDoor = new HashSet<Room>();
-    private static HashSet<Room> roomsTopDoor = new HashSet<Room>();
-    private static HashSet<Room> roomsBottomDoor = new HashSet<Room>();
+    private static final HashSet<Room> roomsLeftDoor = new HashSet<>();
+    private static final HashSet<Room> roomsRightDoor = new HashSet<>();
+    private static final HashSet<Room> roomsTopDoor = new HashSet<>();
+    private static final HashSet<Room> roomsBottomDoor = new HashSet<>();
 
     static {
-        roomsLeftDoor.addAll(Arrays.asList(new Room[] {
+        roomsLeftDoor.addAll(Arrays.asList(
             middle1,
             middle2,
             middle3,
@@ -145,9 +145,9 @@ public class Room {
             middle6,
             tunnel1,
             tunnel2
-        }));
+        ));
 
-        roomsRightDoor.addAll(Arrays.asList(new Room[] {
+        roomsRightDoor.addAll(Arrays.asList(
             middle1,
             middle2,
             middle3,
@@ -156,9 +156,9 @@ public class Room {
             middle6,
             tunnel1,
             tunnel2
-        }));
+        ));
 
-        roomsTopDoor.addAll(Arrays.asList(new Room[] {
+        roomsTopDoor.addAll(Arrays.asList(
             middle1,
             middle2,
             middle3,
@@ -167,9 +167,9 @@ public class Room {
             middle6,
             deadEndTop,
             vertTunnel1
-        }));
+        ));
 
-        roomsBottomDoor.addAll(Arrays.asList(new Room[] {
+        roomsBottomDoor.addAll(Arrays.asList(
             middle1,
             middle2,
             middle3,
@@ -177,10 +177,10 @@ public class Room {
             middle5,
             middle6,
             vertTunnel1
-        }));
+        ));
     }
 
-    private String filename;
+    private final String filename;
     private Point2D leftSpawn;
     private Point2D rightSpawn;
     private Point2D topSpawn;
@@ -200,6 +200,18 @@ public class Room {
                 : new Point2D(topSpawn.getX() * 16, topSpawn.getY() * 16);
         this.bottomSpawn = bottomSpawn == null ? null
                 : new Point2D(bottomSpawn.getX() * 16, bottomSpawn.getY() * 16);
+    }
+
+    public Room(String filename,
+                Point2D leftSpawn,
+                Point2D rightSpawn,
+                Point2D topSpawn,
+                Point2D bottomSpawn) {
+        this.filename = filename;
+        this.leftSpawn = leftSpawn;
+        this.rightSpawn = rightSpawn;
+        this.topSpawn = topSpawn;
+        this.bottomSpawn = bottomSpawn;
     }
 
     public void applyLevel() {
@@ -241,13 +253,7 @@ public class Room {
     }
 
     public Room clone() {
-        Point2I dummyPoint = new Point2I(0, 0);
-        Room toReturn = new Room(filename, dummyPoint, dummyPoint, dummyPoint, dummyPoint);
-        toReturn.leftSpawn = leftSpawn;
-        toReturn.rightSpawn = rightSpawn;
-        toReturn.topSpawn = topSpawn;
-        toReturn.bottomSpawn = bottomSpawn;
-        return toReturn;
+        return new Room(filename, leftSpawn, rightSpawn, topSpawn, bottomSpawn);
     }
 
     public static HashSet<Room> roomsWithDoor(DoorLocation doorLocation) {
@@ -263,5 +269,15 @@ public class Room {
         default:
             throw new IllegalStateException("Unexpected value: " + doorLocation);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return filename.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Room && ((Room) other).filename.equals(filename);
     }
 }

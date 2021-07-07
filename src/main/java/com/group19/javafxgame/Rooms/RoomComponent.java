@@ -16,7 +16,7 @@ public class RoomComponent extends Component {
     private Room[][] maze = new Room[13][13];
     private Point2I currentLocation;
 
-    private HashSet<Room> visitedRooms = new HashSet<Room>();
+    private HashSet<Room> visitedRooms = new HashSet<>();
 
     public RoomComponent() {
         currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
@@ -112,11 +112,9 @@ public class RoomComponent extends Component {
             roomsWithRequiredDoors.removeAll(Room.roomsWithDoor(forbiddenDoors.get(i)));
         }
 
+        roomsWithRequiredDoors.remove(getCurrentRoom());
         HashSet<Room> unvisitedRooms = (HashSet<Room>) roomsWithRequiredDoors.clone();
-        System.out.println("ROOMS BEFORE: " + unvisitedRooms.size() + ", " + visitedRooms.size());
         unvisitedRooms.removeAll(visitedRooms);
-        System.out.println("ROOMS AFTER: " + unvisitedRooms.size());
-        System.out.println("UNVISITED ROOMS EMPTY: " + unvisitedRooms.isEmpty());
         Object[] roomArray = unvisitedRooms.isEmpty()
                 ? roomsWithRequiredDoors.toArray()
                 : unvisitedRooms.toArray();
