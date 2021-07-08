@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Rooms;
+package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.types.DoorLocation;
@@ -244,17 +244,29 @@ public class Room {
     public Point2D getLeftSpawn() {
         return leftSpawn;
     }
+    public boolean hasLeftSpawn() {
+        return leftSpawn != null;
+    }
 
     public Point2D getRightSpawn() {
         return rightSpawn;
+    }
+    public boolean hasRightSpawn() {
+        return rightSpawn != null;
     }
 
     public Point2D getTopSpawn() {
         return topSpawn;
     }
+    public boolean hasTopSpawn() {
+        return topSpawn != null;
+    }
 
     public Point2D getBottomSpawn() {
         return bottomSpawn;
+    }
+    public boolean hasBottomSpawn() {
+        return bottomSpawn != null;
     }
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="329">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="80" height="45" tilewidth="16" tileheight="16" infinite="0" nextlayerid="16" nextobjectid="329">
  <tileset firstgid="1" name="Wall" tilewidth="16" tileheight="16" tilecount="1020" columns="20">
   <image source="Wall.png" width="320" height="816"/>
  </tileset>
@@ -183,7 +183,7 @@
   <object id="189" type="wall" x="1008" y="224" width="48" height="16"/>
   <object id="190" type="wall" x="1024" y="240" width="48" height="16"/>
   <object id="191" type="wall" x="1040" y="256" width="48" height="16"/>
-  <object id="192" x="240" y="80" width="32" height="32"/>
+  <object id="192" type="wall" x="240" y="80" width="32" height="32"/>
   <object id="193" type="wall" x="272" y="96" width="16" height="16"/>
   <object id="194" type="wall" x="416" y="272" width="48" height="16"/>
   <object id="195" type="wall" x="432" y="288" width="32" height="16"/>

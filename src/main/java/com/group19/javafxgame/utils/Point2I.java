@@ -17,4 +17,20 @@ public class Point2I {
     public int getY() {
         return y;
     }
+
+    public Point2I getLeft() {
+        return new Point2I(x - 1, y);
+    }
+
+    public Point2I getRight() {
+        return new Point2I(x + 1, y);
+    }
+
+    public Point2I getUp() {
+        return new Point2I(x, y - 1);
+    }
+
+    public Point2I getDown() {
+        return new Point2I(x, y + 1);
+    }
 }

@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Rooms;
+package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;

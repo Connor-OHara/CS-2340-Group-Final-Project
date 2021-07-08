@@ -3,7 +3,7 @@ package com.group19.javafxgame;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.texture.Texture;
-import com.group19.javafxgame.Factories.CharacterFactory;
+import com.group19.javafxgame.factories.CharacterFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

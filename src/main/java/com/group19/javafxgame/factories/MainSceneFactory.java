@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Factories;
+package com.group19.javafxgame.factories;
 
 import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.SceneFactory;

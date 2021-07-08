@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Factories;
+package com.group19.javafxgame.factories;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -9,7 +9,7 @@ import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.group19.javafxgame.Rooms.DoorComponent;
+import com.group19.javafxgame.rooms.DoorComponent;
 import com.group19.javafxgame.types.LevelType;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181

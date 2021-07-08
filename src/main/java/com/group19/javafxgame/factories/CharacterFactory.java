@@ -1,4 +1,4 @@
-package com.group19.javafxgame.Factories;
+package com.group19.javafxgame.factories;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
@@ -11,7 +11,7 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
-import com.group19.javafxgame.Rooms.RoomComponent;
+import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
