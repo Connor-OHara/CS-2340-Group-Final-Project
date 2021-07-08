@@ -18,6 +18,10 @@ public class Point2I {
         return y;
     }
 
+    public int setX(int newx) { return this.x = newx;}
+
+    public int setY(int newy) { return this.y = newy;}
+
     public Point2I getLeft() {
         return new Point2I(x - 1, y);
     }

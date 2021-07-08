@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static java.lang.Boolean.TRUE;
+
 public class RoomUtilsTest {
 
     private Room[][] maze;
@@ -186,4 +188,45 @@ public class RoomUtilsTest {
         );
     }
 
+    @Test
+    public void checkEdges() {
+        //Checks bounding box methods for 2d grid
+
+        //checks left edge
+        for(Point2I origin = new Point2I(6,6); origin.getX() > -14; origin.setX(origin.getX() - 1)) {
+
+            if (roomUtils.isLeftEdge(origin) == TRUE) {
+                Assertions.assertEquals(roomUtils.getLeftRoom(origin), null);
+                break;
+            }
+        }
+
+        //checks right edge
+        for(Point2I origin = new Point2I(6,6); origin.getX() > -14; origin.setX(origin.getX() + 1)) {
+
+            if (roomUtils.isRightEdge(origin) == TRUE) {
+                Assertions.assertEquals(roomUtils.getRightRoom(origin), null);
+                break;
+            }
+        }
+
+        //checks top edge
+        for(Point2I origin = new Point2I(6,6); origin.getY() < -1; origin.setY(origin.getY() - 1)) {
+
+            if (roomUtils.isTopEdge(origin) == TRUE) {
+                Assertions.assertEquals(roomUtils.getTopRoom(origin), null);
+                break;
+            }
+        }
+
+        //checks bottom edge
+        for(Point2I origin = new Point2I(6,6); origin.getY() < 14; origin.setY(origin.getY() + 1)) {
+
+            if (roomUtils.isBottomEdge(origin) == TRUE) {
+                Assertions.assertEquals(roomUtils.getBottomRoom(origin), null);
+                break;
+            }
+        }
+
+    }
 }
