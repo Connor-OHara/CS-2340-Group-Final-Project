@@ -58,6 +58,22 @@ public class Room {
         new Point2I(40, 42)
     );
 
+    private static final Room TLB = new Room(
+            "TLB.tmx",
+            new Point2I(2, 22),
+            null,
+            new Point2I(40, 2),
+            new Point2I(40, 42)
+    );
+
+    private static final Room TRB = new Room(
+            "TRB.tmx",
+            null,
+            new Point2I(77, 22),
+            new Point2I(40, 2),
+            new Point2I(40, 42)
+    );
+
     private static final Room TUNNEL_1 = new Room(
         "Tunnel1.tmx",
         new Point2I(2, 19),
@@ -144,7 +160,8 @@ public class Room {
                 MIDDLE_5,
                 MIDDLE_6,
                 TUNNEL_1,
-                TUNNEL_2
+                TUNNEL_2,
+                TLB
         ));
 
         ROOMS_RIGHT_DOOR.addAll(Arrays.asList(
@@ -155,7 +172,8 @@ public class Room {
                 MIDDLE_5,
                 MIDDLE_6,
                 TUNNEL_1,
-                TUNNEL_2
+                TUNNEL_2,
+                TRB
         ));
 
         ROOMS_TOP_DOOR.addAll(Arrays.asList(
@@ -166,7 +184,9 @@ public class Room {
                 MIDDLE_5,
                 MIDDLE_6,
                 DEAD_END_TOP,
-                VERTICAL_TUNNEL_1
+                VERTICAL_TUNNEL_1,
+                TRB,
+                TLB
         ));
 
         ROOMS_BOTTOM_DOOR.addAll(Arrays.asList(
@@ -176,7 +196,9 @@ public class Room {
                 MIDDLE_4,
                 MIDDLE_5,
                 MIDDLE_6,
-                VERTICAL_TUNNEL_1
+                VERTICAL_TUNNEL_1,
+                TRB,
+                TLB
         ));
     }
 
