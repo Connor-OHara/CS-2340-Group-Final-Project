@@ -74,6 +74,22 @@ public class Room {
             new Point2I(40, 42)
     );
 
+    public static final Room LBR = new Room(
+            "LBR.tmx",
+            new Point2I(2, 22),
+            new Point2I(77, 22),
+            null,
+            new Point2I(39, 42)
+    );
+
+    public static final Room LTR = new Room(
+            "LTR.tmx",
+            new Point2I(2, 22),
+            new Point2I(77, 22),
+            new Point2I(39, 2),
+            null
+    );
+
     private static final Room TUNNEL_1 = new Room(
         "Tunnel1.tmx",
         new Point2I(2, 19),
@@ -96,6 +112,14 @@ public class Room {
         null,
         new Point2I(41, 2),
         new Point2I(35, 42)
+    );
+
+    public static final Room VERTICAL_TUNNEL_2 = new Room(
+            "VertTunnel2.tmx",
+            null,
+            null,
+            new Point2I(39, 2),
+            new Point2I(39, 42)
     );
 
     private static final Room DEAD_END_TOP = new Room(
@@ -161,7 +185,9 @@ public class Room {
                 MIDDLE_6,
                 TUNNEL_1,
                 TUNNEL_2,
-                TLB
+                TLB,
+                LTR,
+                LBR
         ));
 
         ROOMS_RIGHT_DOOR.addAll(Arrays.asList(
@@ -173,7 +199,9 @@ public class Room {
                 MIDDLE_6,
                 TUNNEL_1,
                 TUNNEL_2,
-                TRB
+                TRB,
+                LTR,
+                LBR
         ));
 
         ROOMS_TOP_DOOR.addAll(Arrays.asList(
@@ -185,8 +213,10 @@ public class Room {
                 MIDDLE_6,
                 DEAD_END_TOP,
                 VERTICAL_TUNNEL_1,
+                VERTICAL_TUNNEL_2,
                 TRB,
-                TLB
+                TLB,
+                LTR
         ));
 
         ROOMS_BOTTOM_DOOR.addAll(Arrays.asList(
@@ -197,8 +227,10 @@ public class Room {
                 MIDDLE_5,
                 MIDDLE_6,
                 VERTICAL_TUNNEL_1,
+                VERTICAL_TUNNEL_2,
                 TRB,
-                TLB
+                TLB,
+                LBR
         ));
     }
 
