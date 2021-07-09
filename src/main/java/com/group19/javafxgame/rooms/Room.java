@@ -295,11 +295,11 @@ public class Room {
         case LEFT:
             return Room.getRoomsLeftDoor();
         case RIGHT:
-            return (HashSet<Room>) Room.getRoomsRightDoor().clone();
+            return Room.getRoomsRightDoor();
         case TOP:
-            return (HashSet<Room>) Room.getRoomsTopDoor().clone();
+            return Room.getRoomsTopDoor();
         case BOTTOM:
-            return (HashSet<Room>) Room.getRoomsBottomDoor().clone();
+            return Room.getRoomsBottomDoor();
         default:
             throw new IllegalStateException("Unexpected value: " + doorLocation);
         }
