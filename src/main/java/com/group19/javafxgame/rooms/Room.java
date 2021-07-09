@@ -305,6 +305,10 @@ public class Room {
         }
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
     @Override
     public int hashCode() {
         return filename.hashCode();

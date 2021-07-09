@@ -31,11 +31,11 @@ public class PlayerComponentTest {
     @Test
     public void checkMovement() {
         playerComponent.translateUp();
-        assertEquals(playerComponent.getLocation().getY(), 4, 0.001);
+        assertEquals(playerComponent.getLocation().getY(), 12.5, 0.001);
         playerComponent.translateDown();
         assertEquals(playerComponent.getLocation().getY(), 14, 0.001);
         playerComponent.translateLeft();
-        assertEquals(playerComponent.getLocation().getX(), 43, 0.001);
+        assertEquals(playerComponent.getLocation().getX(), 51.5, 0.001);
         playerComponent.translateRight();
         assertEquals(playerComponent.getLocation().getX(), 53, 0.001);
     }

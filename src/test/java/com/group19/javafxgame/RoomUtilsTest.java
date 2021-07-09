@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.group19.javafxgame.rooms.Room;
 import com.group19.javafxgame.rooms.RoomUtils;
 import com.group19.javafxgame.types.DoorGeneration;
+import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -278,6 +279,18 @@ public class RoomUtilsTest {
         maze[12][6] = bottomRoom;
         Assertions.assertFalse(roomUtils.hasBottomRoom(edge));
 
+    }
+
+    @Test
+    public void testListDifferenceAndEquality() {
+        Assertions.assertEquals(Room.roomsWithDoor(DoorLocation.RIGHT), Room.getRoomsRightDoor());
+        Assertions.assertNotEquals(Room.getRoomsBottomDoor(), Room.getRoomsTopDoor());
+        var doors = Room.getRoomsLeftDoor();
+        System.out.println(doors);
+        var differentDoors = Room.getRoomsRightDoor();
+        doors.removeAll(differentDoors);
+        var door = (Room) doors.toArray()[0];
+        Assertions.assertEquals("TLB.tmx", door.getFilename());
     }
 
 }
