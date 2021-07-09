@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class RoomComponent extends Component {
 
-    private final Room[][] maze = new Room[13][13];
+    private final Room[][] maze = new Room[15][15];
     private Point2I currentLocation;
     private final RoomUtils roomUtils;
 
@@ -22,7 +22,7 @@ public class RoomComponent extends Component {
     public RoomComponent() {
         currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
         roomUtils = new RoomUtils(maze);
-        Room startRoom = Room.VERTICAL_TUNNEL_2.clone();
+        Room startRoom = Room.START.clone();
         setRoom(startRoom, currentLocation);
     }
 
