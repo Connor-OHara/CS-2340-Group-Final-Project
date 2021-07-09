@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
-import static org.junit.Assert.assertEquals;
+
 
 public class GameScreenTest {
 
@@ -20,17 +20,6 @@ public class GameScreenTest {
 
 
 
-
-    @Test
-    public void checkCollisionWithPlatformListener() {
-        FXGL.set("gameWin", 1);
-        System.out.println("THIS IS THE END SCENE::::");
-        System.out.println(getGameScene().getGameWorld());
-
-        assertEquals("com.almasb.fxgl.entity.GameWorld@4d14b6c2", getGameScene().getGameWorld().toString());
-
-    }
-
     @Test
     public void checkGameOver() {
         //sets game to end world screen, loads screen and id to active vars
@@ -42,7 +31,7 @@ public class GameScreenTest {
         FXGL.set("closeGame", 1);
 
 
-        if (handle == getGameScene().getGameWorld().toString()){
+        if (handle == getGameScene().getGameWorld().toString()) {
             throw new RuntimeException("GAME NOT CLOSED, LISTENER BROKEN");
         }
 

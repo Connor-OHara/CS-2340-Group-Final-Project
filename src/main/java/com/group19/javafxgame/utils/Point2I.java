@@ -18,9 +18,15 @@ public class Point2I {
         return y;
     }
 
-    public int setX(int newx) { return this.x = newx;}
+    public int setX(int newx) {
+        this.x = newx;
+        return this.x;
+    }
 
-    public int setY(int newy) { return this.y = newy;}
+    public int setY(int newy) {
+        this.y = newy;
+        return this.y;
+    }
 
     public Point2I getLeft() {
         return new Point2I(x - 1, y);

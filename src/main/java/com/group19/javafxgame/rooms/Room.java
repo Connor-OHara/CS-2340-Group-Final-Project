@@ -185,9 +185,7 @@ public class Room {
                 MIDDLE_6,
                 TUNNEL_1,
                 TUNNEL_2,
-                TLB,
-                LTR,
-                LBR
+                TLB//, //LTR, //LBR
         ));
 
         ROOMS_RIGHT_DOOR.addAll(Arrays.asList(
@@ -199,9 +197,7 @@ public class Room {
                 MIDDLE_6,
                 TUNNEL_1,
                 TUNNEL_2,
-                TRB,
-                LTR,
-                LBR
+                TRB//,//LTR,//LBR
         ));
 
         ROOMS_TOP_DOOR.addAll(Arrays.asList(
@@ -213,10 +209,9 @@ public class Room {
                 MIDDLE_6,
                 DEAD_END_TOP,
                 VERTICAL_TUNNEL_1,
-                VERTICAL_TUNNEL_2,
+                //VERTICAL_TUNNEL_2,
                 TRB,
-                TLB,
-                LTR
+                TLB//,//LTR
         ));
 
         ROOMS_BOTTOM_DOOR.addAll(Arrays.asList(
@@ -227,10 +222,9 @@ public class Room {
                 MIDDLE_5,
                 MIDDLE_6,
                 VERTICAL_TUNNEL_1,
-                VERTICAL_TUNNEL_2,
+                //VERTICAL_TUNNEL_2,
                 TRB,
-                TLB,
-                LBR
+                TLB//,//LBR
         ));
     }
 

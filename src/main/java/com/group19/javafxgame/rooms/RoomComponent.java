@@ -22,7 +22,7 @@ public class RoomComponent extends Component {
     public RoomComponent() {
         currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
         roomUtils = new RoomUtils(maze);
-        Room startRoom = Room.START.clone();
+        Room startRoom = Room.VERTICAL_TUNNEL_2.clone();
         setRoom(startRoom, currentLocation);
     }
 
