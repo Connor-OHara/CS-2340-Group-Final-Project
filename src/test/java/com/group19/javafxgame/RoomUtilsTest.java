@@ -171,7 +171,7 @@ public class RoomUtilsTest {
         Point2I rightCoordinates = origin.getRight();
         Point2I topCoordinates = origin.getUp();
         maze[rightCoordinates.getY()][rightCoordinates.getX()] = leftTopRoom;
-        maze[topCoordinates.getY()][topCoordinates.getX()] = topRoom;
+        maze[topCoordinates.getY()][topCoordinates.getX()] = bottomRoom;
 
         Point2I newRoomCoordinates = rightCoordinates.getUp();
         Assertions.assertEquals(
