@@ -94,7 +94,6 @@ public class Main extends GameApplication {
                 initBackground();
                 initGameOverScreen();
                 removeGameUI();
-
             }
         });
 
@@ -124,7 +123,6 @@ public class Main extends GameApplication {
         GameOverSubScene gameOverSubScene = new GameOverSubScene(
 
         );
-
         getGameScene().addUINodes(gameOverSubScene.getContentRoot());
     }
 
