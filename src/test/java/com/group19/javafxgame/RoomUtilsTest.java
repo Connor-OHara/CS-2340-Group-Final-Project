@@ -1,5 +1,6 @@
 package com.group19.javafxgame;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.group19.javafxgame.rooms.Room;
 import com.group19.javafxgame.rooms.RoomUtils;
 import com.group19.javafxgame.types.DoorGeneration;
@@ -227,6 +228,56 @@ public class RoomUtilsTest {
                 break;
             }
         }
+    }
+
+    @Test
+    public void testHasLeft() {
+
+        Point2I origin = new Point2I(6, 6);
+        Point2I edge = new Point2I(6, 0);
+        maze[6][6] = startRoom;
+        Assertions.assertFalse(roomUtils.hasLeftRoom(origin));
+        maze[6][5] = middleRoom;
+        Assertions.assertTrue(roomUtils.hasLeftRoom(origin));
+        maze[6][0] = leftRoom;
+        Assertions.assertFalse(roomUtils.hasLeftRoom(edge));
+    }
+
+    @Test
+    public void testHasRight() {
+        Point2I origin = new Point2I(6, 6);
+        Point2I edge = new Point2I(6, 12);
+        maze[6][6] = startRoom;
+        Assertions.assertFalse(roomUtils.hasRightRoom(origin));
+        maze[6][7] = middleRoom;
+        Assertions.assertTrue(roomUtils.hasRightRoom(origin));
+        maze[6][12] = rightRoom;
+        Assertions.assertFalse(roomUtils.hasRightRoom(edge));
+    }
+
+    @Test
+    public void testHasTop() {
+        Point2I origin = new Point2I(6, 6);
+        Point2I edge = new Point2I(0, 6);
+        maze[6][6] = startRoom;
+        Assertions.assertFalse(roomUtils.hasTopRoom(origin));
+        maze[5][6] = middleRoom;
+        Assertions.assertTrue(roomUtils.hasTopRoom(origin));
+        maze[0][6] = topRoom;
+        Assertions.assertFalse(roomUtils.hasTopRoom(edge));
+    }
+
+    @Test
+    public void testHasBottom() {
+        Point2I origin = new Point2I(6, 6);
+        Point2I edge = new Point2I(12, 6);
+        maze[6][6] = startRoom;
+        Assertions.assertFalse(roomUtils.hasBottomRoom(origin));
+        maze[7][6] = middleRoom;
+        Assertions.assertTrue(roomUtils.hasBottomRoom(origin));
+        maze[12][6] = bottomRoom;
+        Assertions.assertFalse(roomUtils.hasBottomRoom(edge));
 
     }
+
 }
