@@ -1,15 +1,23 @@
 package com.group19.javafxgame.rooms;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
+import javafx.geometry.Point2D;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class RoomComponent extends Component {
 
@@ -19,10 +27,12 @@ public class RoomComponent extends Component {
 
     private final HashSet<Room> visitedRooms = new HashSet<>();
 
+
     public RoomComponent() {
         currentLocation = new Point2I(maze[0].length / 2, maze.length / 2);
         roomUtils = new RoomUtils(maze);
         Room startRoom = Room.START.clone();
+        startRoom.setStart(true);
         setRoom(startRoom, currentLocation);
     }
 
@@ -30,7 +40,6 @@ public class RoomComponent extends Component {
         if (roomUtils.hasRoom(coordinates)) {
             return;
         }
-
         if (roomUtils.isLeftEdge(coordinates)) {
             setRoom(Room.FINAL_RIGHT, coordinates);
             return;
@@ -77,12 +86,17 @@ public class RoomComponent extends Component {
         Random random = new Random();
         int randomNumber = random.nextInt(roomArray.length);
         Room selectedRoom = ((Room) roomArray[randomNumber]).clone();
+        selectedRoom.addMonsters();
+
         return selectedRoom;
     }
 
     public void goThroughDoor(DoorLocation doorLocation) {
         Point2I newCoordinate;
         DoorLocation outDoor;
+
+        Room currRoom = getCurrentRoom();
+
         switch (doorLocation) {
         //checkstyle hates this indentation :/
         case LEFT:
@@ -129,7 +143,23 @@ public class RoomComponent extends Component {
             break;
         }
 
+
+
+
+        currRoom.removeMonsters();
+
+        if (!newRoom.isCleared() && newRoom.isVisited() && !newRoom.isStart() && !newRoom.isFinal()) {
+            newRoom.addMonsters();
+        }
+        if (newRoom.isFinal()) {
+            newRoom.addMonsters();
+            newRoom.addMonsters();
+        }
+
+        newRoom.showMonsters();
         newRoom.applyLevel();
+        newRoom.setVisited(true);
+
         entity.setZ(Integer.MAX_VALUE);
     }
 

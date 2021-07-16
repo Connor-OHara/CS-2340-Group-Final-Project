@@ -30,6 +30,10 @@ public class Constants {
         return new javafx.geometry.Point2D(100, 100);
     }
 
+    public static Point2D getDefaultMonsterPosition() {
+        return new javafx.geometry.Point2D(75, 25);
+    }
+
     public static WeaponType getDefaultWeapon() {
         return WeaponType.SWORD;
     }
@@ -49,6 +53,19 @@ public class Constants {
     public static double getDefaultVelocity() {
         return 150;
     }
+
+    public static int getDefaultMonsterHealth() {
+        return 25;
+    }
+
+    public static int getDefaultMonsterStrength() {
+        return 25;
+    }
+
+    public static double getDefaultMonsterVelocity() {
+        return 0;
+    }
+
 
 
 }

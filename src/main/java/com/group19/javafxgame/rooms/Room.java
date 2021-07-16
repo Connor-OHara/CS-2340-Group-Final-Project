@@ -1,14 +1,31 @@
 package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.group19.javafxgame.Constants;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import javafx.geometry.Point2D;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 public class Room {
+
+    private static final List<Point2D> MONSTER_LOCATIONS= new LinkedList<>();
+    private static final Point2D MONSTER_LOCATION_1 = new Point2D(4 * 16, 24 * 19);
+    private static final Point2D MONSTER_LOCATION_2 = new Point2D(70 * 16, 24 * 19);
+    private static final Point2D MONSTER_LOCATION_3 = new Point2D(7 * 16, 35 * 19);
+    private static final Point2D MONSTER_LOCATION_4 = new Point2D(35 * 16, 12 * 19);
+    private static final Point2D MONSTER_LOCATION_5 = new Point2D(45 * 16, 30 * 19);
+    private static final Point2D MONSTER_LOCATION_6 = new Point2D(7 * 16, 2 * 19);
 
     private static final Room MIDDLE_1 = new Room(
         "Middle1.tmx",
@@ -143,7 +160,8 @@ public class Room {
             new Point2I(2, 22),
             null,
             null,
-            null
+            null,
+            true
     );
 
     public static final Room FINAL_RIGHT = new Room(
@@ -151,7 +169,8 @@ public class Room {
             null,
             new Point2I(77, 22),
             null,
-            null
+            null,
+            true
     );
 
     public static final Room FINAL_TOP = new Room(
@@ -159,7 +178,8 @@ public class Room {
             null,
             null,
             new Point2I(39, 2),
-            null
+            null,
+            true
     );
 
     public static final Room FINAL_BOTTOM = new Room(
@@ -167,7 +187,8 @@ public class Room {
             null,
             null,
             null,
-            new Point2I(39, 42)
+            new Point2I(39, 42),
+            true
     );
 
     private static final HashSet<Room> ROOMS_LEFT_DOOR = new HashSet<>();
@@ -232,6 +253,16 @@ public class Room {
                 TLB,
                 LBR
         ));
+
+        MONSTER_LOCATIONS.addAll(Arrays.asList(
+                MONSTER_LOCATION_1,
+                MONSTER_LOCATION_2,
+                MONSTER_LOCATION_3,
+                MONSTER_LOCATION_4,
+                MONSTER_LOCATION_5,
+                MONSTER_LOCATION_6
+        ));
+
     }
 
     private final String filename;
@@ -239,6 +270,11 @@ public class Room {
     private Point2D rightSpawn;
     private Point2D topSpawn;
     private Point2D bottomSpawn;
+    private LinkedList<Entity> monsters = new LinkedList<>();
+    private boolean cleared = false;
+    private boolean visited = false;
+    private boolean isStart = false;
+    private boolean isFinal = false;
 
     public Room(String filename,
                 Point2I leftSpawn,
@@ -255,6 +291,15 @@ public class Room {
         this.bottomSpawn = bottomSpawn == null ? null
                 : new Point2D(bottomSpawn.getX() * 16, bottomSpawn.getY() * 16);
     }
+    public Room(String filename,
+                Point2I leftSpawn,
+                Point2I rightSpawn,
+                Point2I topSpawn,
+                Point2I bottomSpawn,
+                boolean isFinal) {
+        this(filename, leftSpawn, rightSpawn, topSpawn, bottomSpawn);
+        this.isFinal = isFinal;
+    }
 
     public Room(String filename,
                 Point2D leftSpawn,
@@ -267,6 +312,17 @@ public class Room {
         this.topSpawn = topSpawn;
         this.bottomSpawn = bottomSpawn;
     }
+
+    public Room(String filename,
+                Point2D leftSpawn,
+                Point2D rightSpawn,
+                Point2D topSpawn,
+                Point2D bottomSpawn,
+                boolean isFinal) {
+        this(filename, leftSpawn, rightSpawn, topSpawn, bottomSpawn);
+        this.isFinal = isFinal;
+    }
+
 
     public void applyLevel() {
         System.out.println("Setting room with " + this.filename);
@@ -318,6 +374,46 @@ public class Room {
         return ROOMS_BOTTOM_DOOR;
     }
 
+    public void addMonsters() {
+        var list = new LinkedList<Point2D>();
+        list.addAll(MONSTER_LOCATIONS);
+        for (int i = 0; i < 3; i++) {
+            var monster = FXGL.spawn("Monster");
+            Random rand = new Random();
+            var location = list.get(rand.nextInt(list.size()));
+            list.remove(location);
+            monster.getComponent(PhysicsComponent.class).overwritePosition(location);
+            monsters.add(monster);
+        }
+    }
+
+    public void removeMonsters() {
+        monsters.forEach(this::removeMonster);
+    }
+
+    public void removeMonster(Entity monster) {
+        monster.removeComponent(IrremovableComponent.class);
+        monster.removeFromWorld();
+    }
+
+    public void hideMonsters() {
+        monsters.forEach(this::hideMonster);
+    }
+
+    public void hideMonster(Entity monster) {
+        monster.setVisible(false);
+
+    }
+
+    public void showMonsters() {
+        monsters.forEach(this::showMonster);
+    }
+
+    public void showMonster(Entity monster) {
+        monster.setVisible(true);
+        monster.setZ(Integer.MAX_VALUE);
+    }
+
     public Room clone() {
         return new Room(filename, leftSpawn, rightSpawn, topSpawn, bottomSpawn);
     }
@@ -349,5 +445,41 @@ public class Room {
     @Override
     public boolean equals(Object other) {
         return other instanceof Room && ((Room) other).filename.equals(filename);
+    }
+
+    public LinkedList<Entity> getMonsters() {
+        return monsters;
+    }
+
+    public boolean isCleared() {
+        return cleared;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setCleared(boolean cleared) {
+        this.cleared = cleared;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
+    public boolean isFinal() {
+        return isFinal;
+    }
+
+    public void setFinal(boolean aFinal) {
+        isFinal = aFinal;
+    }
+
+    public boolean isStart() {
+        return isStart;
+    }
+
+    public void setStart(boolean start) {
+        isStart = start;
     }
 }

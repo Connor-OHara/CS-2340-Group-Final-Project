@@ -11,6 +11,8 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
+import com.group19.javafxgame.component.MonsterComponent;
+import com.group19.javafxgame.component.MonsterInteractionComponent;
 import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
@@ -25,6 +27,8 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 public class CharacterFactory implements EntityFactory {
     //this is static to allow for junit tests to access it
     private static Texture texture;
+    private static Texture monsterTexture;
+
     @Spawns("Player")
     public Entity spawnPlayer(SpawnData data) {
         texture = FXGL.texture("swordsman.png");
@@ -72,7 +76,43 @@ public class CharacterFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("Monster")
+    public Entity spawnMonster(SpawnData data) {
+        //TODO: add more types of monster, and make it random?
+        monsterTexture = FXGL.texture("enemy01.png");
+
+        MonsterComponent monster = new MonsterComponent();
+        PhysicsComponent physics = new PhysicsComponent();
+
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.setGravityScale(0);
+        bodyDef.setActive(true);
+
+        physics.setBodyType(BodyType.STATIC);
+        CollidableComponent collision = new CollidableComponent(true);
+
+        return FXGL.entityBuilder(data)
+                .type(CharacterType.MONSTER)
+                .at(
+                        getAppWidth() / 2.0 - texture.getWidth() / 2.0,
+                        getAppHeight() / 2.0 - texture.getHeight() / 2.0
+                )
+                .with(new IrremovableComponent())
+                .viewWithBBox(monsterTexture)
+                .with(monster)
+                .with(physics)
+                .with(collision)
+                .build();
+    }
+
+
     public static Texture getTexture() {
         return texture;
     }
+
+    public static Texture getMonsterTexture() {
+        return monsterTexture;
+    }
+
 }
