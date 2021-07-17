@@ -2,6 +2,7 @@ package com.group19.javafxgame;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.input.UserAction;
@@ -183,6 +184,7 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 super.onActionBegin();
                 player.getComponent(PlayerInteractionComponent.class).translateLeft();
+                updateFaceDirection(player, "LEFT");
             }
 
             @Override
@@ -197,6 +199,7 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 super.onActionBegin();
                 player.getComponent(PlayerInteractionComponent.class).translateRight();
+                updateFaceDirection(player, "RIGHT");
             }
 
             @Override
@@ -211,6 +214,7 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 super.onActionBegin();
                 player.getComponent(PlayerInteractionComponent.class).translateUp();
+                updateFaceDirection(player, "UP");
             }
 
             @Override
@@ -225,6 +229,7 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 super.onActionBegin();
                 player.getComponent(PlayerInteractionComponent.class).translateDown();
+                updateFaceDirection(player, "DOWN");
             }
 
             @Override
@@ -248,6 +253,29 @@ public class Main extends GameApplication {
         getPhysicsWorld().addCollisionHandler(
             new PlayerDoorCollisionHandler(CharacterType.PLAYER, LevelType.DOOR)
         );
+    }
+
+    public void updateFaceDirection(Entity entity, String newDir) {
+        String current = entity.getComponent(PlayerInteractionComponent.class).getCurrDir();
+        entity.getComponent(PlayerInteractionComponent.class).setLastDir(current);
+        entity.getComponent(PlayerInteractionComponent.class).setCurrDir(newDir);
+        current = entity.getComponent(PlayerInteractionComponent.class).getCurrDir();
+        String last = entity.getComponent(PlayerInteractionComponent.class).getLastDir();
+        updateSpriteDir(entity, current, last);
+    }
+
+
+    //has to be in main to access texture of player
+    public void updateSpriteDir(Entity character, String currDir, String lastdir) {
+        if (currDir == lastdir) {
+            return;
+        }
+        if (currDir == "RIGHT") {
+            character.setScaleX(-1);
+        } else if (currDir == "LEFT") {
+            character.setScaleX(1);
+        }
+        return;
     }
 
     public static void main(String[] args) {
