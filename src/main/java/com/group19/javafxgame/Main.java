@@ -61,6 +61,13 @@ public class Main extends GameApplication {
     }
 
     @Override
+    protected void onPreInit() {
+        //volume can be changed in esc menu
+        getSettings().setGlobalMusicVolume(0.15);
+        loopBGM("background_cave_wind.mp3");
+    }
+
+    @Override
     protected void initGame() {
         Entity background;
 
@@ -68,6 +75,7 @@ public class Main extends GameApplication {
         getGameWorld().addEntityFactory(new RoomFactory());
         getPhysicsWorld().setGravity(0, 0);
 
+        getAudioPlayer().playMusic(FXGL.getAssetLoader().loadMusic("background_cave_wind.mp3"));
 
         background = initBackground();
         initConfigScreen();
