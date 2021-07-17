@@ -45,6 +45,9 @@ public class Main extends GameApplication {
         settings.setVersion(Constants.getGameVersion());
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new MainSceneFactory());
+        //uncomment both below for fullscreen
+        //settings.setFullScreenAllowed(true);
+        //settings.setFullScreenFromStart(true);
     }
 
     @Override
