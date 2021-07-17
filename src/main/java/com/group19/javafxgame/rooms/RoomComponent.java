@@ -1,23 +1,17 @@
 package com.group19.javafxgame.rooms;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
+
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
-import com.group19.javafxgame.types.CharacterType;
+
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
-import javafx.geometry.Point2D;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
+
 
 public class RoomComponent extends Component {
 

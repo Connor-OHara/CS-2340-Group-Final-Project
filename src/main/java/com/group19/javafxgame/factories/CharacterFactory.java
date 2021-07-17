@@ -12,7 +12,6 @@ import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
 import com.group19.javafxgame.component.MonsterComponent;
-import com.group19.javafxgame.component.MonsterInteractionComponent;
 import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;

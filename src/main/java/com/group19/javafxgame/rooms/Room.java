@@ -2,11 +2,8 @@ package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import com.group19.javafxgame.Constants;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import javafx.geometry.Point2D;
@@ -19,7 +16,7 @@ import java.util.Random;
 
 public class Room {
 
-    private static final List<Point2D> MONSTER_LOCATIONS= new LinkedList<>();
+    private static final List<Point2D> MONSTER_LOCATIONS = new LinkedList<>();
     private static final Point2D MONSTER_LOCATION_1 = new Point2D(4 * 16, 24 * 19);
     private static final Point2D MONSTER_LOCATION_2 = new Point2D(70 * 16, 24 * 19);
     private static final Point2D MONSTER_LOCATION_3 = new Point2D(7 * 16, 35 * 19);

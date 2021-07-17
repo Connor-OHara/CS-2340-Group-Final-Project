@@ -1,5 +1,4 @@
 package com.group19.javafxgame.component;
-import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
 
