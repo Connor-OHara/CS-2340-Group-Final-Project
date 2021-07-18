@@ -5,6 +5,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.CollisionHandler;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
 import com.group19.javafxgame.types.DoorLocation;
+import javafx.geometry.Point2D;
 
 import static com.group19.javafxgame.soundHandler.DoorSounds.playLockedDoor;
 import static com.group19.javafxgame.soundHandler.DoorSounds.playUnlockedDoor;
@@ -28,7 +29,9 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
         DoorLocation doorLocation = currDoor.getDoorLocation();
         DoorLocation lastDoor = currRoom.getLastDoor();
         //checks if room is cleared of enemies
-        if (currRoom.isCleared() || doorLocation == lastDoor) {
+
+        //DEVMODE
+        if (currRoom.isCleared() || doorLocation == lastDoor || FXGL.getb("DevMode")) {
             a.getComponent(RoomComponent.class).goThroughDoor(doorLocation);
             System.out.println("Collided with door");
             playUnlockedDoor();
@@ -38,15 +41,23 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
             switch (doorLocation) {
             case TOP:
                 a.getComponent(PlayerInteractionComponent.class).stopUp();
+                Point2D newlocUp = new Point2D(a.getX(), a.getY() + 25.0);
+                a.getComponent(PlayerInteractionComponent.class).setPosition(newlocUp);
                 break;
             case BOTTOM:
                 a.getComponent(PlayerInteractionComponent.class).stopDown();
+                Point2D newlocDown = new Point2D(a.getX(), a.getY() - 25.0);
+                a.getComponent(PlayerInteractionComponent.class).setPosition(newlocDown);
                 break;
             case LEFT:
                 a.getComponent(PlayerInteractionComponent.class).stopLeft();
+                Point2D newlocLeft = new Point2D(a.getX() + 15.0, a.getY());
+                a.getComponent(PlayerInteractionComponent.class).setPosition(newlocLeft);
                 break;
             case RIGHT:
                 a.getComponent(PlayerInteractionComponent.class).stopRight();
+                Point2D newlocRight = new Point2D(a.getX() - 15.0, a.getY());
+                a.getComponent(PlayerInteractionComponent.class).setPosition(newlocRight);
                 break;
             default:
                 break;

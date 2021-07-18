@@ -62,6 +62,8 @@ public class Main extends GameApplication {
         vars.put("gameWin", 0);
         vars.put("closeGame", 0);
         vars.put("money", Constants.getDefaultMoney());
+        //Uncomment to freely move between rooms
+        //vars.put("DevMode", true);
     }
 
     @Override
