@@ -14,6 +14,8 @@ public class MonsterInteractionComponent extends Component {
     private double upVelocity = 0;
     private double downVelocity = 0;
     private PhysicsWorld physicsWorld;
+    private String currDir = null;
+    private String lastDir = null;
 
     public MonsterInteractionComponent(PhysicsWorld physicsWorld) {
         this.physicsWorld = physicsWorld;
@@ -82,6 +84,21 @@ public class MonsterInteractionComponent extends Component {
         Vec2 vec = new Vec2(newX, newY);
         getPhysics().getBody().setTransform(vec, 0);
     }
+
+    public void setCurrDir(String newDir) {
+        currDir = newDir;
+    }
+    public void setLastDir(String newDir) {
+        lastDir = newDir;
+    }
+
+    public String getCurrDir() {
+        return currDir;
+    }
+    public String getLastDir() {
+        return lastDir;
+    }
+
 
     public void updatePhysics() {
         getPhysics().setLinearVelocity(getXVelocity(), getYVelocity());

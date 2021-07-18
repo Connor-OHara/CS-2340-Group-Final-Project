@@ -45,6 +45,7 @@ public class Main extends GameApplication {
         settings.setVersion(Constants.getGameVersion());
         settings.setMainMenuEnabled(true);
         settings.setSceneFactory(new MainSceneFactory());
+
         //uncomment both below for fullscreen
         //settings.setFullScreenAllowed(true);
         //settings.setFullScreenFromStart(true);
@@ -67,6 +68,7 @@ public class Main extends GameApplication {
     protected void onPreInit() {
         //volume can be changed in esc menu
         getSettings().setGlobalMusicVolume(0.15);
+        getSettings().setGlobalSoundVolume(0.15);
         loopBGM("background_cave_wind.mp3");
     }
 
@@ -266,6 +268,8 @@ public class Main extends GameApplication {
         );
     }
 
+    //updates current direction and saves last direction,
+    // calls updateSpriteDir to reflect the sprite
     public void updateFaceDirection(Entity entity, String newDir) {
         String current = entity.getComponent(PlayerInteractionComponent.class).getCurrDir();
         entity.getComponent(PlayerInteractionComponent.class).setLastDir(current);
@@ -276,7 +280,7 @@ public class Main extends GameApplication {
     }
 
 
-    //has to be in main to access texture of player
+    //changes sprite direction
     public void updateSpriteDir(Entity character, String currDir, String lastdir) {
         if (currDir == lastdir) {
             return;

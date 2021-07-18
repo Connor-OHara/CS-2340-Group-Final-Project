@@ -27,6 +27,7 @@ public class RoomComponent extends Component {
         roomUtils = new RoomUtils(maze);
         Room startRoom = Room.START.clone();
         startRoom.setStart(true);
+        startRoom.setCleared(true);
         setRoom(startRoom, currentLocation);
     }
 
@@ -122,15 +123,19 @@ public class RoomComponent extends Component {
         switch (outDoor) {
         case LEFT:
             interaction.setPosition(newRoom.getLeftSpawn());
+            newRoom.setLastDoor(DoorLocation.LEFT);
             break;
         case RIGHT:
             interaction.setPosition(newRoom.getRightSpawn());
+            newRoom.setLastDoor(DoorLocation.RIGHT);
             break;
         case TOP:
             interaction.setPosition(newRoom.getTopSpawn());
+            newRoom.setLastDoor(DoorLocation.TOP);
             break;
         case BOTTOM:
             interaction.setPosition(newRoom.getBottomSpawn());
+            newRoom.setLastDoor(DoorLocation.BOTTOM);
             break;
         default:
             System.out.println("ERROR IN outDoor Switch case");

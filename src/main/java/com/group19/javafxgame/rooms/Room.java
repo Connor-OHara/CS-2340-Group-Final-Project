@@ -272,6 +272,7 @@ public class Room {
     private boolean visited = false;
     private boolean isStart = false;
     private boolean isFinal = false;
+    private DoorLocation lastDoor = null;
 
     public Room(String filename,
                 Point2I leftSpawn,
@@ -476,6 +477,13 @@ public class Room {
         return isStart;
     }
 
+    public void setLastDoor(DoorLocation prevDoor) {
+        this.lastDoor = prevDoor;
+    }
+
+    public DoorLocation getLastDoor() {
+        return this.lastDoor;
+    }
     public void setStart(boolean start) {
         isStart = start;
     }
