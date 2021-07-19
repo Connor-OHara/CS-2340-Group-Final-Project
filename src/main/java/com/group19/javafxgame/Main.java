@@ -5,15 +5,19 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
+import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.physics.PhysicsComponent;
+import com.group19.javafxgame.component.*;
 import com.group19.javafxgame.factories.CharacterFactory;
 import com.group19.javafxgame.factories.MainSceneFactory;
 import com.group19.javafxgame.factories.RoomFactory;
+import com.group19.javafxgame.factories.AttackFactory;
 import com.group19.javafxgame.rooms.PlayerDoorCollisionHandler;
 import com.group19.javafxgame.rooms.PlayerEndGamePlatformCollisionHandler;
 import com.group19.javafxgame.rooms.RoomComponent;
-import com.group19.javafxgame.component.MoneyComponent;
-import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.types.AttackType;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.LevelType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
@@ -21,11 +25,16 @@ import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import com.group19.javafxgame.types.WeaponType;
+import javafx.util.Duration;
+
 
 import java.util.Map;
 
@@ -80,6 +89,7 @@ public class Main extends GameApplication {
 
         getGameWorld().addEntityFactory(entityFactory);
         getGameWorld().addEntityFactory(new RoomFactory());
+        getGameWorld().addEntityFactory(new AttackFactory());
         getPhysicsWorld().setGravity(0, 0);
 
         getAudioPlayer().playMusic(FXGL.getAssetLoader().loadMusic("background_cave_wind.mp3"));
@@ -201,7 +211,12 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerInteractionComponent.class).translateLeft();
                 updateFaceDirection(player, "LEFT");
             }
-
+            @Override
+            protected void onAction() {
+                super.onAction();
+                player.getComponent(PlayerInteractionComponent.class).translateLeft();
+                updateFaceDirection(player, "LEFT");
+            }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
@@ -216,7 +231,12 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerInteractionComponent.class).translateRight();
                 updateFaceDirection(player, "RIGHT");
             }
-
+            @Override
+            protected void onAction() {
+                super.onAction();
+                player.getComponent(PlayerInteractionComponent.class).translateRight();
+                updateFaceDirection(player, "RIGHT");
+            }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
@@ -231,7 +251,12 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerInteractionComponent.class).translateUp();
                 updateFaceDirection(player, "UP");
             }
-
+            @Override
+            protected void onAction() {
+                super.onAction();
+                player.getComponent(PlayerInteractionComponent.class).translateUp();
+                updateFaceDirection(player, "UP");
+            }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
@@ -246,13 +271,64 @@ public class Main extends GameApplication {
                 player.getComponent(PlayerInteractionComponent.class).translateDown();
                 updateFaceDirection(player, "DOWN");
             }
-
+            @Override
+            protected void onAction() {
+                super.onAction();
+                player.getComponent(PlayerInteractionComponent.class).translateDown();
+                updateFaceDirection(player, "DOWN");
+            }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
                 player.getComponent(PlayerInteractionComponent.class).stopDown();
             }
         }, KeyCode.DOWN);
+
+        getInput().addAction(new UserAction("Click") {
+            //TODO: attack speed limit
+            @Override
+            protected void onActionEnd() {
+                if (geto("weapon") == WeaponType.SHIELD) {
+                    //TODO: bomb placed sound
+                    //TODO: remove bombs when entering other room
+                    var bomb = FXGL.spawn("Bomb");
+                    bomb.getComponent(PhysicsComponent.class)
+                            .overwritePosition(player.getPosition());
+                    getGameTimer().runOnceAfter(() -> {
+                        var explosion = FXGL.spawn("Explosion");
+                        //TODO: explosion sound
+                        //TODO: monster collision hitbox kinda wack
+                        explosion.getComponent(PhysicsComponent.class)
+                                        .overwritePosition(bomb.getCenter());
+                        bomb.removeFromWorld();
+
+                        getGameTimer().runOnceAfter(explosion::removeFromWorld,
+                                Duration.millis(100)); },
+                            Duration.seconds(bomb.getComponent(BombComponent.class).getTimer()));
+                } else if (geto("weapon") == WeaponType.SHURIKEN) {
+                    Point2D dir = getInput().getMousePositionWorld()
+                            .subtract(player.getCenter()).normalize();
+                    double cos = Math.cos(Math.PI / 12);
+                    double sin = Math.sin(Math.PI / 12);
+                    double x = dir.getX();
+                    double y = dir.getY();
+                    Point2D dir2 = new Point2D(cos * x - sin * y,
+                            sin * x + cos * y); //rotate 15 degrees left
+                    Point2D dir3 = new Point2D(cos * x + sin * y,
+                            -sin * x + cos * y); //rotate 15 degrees right
+
+                    var shuriken = FXGL.spawn("Shuriken",
+                            new SpawnData(player.getX(), player.getY()).put("dir", dir)
+                                    .put("loc", player.getCenter()));
+                    var shuriken2 = FXGL.spawn("Shuriken",
+                            new SpawnData(player.getX(), player.getY()).put("dir", dir2)
+                                    .put("loc", player.getCenter()));
+                    var shuriken3 = FXGL.spawn("Shuriken",
+                            new SpawnData(player.getX(), player.getY()).put("dir", dir3)
+                                    .put("loc", player.getCenter()));
+                }
+            }
+        }, MouseButton.PRIMARY);
     }
 
     @Override
@@ -267,6 +343,26 @@ public class Main extends GameApplication {
         );
         getPhysicsWorld().addCollisionHandler(
             new PlayerDoorCollisionHandler(CharacterType.PLAYER, LevelType.DOOR)
+        );
+
+        onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
+            player.getComponent(PlayerComponent.class).subtractHealth(25);
+            System.out.println(player.getComponent(PlayerComponent.class).getHealth());
+        });
+        onCollisionBegin(AttackType.SHURIKEN, LevelType.WALL, (shuriken, wall) -> {
+            shuriken.removeFromWorld();
+        });
+        onCollisionBegin(AttackType.SHURIKEN, CharacterType.MONSTER, (shuriken, monster) -> {
+            shuriken.removeFromWorld();
+            monster.getComponent(MonsterComponent.class).subtractHealth(5);
+            System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
+            if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
+                monster.removeComponent(IrremovableComponent.class);
+                monster.removeFromWorld();
+            }
+        });
+        getPhysicsWorld().addCollisionHandler(
+                new ExplosionCollisionHandler(CharacterType.MONSTER, AttackType.EXPLOSION)
         );
     }
 

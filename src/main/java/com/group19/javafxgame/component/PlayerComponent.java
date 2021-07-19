@@ -31,4 +31,7 @@ public class PlayerComponent extends CharacterComponent {
         return entity.getPosition();
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
 }

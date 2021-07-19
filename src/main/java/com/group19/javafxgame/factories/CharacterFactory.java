@@ -11,14 +11,11 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
-import com.group19.javafxgame.component.MonsterComponent;
+import com.group19.javafxgame.component.*;
 import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
-import com.group19.javafxgame.component.MoneyComponent;
-import com.group19.javafxgame.component.PlayerComponent;
-import com.group19.javafxgame.component.PlayerInteractionComponent;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -27,7 +24,6 @@ public class CharacterFactory implements EntityFactory {
     //this is static to allow for junit tests to access it
     private static Texture texture;
     private static Texture monsterTexture;
-
     @Spawns("Player")
     public Entity spawnPlayer(SpawnData data) {
         texture = FXGL.texture("swordsman.png");
@@ -88,9 +84,7 @@ public class CharacterFactory implements EntityFactory {
         bodyDef.setGravityScale(0);
         bodyDef.setActive(true);
 
-        physics.setBodyType(BodyType.STATIC);
-        CollidableComponent collision = new CollidableComponent(true);
-
+        physics.setBodyType(BodyType.DYNAMIC);
         return FXGL.entityBuilder(data)
                 .type(CharacterType.MONSTER)
                 .at(
@@ -101,11 +95,9 @@ public class CharacterFactory implements EntityFactory {
                 .viewWithBBox(monsterTexture)
                 .with(monster)
                 .with(physics)
-                .with(collision)
+                .with(new CollidableComponent(true))
                 .build();
     }
-
-
     public static Texture getTexture() {
         return texture;
     }
