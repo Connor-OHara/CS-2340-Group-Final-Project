@@ -70,4 +70,10 @@ public class CharacterComponent extends Component {
         return entity.getPosition();
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+    public void subtractHealth(int health) {
+        this.health -= health;
+    }
 }

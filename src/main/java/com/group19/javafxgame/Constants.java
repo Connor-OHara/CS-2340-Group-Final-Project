@@ -66,6 +66,9 @@ public class Constants {
         return 0;
     }
 
+    public static int getDefaultBombRange() {
+        return 48;
+    }
 
 
 }

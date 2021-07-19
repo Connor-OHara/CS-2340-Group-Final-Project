@@ -8,9 +8,7 @@ public class MonsterComponent extends CharacterComponent {
     public MonsterComponent(int health,
                            int strength,
                            Point2D location) {
-
         super(health, strength, location);
-
     }
 
     public MonsterComponent() {
@@ -32,4 +30,11 @@ public class MonsterComponent extends CharacterComponent {
         return entity.getPosition();
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void subtractHealth(int health) {
+        this.health -= health;
+    }
 }
