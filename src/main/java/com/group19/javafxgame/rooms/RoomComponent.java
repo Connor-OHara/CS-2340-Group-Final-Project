@@ -18,6 +18,7 @@ public class RoomComponent extends Component {
     private final Room[][] maze = new Room[15][15];
     private Point2I currentLocation;
     private final RoomUtils roomUtils;
+    private int roomGenerationCount = 0;
 
     private final HashSet<Room> visitedRooms = new HashSet<>();
 
@@ -58,6 +59,7 @@ public class RoomComponent extends Component {
     private void setRoom(Room room, Point2I coordinates) {
         maze[coordinates.getY()][coordinates.getX()] = room;
         visitedRooms.add(room);
+        roomGenerationCount++;
     }
 
     private Room generateNewRoom(List<DoorLocation> requiredDoors,
@@ -164,5 +166,8 @@ public class RoomComponent extends Component {
 
     public Room getCurrentRoom() {
         return roomUtils.getRoom(currentLocation);
+    }
+    public int getRoomGenerationCount() {
+        return roomGenerationCount;
     }
 }
