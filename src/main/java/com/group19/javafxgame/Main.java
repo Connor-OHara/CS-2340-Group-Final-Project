@@ -24,7 +24,6 @@ import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -71,6 +70,7 @@ public class Main extends GameApplication {
         vars.put("gameWin", 0);
         vars.put("closeGame", 0);
         vars.put("money", Constants.getDefaultMoney());
+        vars.put("playerHealthUI", 100);
         //Change to False to Lock Rooms As if playing full game
         vars.put("DevMode", false);
     }
@@ -172,27 +172,40 @@ public class Main extends GameApplication {
     }
 
     protected void gameUI(MoneyComponent moneyComponent) {
-        Text goldText = new Text();
+        Text healthText = addVarText("playerHealthUI", getAppWidth() / 15.0, getAppWidth() / 35.0);
+        Text healthLabel = new Text("Health: ");
+
+
+        Text goldText = addVarText("money", getAppWidth() / 15.0, getAppWidth() / 20.0);
         Text goldLabel = new Text("Gold:");
 
-        goldText.setTranslateX(getAppWidth() / 14.0);
-        goldLabel.setTranslateX(getAppWidth() / 40.0);
 
-        goldText.setTranslateY(45);
+
+        //goldText.setTranslateX(getAppWidth() / 14.0);
+        goldLabel.setTranslateX(getAppWidth() / 35.0);
+
+        //healthText.setTranslateX(getAppWidth() / 111.0);
+        healthLabel.setTranslateX(getAppWidth() / 55.0);
+
+        //goldText.setTranslateY(75);
         goldText.setFill(Color.GOLD);
-        goldText.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
-        goldLabel.setTranslateY(45);
+        goldLabel.setTranslateY(getAppWidth() / 20.0);
         goldLabel.setFill(Color.GOLD);
-        goldLabel.setFont(Font.font("Calibra", FontWeight.BOLD, 22));
+        goldLabel.setFont(Font.font("Segoe UI Semibold", FontWeight.BOLD, 17));
 
+        //healthText.setTranslateY(45);
+        healthText.setFill(Color.RED);
+        healthLabel.setTranslateY(getAppWidth() / 35.0);
+        healthLabel.setFill(Color.RED);
+        healthLabel.setFont(Font.font("Segoe UI Semibold", FontWeight.BOLD, 17));
+
+        //bind health and money to UI elements
         String money = String.valueOf(moneyComponent.showFunds());
-        goldText.textProperty().bind(new SimpleStringProperty(money));
-        goldText.textProperty().bind(new SimpleStringProperty(money));
+        String health = String.valueOf(player.getComponent(PlayerComponent.class).getHealth());
 
-        getGameScene().addUINode(goldText);
         getGameScene().addUINode(goldLabel);
+        getGameScene().addUINode(healthLabel);
 
-        System.out.println(getPhysicsWorld().toMeters(Constants.getScreenWidth()));
     }
 
     protected void removeGameUI() {

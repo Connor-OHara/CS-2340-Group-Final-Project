@@ -1,5 +1,6 @@
 package com.group19.javafxgame.component;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
@@ -75,5 +76,6 @@ public class CharacterComponent extends Component {
     }
     public void subtractHealth(int health) {
         this.health -= health;
+        FXGL.set("playerHealthUI", FXGL.geti("playerHealthUI") - health);
     }
 }

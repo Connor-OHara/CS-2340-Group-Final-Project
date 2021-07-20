@@ -11,7 +11,7 @@ public class Constants {
     }
 
     public static String getGameVersion() {
-        return "Development 0.0.1";
+        return "Development 0.1.0 Alpha";
     }
 
     public static int getScreenWidth() {

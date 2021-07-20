@@ -11,11 +11,14 @@ import com.almasb.fxgl.physics.PhysicsComponent;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
 import com.almasb.fxgl.texture.Texture;
+import com.almasb.fxgl.ui.ProgressBar;
 import com.group19.javafxgame.component.*;
 import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.paint.Color;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 
@@ -79,6 +82,14 @@ public class CharacterFactory implements EntityFactory {
         MonsterComponent monster = new MonsterComponent();
         PhysicsComponent physics = new PhysicsComponent();
 
+        var monsterHP = new ProgressBar(false);
+        monsterHP.setFill(Color.RED);
+        monsterHP.setMaxValue(25);
+        monsterHP.setWidth(45);
+        monsterHP.setTranslateY(40);
+        monsterHP.setTranslateX(-8);
+        monsterHP.currentValueProperty().bind(new SimpleIntegerProperty(monster.getHealth()));
+
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.setGravityScale(0);
@@ -93,6 +104,7 @@ public class CharacterFactory implements EntityFactory {
                 )
                 .with(new IrremovableComponent())
                 .viewWithBBox(monsterTexture)
+                .view(monsterHP)
                 .with(monster)
                 .with(physics)
                 .with(new CollidableComponent(true))
