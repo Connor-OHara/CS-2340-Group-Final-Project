@@ -17,7 +17,6 @@ import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.paint.Color;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -83,12 +82,12 @@ public class CharacterFactory implements EntityFactory {
         PhysicsComponent physics = new PhysicsComponent();
 
         var monsterHP = new ProgressBar(false);
-        monsterHP.setFill(Color.RED);
+        monsterHP.setFill(Color.LIGHTGREEN);
         monsterHP.setMaxValue(25);
         monsterHP.setWidth(45);
-        monsterHP.setTranslateY(40);
+        monsterHP.setTranslateY(0);
         monsterHP.setTranslateX(-8);
-        monsterHP.currentValueProperty().bind(new SimpleIntegerProperty(monster.getHealth()));
+        monsterHP.currentValueProperty().bind(monster.getHp().valueProperty());
 
 
         BodyDef bodyDef = new BodyDef();

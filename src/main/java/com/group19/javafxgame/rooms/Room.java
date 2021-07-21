@@ -392,6 +392,7 @@ public class Room {
     public void removeMonster(Entity monster) {
         monster.removeComponent(IrremovableComponent.class);
         monster.removeFromWorld();
+        monsters.remove(monster);
     }
 
     public void hideMonsters() {

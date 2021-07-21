@@ -6,7 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.group19.javafxgame.component.*;
@@ -339,6 +338,8 @@ public class Main extends GameApplication {
                     var shuriken3 = FXGL.spawn("Shuriken",
                             new SpawnData(player.getX(), player.getY()).put("dir", dir3)
                                     .put("loc", player.getCenter()));
+                } else if (geto("weapon") == WeaponType.SWORD) {
+                    //TODO: sword attack
                 }
             }
         }, MouseButton.PRIMARY);
@@ -370,13 +371,27 @@ public class Main extends GameApplication {
             monster.getComponent(MonsterComponent.class).subtractHealth(5);
             System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
             if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
-                monster.removeComponent(IrremovableComponent.class);
-                monster.removeFromWorld();
+                player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
+                if (player.getComponent(RoomComponent.class).getCurrentRoom()
+                        .getMonsters().isEmpty()) {
+                    System.out.println("cleared.");
+                    player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
+                }
             }
         });
-        getPhysicsWorld().addCollisionHandler(
-                new ExplosionCollisionHandler(CharacterType.MONSTER, AttackType.EXPLOSION)
-        );
+        onCollisionBegin(AttackType.EXPLOSION, CharacterType.MONSTER, (explosion, monster) -> {
+            monster.getComponent(MonsterComponent.class)
+                    .subtractHealth(explosion.getComponent(ExplosionComponent.class).getDamage());
+            System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
+            if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
+                player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
+                if (player.getComponent(RoomComponent.class).getCurrentRoom()
+                        .getMonsters().isEmpty()) {
+                    System.out.println("cleared.");
+                    player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
+                }
+            }
+        });
     }
 
     //updates current direction and saves last direction,

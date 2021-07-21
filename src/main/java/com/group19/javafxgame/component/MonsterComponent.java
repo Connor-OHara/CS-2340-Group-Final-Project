@@ -1,10 +1,12 @@
 package com.group19.javafxgame.component;
+import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
 
 
 public class MonsterComponent extends CharacterComponent {
 
+    private HealthIntComponent hp = new HealthIntComponent(25);
     public MonsterComponent(int health,
                            int strength,
                            Point2D location) {
@@ -34,7 +36,12 @@ public class MonsterComponent extends CharacterComponent {
         this.health = health;
     }
 
+    public HealthIntComponent getHp() {
+        return hp;
+    }
+
     public void subtractHealth(int health) {
         this.health -= health;
+        hp.damage(health);
     }
 }
