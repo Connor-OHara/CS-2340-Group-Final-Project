@@ -148,6 +148,7 @@ public class RoomComponent extends Component {
 
 
         currRoom.removeMonsters();
+        currRoom.clearMonstersRemove();
 
         if (!newRoom.isCleared() && newRoom.isVisited()
                 && !newRoom.isStart() && !newRoom.isFinal()) {

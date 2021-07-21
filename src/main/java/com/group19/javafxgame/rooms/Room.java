@@ -268,6 +268,7 @@ public class Room {
     private Point2D topSpawn;
     private Point2D bottomSpawn;
     private LinkedList<Entity> monsters = new LinkedList<>();
+    private LinkedList<Entity> monstersRemove = new LinkedList<>();
     private boolean cleared = false;
     private boolean visited = false;
     private boolean isStart = false;
@@ -386,13 +387,24 @@ public class Room {
     }
 
     public void removeMonsters() {
-        monsters.forEach(this::removeMonster);
+        monsters.forEach(this::removeMonsterChangeRoom);
+    }
+
+    public void removeMonsterChangeRoom(Entity monster) {
+        monster.removeComponent(IrremovableComponent.class);
+        monster.removeFromWorld();
+        monstersRemove.add(monster);
     }
 
     public void removeMonster(Entity monster) {
         monster.removeComponent(IrremovableComponent.class);
         monster.removeFromWorld();
         monsters.remove(monster);
+        monstersRemove.add(monster);
+    }
+
+    public void clearMonstersRemove() {
+        monsters.removeAll(monstersRemove);
     }
 
     public void hideMonsters() {

@@ -62,6 +62,7 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
             default:
                 break;
             }
+            System.out.println("Collided with locked door");
             playLockedDoor();
         }
 

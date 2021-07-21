@@ -372,6 +372,7 @@ public class Main extends GameApplication {
             System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
             if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
                 player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
+                FXGL.set("money", FXGL.geti("money")  + 1);
                 if (player.getComponent(RoomComponent.class).getCurrentRoom()
                         .getMonsters().isEmpty()) {
                     System.out.println("cleared.");
@@ -385,6 +386,7 @@ public class Main extends GameApplication {
             System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
             if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
                 player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
+                FXGL.set("money", FXGL.geti("money")  + 1);
                 if (player.getComponent(RoomComponent.class).getCurrentRoom()
                         .getMonsters().isEmpty()) {
                     System.out.println("cleared.");
