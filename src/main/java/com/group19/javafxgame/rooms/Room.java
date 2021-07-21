@@ -400,7 +400,6 @@ public class Room {
         monster.removeComponent(IrremovableComponent.class);
         monster.removeFromWorld();
         monsters.remove(monster);
-        monstersRemove.add(monster);
     }
 
     public void clearMonstersRemove() {
