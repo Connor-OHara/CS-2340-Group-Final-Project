@@ -391,6 +391,7 @@ public class Main extends GameApplication {
                         .getMonsters().isEmpty()) {
                     System.out.println("cleared.");
                     player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
+                    player.getComponent(PlayerComponent.class).incrementMonsterKillCount();
                 }
             }
         });

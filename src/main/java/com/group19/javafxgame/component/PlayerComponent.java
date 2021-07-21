@@ -6,6 +6,8 @@ import javafx.geometry.Point2D;
 
 public class PlayerComponent extends CharacterComponent {
 
+    private int monsterKillCount = 0;
+
     public PlayerComponent(int health,
                            int strength,
                            Point2D location) {
@@ -32,8 +34,16 @@ public class PlayerComponent extends CharacterComponent {
         return entity.getPosition();
     }
 
+    public int getMonsterKillCount() {
+        return monsterKillCount;
+    }
+
     public void setHealth(int health) {
         this.health = health;
         FXGL.set("PlayerHealthUI", health);
+    }
+
+    public void incrementMonsterKillCount() {
+        monsterKillCount++;
     }
 }
