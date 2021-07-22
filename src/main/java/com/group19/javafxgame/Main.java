@@ -6,6 +6,8 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.BoundingBoxComponent;
+import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.group19.javafxgame.component.*;
@@ -311,7 +313,8 @@ public class Main extends GameApplication {
                         //TODO: explosion sound
                         //TODO: monster collision hitbox kinda wack
                         explosion.getComponent(PhysicsComponent.class)
-                                        .overwritePosition(bomb.getCenter());
+                                        .overwritePosition(bomb.getCenter().subtract(Constants.getDefaultBombRange(),
+                                                Constants.getDefaultBombRange()).add(8,8));
                         bomb.removeFromWorld();
 
                         getGameTimer().runOnceAfter(explosion::removeFromWorld,
