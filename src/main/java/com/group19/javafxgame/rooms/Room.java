@@ -383,6 +383,8 @@ public class Room {
         for (int i = 0; i < 3; i++) {
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
+            //TODO: add different monster attacks based on which monster it is
+            //probably will create 3 monster subclasses and put in array
             var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
             getGameTimer().runAtIntervalWhile(() -> {
                 Point2D pos = monster.getCenter();

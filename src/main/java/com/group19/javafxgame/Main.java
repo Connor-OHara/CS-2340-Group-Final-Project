@@ -16,7 +16,6 @@ import com.group19.javafxgame.factories.AttackFactory;
 import com.group19.javafxgame.rooms.PlayerDoorCollisionHandler;
 import com.group19.javafxgame.rooms.PlayerEndGamePlatformCollisionHandler;
 import com.group19.javafxgame.rooms.RoomComponent;
-import com.group19.javafxgame.soundHandler.CombatSounds;
 import com.group19.javafxgame.types.AttackType;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.LevelType;
@@ -298,10 +297,11 @@ public class Main extends GameApplication {
         }, KeyCode.DOWN);
 
         getInput().addAction(new UserAction("Click") {
-            //TODO: attack speed limit
             @Override
             protected void onActionEnd() {
-                if (geti("configFinished") == 0) return;
+                if (geti("configFinished") == 0) {
+                    return;
+                }
                 PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
                 if (playerComp.getAttacks() >= 1) {
                     playerComp.attack();
@@ -309,7 +309,6 @@ public class Main extends GameApplication {
                     return;
                 }
                 if (geto("weapon") == WeaponType.SHIELD) {
-                    //TODO: bomb placed sound
                     //TODO: remove bombs when entering other room
                     var bomb = FXGL.spawn("Bomb");
                     bomb.getComponent(PhysicsComponent.class)
@@ -317,8 +316,6 @@ public class Main extends GameApplication {
                     getGameTimer().runOnceAfter(() -> {
                         var explosion = FXGL.spawn("Explosion");
                         playExplosion();
-                        //TODO: explosion sound
-                        //TODO: monster collision hitbox kinda wack
                         explosion.getComponent(PhysicsComponent.class)
                                         .overwritePosition(bomb.getCenter()
                                                 .subtract(Constants.getDefaultBombRange(),
