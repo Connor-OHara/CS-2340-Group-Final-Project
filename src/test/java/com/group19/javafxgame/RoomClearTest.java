@@ -80,7 +80,7 @@ public class RoomClearTest {
 
         //Monsters have been "defeated" and are despawned.
         // Room's isCleared is now true
-        Assertions.assertTrue(middleRoom.isCleared() == true);
+        Assertions.assertTrue(middleRoom.isCleared());
 
     }
 

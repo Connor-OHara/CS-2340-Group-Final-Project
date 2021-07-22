@@ -2,18 +2,11 @@ package com.group19.javafxgame;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.audio.Sound;
-import com.almasb.fxgl.dsl.FXGL;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.TimeUnit;
-
-import static com.almasb.fxgl.dsl.FXGL.getAudioPlayer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,7 +42,8 @@ public class AssetTest {
     public void musicAssetsTest() {
         assertDoesNotThrow(() -> loadMusic());
 
-        Path backgroundMusic = Paths.get("src/main/resources/assets/music/background_cave_wind.mp3");
+        Path backgroundMusic =
+                Paths.get("src/main/resources/assets/music/background_cave_wind.mp3");
         assertTrue(Files.exists(backgroundMusic));
 
     }

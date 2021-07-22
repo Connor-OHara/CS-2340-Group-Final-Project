@@ -52,7 +52,8 @@ public class AttackFactory implements EntityFactory {
         return entityBuilder()
                 .type(AttackType.EXPLOSION)
                 .viewWithBBox(new Circle(Constants.getDefaultBombRange(),
-                        Constants.getDefaultBombRange(), Constants.getDefaultBombRange(), Color.RED))
+                        Constants.getDefaultBombRange(),
+                        Constants.getDefaultBombRange(), Color.RED))
                 .with(new CollidableComponent(true))
                 .with(explosion)
                 .with(physics)
