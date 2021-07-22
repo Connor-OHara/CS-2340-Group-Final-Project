@@ -2,17 +2,25 @@ package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.group19.javafxgame.Main;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Point2D;
+import javafx.util.Duration;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
 
 public class Room {
 
@@ -377,11 +385,18 @@ public class Room {
         var list = new LinkedList<Point2D>();
         list.addAll(MONSTER_LOCATIONS);
         for (int i = 0; i < 3; i++) {
-            var monster = FXGL.spawn("Monster");
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
+            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
+            getGameTimer().runAtIntervalWhile(() -> {
+                Point2D pos = monster.getCenter();
+                Point2D pos2 = Main.getPlayer().getPosition();
+                Point2D dir = pos2.subtract(pos);
+                FXGL.spawn("Shuriken2",
+                        new SpawnData(pos.getX(), pos.getY()).put("dir", dir)
+                                .put("loc", pos));
+            }, Duration.millis(2000),  monster.activeProperty());
             list.remove(location);
-            monster.getComponent(PhysicsComponent.class).overwritePosition(location);
             monsters.add(monster);
         }
     }

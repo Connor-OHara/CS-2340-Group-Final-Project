@@ -427,4 +427,7 @@ public class Main extends GameApplication {
         launch(args);
     }
 
+    public static Entity getPlayer() {
+        return player;
+    }
 }

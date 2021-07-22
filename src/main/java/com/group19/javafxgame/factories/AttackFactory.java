@@ -72,6 +72,21 @@ public class AttackFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("Shuriken2")
+    public Entity spawnShuriken2(SpawnData data) {
+        Point2D dir = data.get("dir");
+        Point2D loc = data.get("loc");
+        return entityBuilder()
+                .type(AttackType.SHURIKEN2)
+                .viewWithBBox(new Rectangle(5, 5, Color.CYAN))
+                .at(loc)
+                .with(new ProjectileComponent(dir, 300))
+                .with(new OffscreenCleanComponent())
+                .with(new CollidableComponent(true))
+                .build();
+    }
+
+
     public static Texture getBombTexture() {
         return bombTexture;
     }

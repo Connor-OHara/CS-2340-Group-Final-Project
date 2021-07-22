@@ -97,10 +97,6 @@ public class CharacterFactory implements EntityFactory {
         physics.setBodyType(BodyType.DYNAMIC);
         return FXGL.entityBuilder(data)
                 .type(CharacterType.MONSTER)
-                .at(
-                        getAppWidth() / 2.0 - texture.getWidth() / 2.0,
-                        getAppHeight() / 2.0 - texture.getHeight() / 2.0
-                )
                 .with(new IrremovableComponent())
                 .viewWithBBox(monsterTexture)
                 .view(monsterHP)
