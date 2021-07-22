@@ -37,8 +37,8 @@ public class CombatSounds {
         soundList.add(playerPainSound3);
 
         Random rand = new Random();
-        Sound ouchsound = soundList.get(rand.nextInt(soundList.size()));
+        Sound ouchSound = soundList.get(rand.nextInt(soundList.size()));
 
-        FXGL.getAudioPlayer().playSound(ouchsound);
+        FXGL.getAudioPlayer().playSound(ouchSound);
     }
 }
