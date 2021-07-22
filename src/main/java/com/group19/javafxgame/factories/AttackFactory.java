@@ -52,7 +52,7 @@ public class AttackFactory implements EntityFactory {
         return entityBuilder()
                 .type(AttackType.EXPLOSION)
                 .viewWithBBox(new Circle(Constants.getDefaultBombRange(),
-                        Constants.getDefaultBombRange(),Constants.getDefaultBombRange(),Color.RED))
+                        Constants.getDefaultBombRange(), Constants.getDefaultBombRange(), Color.RED))
                 .with(new CollidableComponent(true))
                 .with(explosion)
                 .with(physics)
@@ -77,11 +77,12 @@ public class AttackFactory implements EntityFactory {
     public Entity spawnShuriken2(SpawnData data) {
         Point2D dir = data.get("dir");
         Point2D loc = data.get("loc");
+        int speed = Constants.getEnemyShurikenProjectileSpeed();
         return entityBuilder()
                 .type(AttackType.SHURIKEN2)
                 .viewWithBBox(new Rectangle(5, 5, Color.CYAN))
                 .at(loc)
-                .with(new ProjectileComponent(dir, 300))
+                .with(new ProjectileComponent(dir, speed))
                 .with(new OffscreenCleanComponent())
                 .with(new CollidableComponent(true))
                 .build();

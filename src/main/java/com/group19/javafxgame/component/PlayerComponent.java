@@ -43,6 +43,16 @@ public class PlayerComponent extends CharacterComponent {
         FXGL.set("PlayerHealthUI", health);
     }
 
+    public void subtractHealth(int health) {
+        this.health -= health;
+        FXGL.set("playerHealthUI", FXGL.geti("playerHealthUI") - health);
+    }
+
+    public void addHealth(int health) {
+        this.health += this.health >= 100 ? 0 : health;
+        FXGL.set("playerHealthUI", FXGL.geti("playerHealthUI")
+                +  (FXGL.geti("playerHealthUI") >= 100 ? 0 : health));
+    }
     public void incrementMonsterKillCount() {
         monsterKillCount++;
     }

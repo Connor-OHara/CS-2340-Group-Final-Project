@@ -1,5 +1,6 @@
 package com.group19.javafxgame;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
 import javafx.geometry.Point2D;
@@ -68,6 +69,32 @@ public class Constants {
 
     public static int getDefaultBombRange() {
         return 48;
+    }
+
+    public static int getEnemyShurikenProjectileSpeed() {
+        DifficultyLevel difficulty = FXGL.geto("difficulty");
+        switch (difficulty) {
+        case INTERMEDIATE:
+            return 600;
+        case VETERAN:
+            return 900;
+        case BEGINNER:
+        default:
+            return 300;
+        }
+    }
+
+    public static int getHealthOnKill() {
+        DifficultyLevel difficulty = FXGL.geto("difficulty");
+        switch (difficulty) {
+        case INTERMEDIATE:
+            return 1;
+        case VETERAN:
+            return 0;
+        case BEGINNER:
+        default:
+            return 5;
+        }
     }
 
 

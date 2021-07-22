@@ -6,8 +6,6 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.BoundingBoxComponent;
-import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.group19.javafxgame.component.*;
@@ -313,10 +311,10 @@ public class Main extends GameApplication {
                         //TODO: explosion sound
                         //TODO: monster collision hitbox kinda wack
                         explosion.getComponent(PhysicsComponent.class)
-                                        .overwritePosition(bomb.getCenter().subtract(Constants.getDefaultBombRange(),
-                                                Constants.getDefaultBombRange()).add(8,8));
+                                        .overwritePosition(bomb.getCenter()
+                                                .subtract(Constants.getDefaultBombRange(),
+                                                Constants.getDefaultBombRange()).add(8, 8));
                         bomb.removeFromWorld();
-
                         getGameTimer().runOnceAfter(explosion::removeFromWorld,
                                 Duration.millis(100)); },
                             Duration.seconds(bomb.getComponent(BombComponent.class).getTimer()));
@@ -343,6 +341,7 @@ public class Main extends GameApplication {
                                     .put("loc", player.getCenter()));
                 } else if (geto("weapon") == WeaponType.SWORD) {
                     //TODO: sword attack
+                    assert true;
                 }
             }
         }, MouseButton.PRIMARY);
@@ -365,39 +364,56 @@ public class Main extends GameApplication {
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
             player.getComponent(PlayerComponent.class).subtractHealth(25);
             System.out.println(player.getComponent(PlayerComponent.class).getHealth());
+            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
+                //TODO: die
+                assert true;
+            }
         });
         onCollisionBegin(AttackType.SHURIKEN, LevelType.WALL, (shuriken, wall) -> {
+            shuriken.removeFromWorld();
+        });
+        onCollisionBegin(AttackType.SHURIKEN2, LevelType.WALL, (shuriken, wall) -> {
             shuriken.removeFromWorld();
         });
         onCollisionBegin(AttackType.SHURIKEN, CharacterType.MONSTER, (shuriken, monster) -> {
             shuriken.removeFromWorld();
             monster.getComponent(MonsterComponent.class).subtractHealth(5);
-            System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
-            if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
-                player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
-                FXGL.set("money", FXGL.geti("money")  + 1);
-                if (player.getComponent(RoomComponent.class).getCurrentRoom()
-                        .getMonsters().isEmpty()) {
-                    System.out.println("cleared.");
-                    player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
-                }
+            checkMonsterHP(monster);
+        });
+        onCollisionBegin(AttackType.SHURIKEN2, CharacterType.PLAYER, (shuriken, players) -> {
+            shuriken.removeFromWorld();
+            players.getComponent(PlayerComponent.class).subtractHealth(5);
+            System.out.println(players.getComponent(PlayerComponent.class).getHealth());
+            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
+                //TODO: die
+                assert true;
             }
         });
         onCollisionBegin(AttackType.EXPLOSION, CharacterType.MONSTER, (explosion, monster) -> {
             monster.getComponent(MonsterComponent.class)
                     .subtractHealth(explosion.getComponent(ExplosionComponent.class).getDamage());
-            System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
-            if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
-                player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
-                FXGL.set("money", FXGL.geti("money")  + 1);
-                if (player.getComponent(RoomComponent.class).getCurrentRoom()
-                        .getMonsters().isEmpty()) {
-                    System.out.println("cleared.");
-                    player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
-                    player.getComponent(PlayerComponent.class).incrementMonsterKillCount();
-                }
-            }
+            checkMonsterHP(monster);
         });
+    }
+
+    /**
+     * Checks if the monster has been killed, removes it, adds money
+     * @param monster the monster to check for hp less than 0
+     */
+    private void checkMonsterHP(Entity monster) {
+        System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
+        if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
+            player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
+            FXGL.set("money", FXGL.geti("money")  + 1);
+            player.getComponent(PlayerComponent.class).incrementMonsterKillCount();
+            int healthAdd = Constants.getHealthOnKill();
+            player.getComponent(PlayerComponent.class).addHealth(healthAdd);
+            if (player.getComponent(RoomComponent.class).getCurrentRoom()
+                    .getMonsters().isEmpty()) {
+                System.out.println("cleared.");
+                player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
+            }
+        }
     }
 
     //updates current direction and saves last direction,
