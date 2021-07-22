@@ -96,6 +96,12 @@ public class Constants {
             return 5;
         }
     }
+    public static double getPlayerAttackSpeed() {
+        return 1;
+    }
+    public static int getSwordLength() {
+        return 15;
+    }
 
 
 }

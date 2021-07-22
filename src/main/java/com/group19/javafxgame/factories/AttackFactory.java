@@ -1,5 +1,6 @@
 package com.group19.javafxgame.factories;
 
+import com.almasb.fxgl.dsl.EntityBuilder;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -73,7 +74,20 @@ public class AttackFactory implements EntityFactory {
                 .with(new CollidableComponent(true))
                 .build();
     }
-
+    @Spawns("Sword")
+    public Entity spawnSword(SpawnData data) {
+        //Point2D dir = data.get("dir");
+        //double dirRadians = Math.atan(dir.getY() / dir.getX()) * 180 / Math.PI ;
+        //System.out.println(dirRadians);
+        Rectangle rect = new Rectangle(0, 0, Constants.getSwordLength(), 5);
+        rect.setFill(Color.DIMGRAY);
+        return entityBuilder()
+                .type(AttackType.SWORD)
+                .at(data.getX(), data.getY())
+                .viewWithBBox(rect)
+                //.rotate(dirRadians)
+                .build();
+    }
     @Spawns("Shuriken2")
     public Entity spawnShuriken2(SpawnData data) {
         Point2D dir = data.get("dir");

@@ -3,19 +3,31 @@ package com.group19.javafxgame.component;
 import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.Constants;
 import javafx.geometry.Point2D;
+import javafx.util.Duration;
 
 public class PlayerComponent extends CharacterComponent {
 
     private int monsterKillCount = 0;
-
+    private int attacks = 1;
     public PlayerComponent(int health,
                            int strength,
                            Point2D location) {
 
         super(health, strength, location);
-
+        FXGL.run(this::addAttack, Duration.seconds(Constants.getPlayerAttackSpeed()));
+    }
+    public void addAttack() {
+        attacks += attacks <= 1 ? 1 : 0;
+        System.out.println(attacks);
     }
 
+    public int getAttacks() {
+        return attacks;
+    }
+
+    public void attack() {
+        attacks--;
+    }
     public PlayerComponent() {
         this(Constants.getDefaultPlayerHealth(),
                 Constants.getDefaultPlayerStrength(),

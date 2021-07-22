@@ -301,6 +301,13 @@ public class Main extends GameApplication {
             //TODO: attack speed limit
             @Override
             protected void onActionEnd() {
+                if (geti("configFinished") == 0) return;
+                PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
+                if (playerComp.getAttacks() >= 1) {
+                    playerComp.attack();
+                } else {
+                    return;
+                }
                 if (geto("weapon") == WeaponType.SHIELD) {
                     //TODO: bomb placed sound
                     //TODO: remove bombs when entering other room
@@ -347,10 +354,34 @@ public class Main extends GameApplication {
                     playShurikenSound();
                 } else if (geto("weapon") == WeaponType.SWORD) {
                     //TODO: sword attack
-                    assert true;
+                    Point2D dir = getInput().getMousePositionWorld()
+                            .subtract(player.getCenter()).normalize();
+                    var sword = FXGL.spawn("Sword",
+                            new SpawnData(player.getX(), player.getY()).put("dir", dir));
+                    //this huge chunk translates the sword to the right direction
+                    rotateSword(dir, sword);
                 }
             }
         }, MouseButton.PRIMARY);
+    }
+
+    private static void rotateSword(Point2D dir, Entity sword) {
+        double dirRadians = Math.atan(dir.getY() / dir.getX());
+        if (dir.getX() < 0) {
+            dirRadians += Math.PI;
+        } else if (dir.getY() < 0) {
+            dirRadians += 2 * Math.PI;
+        }
+        double dirDegrees = dirRadians * 180 / Math.PI;
+        Point2D pos = sword.getPosition();
+        sword.setPosition(0, 0);
+        sword.rotateBy(dirDegrees);
+        double cos = Math.cos(dirRadians);
+        double sin = Math.sin(dirRadians);
+        Point2D translate = new Point2D(cos * 12.5 - sin * 4,
+                sin * 12.5 + cos * 4); //rotate 15 degrees left
+        sword.setPosition(pos);
+        sword.setPosition(sword.getPosition().add(translate));
     }
 
     @Override
