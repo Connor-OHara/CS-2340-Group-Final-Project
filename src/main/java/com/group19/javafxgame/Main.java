@@ -16,6 +16,7 @@ import com.group19.javafxgame.factories.AttackFactory;
 import com.group19.javafxgame.rooms.PlayerDoorCollisionHandler;
 import com.group19.javafxgame.rooms.PlayerEndGamePlatformCollisionHandler;
 import com.group19.javafxgame.rooms.RoomComponent;
+import com.group19.javafxgame.soundHandler.CombatSounds;
 import com.group19.javafxgame.types.AttackType;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.LevelType;
@@ -37,6 +38,8 @@ import javafx.util.Duration;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.group19.javafxgame.soundHandler.CombatSounds.*;
+import static com.group19.javafxgame.soundHandler.DoorSounds.playRoomCleared;
 
 public class Main extends GameApplication {
 
@@ -306,6 +309,7 @@ public class Main extends GameApplication {
                             .overwritePosition(player.getPosition());
                     getGameTimer().runOnceAfter(() -> {
                         var explosion = FXGL.spawn("Explosion");
+                        playExplosion();
                         //TODO: explosion sound
                         //TODO: monster collision hitbox kinda wack
                         explosion.getComponent(PhysicsComponent.class)
@@ -337,6 +341,10 @@ public class Main extends GameApplication {
                     var shuriken3 = FXGL.spawn("Shuriken",
                             new SpawnData(player.getX(), player.getY()).put("dir", dir3)
                                     .put("loc", player.getCenter()));
+                    //sounds stacked for more depth
+                    playShurikenSound();
+                    playShurikenSound();
+                    playShurikenSound();
                 } else if (geto("weapon") == WeaponType.SWORD) {
                     //TODO: sword attack
                     assert true;
@@ -362,6 +370,7 @@ public class Main extends GameApplication {
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
             player.getComponent(PlayerComponent.class).subtractHealth(25);
             System.out.println(player.getComponent(PlayerComponent.class).getHealth());
+            playPlayerPainSound();
             if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
                 //TODO: die
                 assert true;
@@ -381,6 +390,7 @@ public class Main extends GameApplication {
         onCollisionBegin(AttackType.SHURIKEN2, CharacterType.PLAYER, (shuriken, players) -> {
             shuriken.removeFromWorld();
             players.getComponent(PlayerComponent.class).subtractHealth(5);
+            playPlayerPainSound();
             System.out.println(players.getComponent(PlayerComponent.class).getHealth());
             if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
                 //TODO: die
@@ -409,6 +419,7 @@ public class Main extends GameApplication {
             if (player.getComponent(RoomComponent.class).getCurrentRoom()
                     .getMonsters().isEmpty()) {
                 System.out.println("cleared.");
+                playRoomCleared();
                 player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
             }
         }
