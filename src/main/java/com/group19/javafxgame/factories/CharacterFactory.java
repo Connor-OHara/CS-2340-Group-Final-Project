@@ -89,7 +89,6 @@ public class CharacterFactory implements EntityFactory {
         monsterHP.setTranslateX(-8);
         monsterHP.currentValueProperty().bind(monster.getHp().valueProperty());
 
-
         BodyDef bodyDef = new BodyDef();
         bodyDef.setGravityScale(0);
         bodyDef.setActive(true);

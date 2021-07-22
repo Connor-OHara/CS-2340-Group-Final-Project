@@ -12,7 +12,7 @@ import static com.group19.javafxgame.soundHandler.DoorSounds.playUnlockedDoor;
 
 public class PlayerDoorCollisionHandler extends CollisionHandler {
     /**
-     * The order of types determines the order of entities in callbacks.
+     * The order of types determines the order of entities in callba/cks.
      *
      * @param a entity type of the first entity
      * @param b entity type of the second entity
@@ -29,8 +29,6 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
         DoorLocation doorLocation = currDoor.getDoorLocation();
         DoorLocation lastDoor = currRoom.getLastDoor();
         //checks if room is cleared of enemies
-
-        //DEVMODE
         if (currRoom.isCleared() || doorLocation == lastDoor || FXGL.getb("DevMode")) {
             a.getComponent(RoomComponent.class).goThroughDoor(doorLocation);
             System.out.println("Collided with door");

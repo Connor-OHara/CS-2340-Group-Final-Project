@@ -156,7 +156,6 @@ public class Main extends GameApplication {
         GameWinSubScene gameWinSubScene = new GameWinSubScene(
                
         );
-
         getGameScene().addUINodes(gameWinSubScene.getContentRoot());
     }
 
@@ -165,7 +164,6 @@ public class Main extends GameApplication {
         InitialConfigSubScene configSubScene = new InitialConfigSubScene(
                 Constants.getDefaultDifficulty(), Constants.getDefaultWeapon()
         );
-
         getGameScene().addUINodes(configSubScene.getContentRoot());
 
     }
@@ -404,7 +402,7 @@ public class Main extends GameApplication {
         System.out.println(monster.getComponent(MonsterComponent.class).getHealth());
         if (monster.getComponent(MonsterComponent.class).getHealth() <= 0) {
             player.getComponent(RoomComponent.class).getCurrentRoom().removeMonster(monster);
-            FXGL.set("money", FXGL.geti("money")  + 1);
+            player.getComponent(MoneyComponent.class).addFunds(1);
             player.getComponent(PlayerComponent.class).incrementMonsterKillCount();
             int healthAdd = Constants.getHealthOnKill();
             player.getComponent(PlayerComponent.class).addHealth(healthAdd);
