@@ -20,5 +20,7 @@ public class DoorSounds {
     public static void playLockedDoor() {
         FXGL.getAudioPlayer().playSound(lockedDoorSound);
     }
-    public static void playRoomCleared() { FXGL.getAudioPlayer().playSound(roomClearedSound);}
+    public static void playRoomCleared() {
+        FXGL.getAudioPlayer().playSound(roomClearedSound);
+    }
 }
