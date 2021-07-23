@@ -31,7 +31,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import com.group19.javafxgame.types.WeaponType;
-import javafx.util.Duration;
 
 
 import java.util.Map;
@@ -299,7 +298,7 @@ public class Main extends GameApplication {
         getInput().addAction(new UserAction("Click") {
             @Override
             protected void onActionEnd() {
-                if (geti("configFinished") == 0) {
+                if (geti("configFinished") == 0 || geti("gameWin") == 1) {
                     return;
                 }
                 PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
@@ -313,17 +312,6 @@ public class Main extends GameApplication {
                     var bomb = FXGL.spawn("Bomb");
                     bomb.getComponent(PhysicsComponent.class)
                             .overwritePosition(player.getPosition());
-                    getGameTimer().runOnceAfter(() -> {
-                        var explosion = FXGL.spawn("Explosion");
-                        playExplosion();
-                        explosion.getComponent(PhysicsComponent.class)
-                                        .overwritePosition(bomb.getCenter()
-                                                .subtract(Constants.getDefaultBombRange(),
-                                                Constants.getDefaultBombRange()).add(8, 8));
-                        bomb.removeFromWorld();
-                        getGameTimer().runOnceAfter(explosion::removeFromWorld,
-                                Duration.millis(100)); },
-                            Duration.seconds(bomb.getComponent(BombComponent.class).getTimer()));
                 } else if (geto("weapon") == WeaponType.SHURIKEN) {
                     Point2D dir = getInput().getMousePositionWorld()
                             .subtract(player.getCenter()).normalize();
@@ -371,14 +359,14 @@ public class Main extends GameApplication {
         }
         double dirDegrees = dirRadians * 180 / Math.PI;
         Point2D pos = sword.getPosition();
-        sword.setPosition(0, 0);
+        sword.setPosition((double) -Constants.getSwordLength() / 2, -2.5);
         sword.rotateBy(dirDegrees);
         double cos = Math.cos(dirRadians);
         double sin = Math.sin(dirRadians);
         Point2D translate = new Point2D(cos * 12.5 - sin * 4,
                 sin * 12.5 + cos * 4); //rotate 15 degrees left
-        sword.setPosition(pos);
-        sword.setPosition(sword.getPosition().add(translate));
+        //sword.setPosition(pos);
+        //sword.setPosition(sword.getPosition().add(translate));
     }
 
     @Override

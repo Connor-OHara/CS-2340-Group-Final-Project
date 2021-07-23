@@ -48,7 +48,11 @@ public class AttackFactory implements EntityFactory {
     public Entity spawnExplosion(SpawnData data) {
         ExplosionComponent explosion = new
                 ExplosionComponent(Constants.getDefaultPlayerStrength() / 4);
-        PhysicsComponent physics = new PhysicsComponent();
+        /*
+            The physics component was removed so it can't knock you through walls as it'd knock you
+        outside the map. However, it might be a fun mechanic to add (not for class) later to go
+        through them.
+         */
         return entityBuilder()
                 .type(AttackType.EXPLOSION)
                 .viewWithBBox(new Circle(Constants.getDefaultBombRange(),
@@ -56,7 +60,6 @@ public class AttackFactory implements EntityFactory {
                         Constants.getDefaultBombRange(), Color.RED))
                 .with(new CollidableComponent(true))
                 .with(explosion)
-                .with(physics)
                 .build();
     }
 
