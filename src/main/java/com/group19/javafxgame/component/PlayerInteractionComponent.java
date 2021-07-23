@@ -91,16 +91,6 @@ public class PlayerInteractionComponent extends Component {
         return lastDir;
     }
 
-
-
-
-
-
-
-
-
-
-
     public void setPosition(Point2D location) {
         double newX = physicsWorld.toMeters(location.getX());
         double newY = physicsWorld.toMeters(Constants.getScreenHeight())

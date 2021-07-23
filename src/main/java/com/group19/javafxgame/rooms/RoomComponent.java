@@ -83,6 +83,7 @@ public class RoomComponent extends Component {
         Random random = new Random();
         int randomNumber = random.nextInt(roomArray.length);
         Room selectedRoom = ((Room) roomArray[randomNumber]).clone();
+        System.out.println(selectedRoom.getMonsterLocations());
         selectedRoom.addMonsters();
 
         return selectedRoom;

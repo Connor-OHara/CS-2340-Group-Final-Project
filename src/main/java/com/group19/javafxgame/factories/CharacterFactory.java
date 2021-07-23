@@ -8,8 +8,10 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.entity.components.CollidableComponent;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.physics.PhysicsComponent;
+import com.almasb.fxgl.physics.box2d.collision.shapes.MassData;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyDef;
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
+import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef;
 import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.ui.ProgressBar;
 import com.group19.javafxgame.component.*;
@@ -17,6 +19,7 @@ import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -78,7 +81,8 @@ public class CharacterFactory implements EntityFactory {
         //TODO: add more types of monster, and make it random?
         monsterTexture = FXGL.texture("enemy01.png");
 
-        MonsterComponent monster = new MonsterComponent();
+        Point2D startLocation = new Point2D(data.getX(), data.getY());
+        MonsterComponent monster = new MonsterComponent(startLocation);
         PhysicsComponent physics = new PhysicsComponent();
 
         var monsterHP = new ProgressBar(false);
@@ -94,6 +98,7 @@ public class CharacterFactory implements EntityFactory {
         bodyDef.setActive(true);
 
         physics.setBodyType(BodyType.DYNAMIC);
+
         return FXGL.entityBuilder(data)
                 .type(CharacterType.MONSTER)
                 .with(new IrremovableComponent())
@@ -102,6 +107,7 @@ public class CharacterFactory implements EntityFactory {
                 .with(monster)
                 .with(physics)
                 .with(new CollidableComponent(true))
+                .with(new MonsterInteractionComponent(getPhysicsWorld()))
                 .build();
     }
     public static Texture getTexture() {
