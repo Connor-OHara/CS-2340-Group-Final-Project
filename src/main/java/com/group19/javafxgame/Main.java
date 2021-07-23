@@ -6,6 +6,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import com.group19.javafxgame.component.*;
@@ -31,8 +32,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import com.group19.javafxgame.types.WeaponType;
+import javafx.util.Duration;
 
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -116,17 +120,17 @@ public class Main extends GameApplication {
 
         getWorldProperties().<Integer>addListener("gameOver", (prev, now) -> {
             if (now == 1) {
+                removeGameUI();
                 initBackground();
                 initGameOverScreen();
-                removeGameUI();
             }
         });
 
         getWorldProperties().<Integer>addListener("gameWin", (prev, now) -> {
             if (now == 1) {
+                removeGameUI();
                 initBackground();
                 initGameWinScreen();
-                removeGameUI();
             }
         });
 
@@ -145,9 +149,7 @@ public class Main extends GameApplication {
     }
 
     private void initGameOverScreen() {
-        GameOverSubScene gameOverSubScene = new GameOverSubScene(
-
-        );
+        GameOverSubScene gameOverSubScene = new GameOverSubScene(player);
         getGameScene().addUINodes(gameOverSubScene.getContentRoot());
     }
 
@@ -168,6 +170,15 @@ public class Main extends GameApplication {
 
     }
 
+    protected void removeGameUI() {
+        getGameScene().clearUINodes();
+        List<Entity> entitiesCopy = new LinkedList<Entity>(getGameWorld().getEntities());
+        for (Entity entity: entitiesCopy) {
+            entity.removeComponent(IrremovableComponent.class);
+            entity.removeFromWorld();
+        }
+    }
+
     protected void gameUI(MoneyComponent moneyComponent) {
         Text healthText = addVarText("playerHealthUI", getAppWidth() / 15.0, getAppWidth() / 35.0);
         Text healthLabel = new Text("Health: ");
@@ -175,8 +186,6 @@ public class Main extends GameApplication {
 
         Text goldText = addVarText("money", getAppWidth() / 15.0, getAppWidth() / 20.0);
         Text goldLabel = new Text("Gold:");
-
-
 
         //goldText.setTranslateX(getAppWidth() / 14.0);
         goldLabel.setTranslateX(getAppWidth() / 35.0);
@@ -197,17 +206,11 @@ public class Main extends GameApplication {
         healthLabel.setFont(Font.font("Segoe UI Semibold", FontWeight.BOLD, 17));
 
         //bind health and money to UI elements
-        String money = String.valueOf(moneyComponent.showFunds());
+        String money = String.valueOf(moneyComponent.getFunds());
         String health = String.valueOf(player.getComponent(PlayerComponent.class).getHealth());
 
         getGameScene().addUINode(goldLabel);
         getGameScene().addUINode(healthLabel);
-
-    }
-
-    protected void removeGameUI() {
-        getGameScene().removeUINodes();
-        despawnWithScale(player);
     }
 
 
@@ -365,13 +368,16 @@ public class Main extends GameApplication {
 
 
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
-            player.getComponent(PlayerComponent.class).subtractHealth(25);
-            System.out.println(player.getComponent(PlayerComponent.class).getHealth());
+            double distance = player.getCenter().distance(explosion.getCenter());
+            double explosionXRadius = explosion.getWidth()/2;
+            double explosionYRadius = explosion.getHeight()/2;
+            double explosionCorrectedRadius = Math.sqrt(
+                    explosionXRadius*explosionXRadius +
+                    explosionYRadius*explosionYRadius
+            );
+            double healthDrop = 35 * (1 - distance/explosionCorrectedRadius);
+            player.getComponent(PlayerComponent.class).subtractHealth((int) healthDrop);
             playPlayerPainSound();
-            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
-                //TODO: die
-                assert true;
-            }
         });
 
 
@@ -390,11 +396,6 @@ public class Main extends GameApplication {
             shuriken.removeFromWorld();
             players.getComponent(PlayerComponent.class).subtractHealth(5);
             playPlayerPainSound();
-            System.out.println(players.getComponent(PlayerComponent.class).getHealth());
-            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
-                //TODO: die
-                assert true;
-            }
         });
         onCollisionBegin(AttackType.EXPLOSION, CharacterType.MONSTER, (explosion, monster) -> {
             monster.getComponent(MonsterComponent.class)
@@ -412,11 +413,6 @@ public class Main extends GameApplication {
             );
             playPlayerPainSound();
             projectile.removeFromWorld();
-            System.out.println(players.getComponent(PlayerComponent.class).getHealth());
-            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
-                //TODO: die
-                assert true;
-            }
         });
         onCollisionBegin(AttackType.PROJECTILE, LevelType.WALL, (projectile, wall) -> {
             projectile.removeFromWorld();

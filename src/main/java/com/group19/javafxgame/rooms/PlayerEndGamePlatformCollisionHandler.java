@@ -18,6 +18,9 @@ public class PlayerEndGamePlatformCollisionHandler extends CollisionHandler {
     @Override
     protected void onCollisionBegin(Entity a, Entity b) {
         super.onCollisionBegin(a, b);
-        FXGL.set("gameWin", 1);
+        RoomComponent roomComponent = a.getComponent(RoomComponent.class);
+        if (roomComponent.getCurrentRoom().isFinal() && roomComponent.getCurrentRoom().isCleared()) {
+            FXGL.set("gameWin", 1);
+        }
     }
 }

@@ -2,6 +2,8 @@ package com.group19.javafxgame.component;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.Constants;
+import com.group19.javafxgame.player.DefaultPlayerListener;
+import com.group19.javafxgame.player.IPlayerListener;
 import javafx.geometry.Point2D;
 import javafx.util.Duration;
 
@@ -9,11 +11,13 @@ public class PlayerComponent extends CharacterComponent {
 
     private int monsterKillCount = 0;
     private int attacks = 1;
+    private IPlayerListener playerListener;
     public PlayerComponent(int health,
                            int strength,
                            Point2D location) {
 
         super(health, strength, location);
+        this.playerListener = new DefaultPlayerListener();
         FXGL.run(this::addAttack, Duration.seconds(Constants.getPlayerAttackSpeed()));
     }
     public void addAttack() {
@@ -56,8 +60,10 @@ public class PlayerComponent extends CharacterComponent {
     }
 
     public void subtractHealth(int health) {
+        int oldHealth = this.health;
         this.health -= health;
         FXGL.set("playerHealthUI", FXGL.geti("playerHealthUI") - health);
+        playerListener.healthDidDrop(oldHealth, this.health);
     }
 
     public void addHealth(int health) {

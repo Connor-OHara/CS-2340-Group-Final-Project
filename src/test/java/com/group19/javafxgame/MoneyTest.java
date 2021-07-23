@@ -34,20 +34,20 @@ public class MoneyTest {
     @Test
     public void checkAddSubtractFunds() {
         int funds = moneyComponent.addFunds(4);
-        System.out.println(moneyComponent.showFunds());
+        System.out.println(moneyComponent.getFunds());
         Assertions.assertEquals(14, funds);
 
         Assertions.assertEquals(6, moneyComponent.addFunds(-8));
 
-        System.out.println(moneyComponent.showFunds());
+        System.out.println(moneyComponent.getFunds());
     }
 
     @Test
     public void checkShowFunds() {
 
         System.out.println("Starting checkShowFunds");
-        System.out.println(moneyComponent.showFunds());
+        System.out.println(moneyComponent.getFunds());
         moneyComponent.addFunds(4);
-        Assertions.assertEquals(14, moneyComponent.showGlobalFunds());
+        Assertions.assertEquals(14, moneyComponent.getFunds());
     }
 }

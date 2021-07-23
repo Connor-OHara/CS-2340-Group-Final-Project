@@ -41,11 +41,7 @@ public class MoneyComponent extends Component {
         return money;
     }
 
-    public int showFunds() {
-        return money;
-    }
-
-    public int showGlobalFunds() {
+    public int getFunds() {
         return money;
     }
 

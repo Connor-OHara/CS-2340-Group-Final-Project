@@ -198,14 +198,6 @@ public class Room {
     private static final Point2D MONSTER_LOCATION_6 = new Point2D(7 * 16, 2 * 19);
 
 
-    private static final Point2D M2_MLOC1 = new Point2D(17 * 16, 8 * 16);
-    private static final Point2D M2_MLOC2 = new Point2D(38 * 16, 12 * 16);
-    private static final Point2D M2_MLOC3 = new Point2D(70 * 16, 10 * 16);
-    private static final Point2D M2_MLOC4 = new Point2D(15 * 16, 27 * 16);
-    private static final Point2D M2_MLOC5 = new Point2D(55 * 16, 33 * 16);
-
-
-
 
     static {
         ROOMS_LEFT_DOOR.addAll(Arrays.asList(
