@@ -19,7 +19,7 @@ public class CombatSounds {
     private static Sound playerPainSound2 = getAssetLoader().loadSound("player_pain2.mp3");
     private static Sound playerPainSound3 = getAssetLoader().loadSound("player_pain3.mp3");
     private static Sound swordSound = getAssetLoader().loadSound("player_sword.mp3");
-
+    private static Sound shotgunSound = getAssetLoader().loadSound("shotGun.mp3");
 
     public static void playExplosion() {
         FXGL.getAudioPlayer().playSound(explosionSound);
@@ -43,5 +43,9 @@ public class CombatSounds {
         Sound ouchSound = soundList.get(rand.nextInt(soundList.size()));
 
         FXGL.getAudioPlayer().playSound(ouchSound);
+    }
+
+    public static void playShotgunSound() {
+        FXGL.getAudioPlayer().playSound(shotgunSound);
     }
 }

@@ -1,5 +1,6 @@
 package com.group19.javafxgame.factories;
 
+import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.OffscreenCleanComponent;
 import com.almasb.fxgl.dsl.components.ProjectileComponent;
@@ -18,8 +19,10 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
+import static com.group19.javafxgame.soundHandler.CombatSounds.*;
 
 //tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class AttackFactory implements EntityFactory {
@@ -90,21 +93,37 @@ public class AttackFactory implements EntityFactory {
                 .with(sword)
                 .build();
     }
-    @Spawns("Shuriken2")
-    public Entity spawnShuriken2(SpawnData data) {
+
+    /**
+     * Spawns a generic projectile
+     * @param data data must include location(loc), direction (dir), damage (dmg),  speed (speed)
+     *             can contain Shape (shape), sound , color & size [only if doesn't contain Shape]
+     * @return the projectile
+     * The format for the spawn should be similar to:
+     * spawn("projectile", new SpawnData(pos.getX(), pos.getY()).put("dir", dir).put("dmg", damage)
+     *      .put("speed", speed)));
+     */
+    @Spawns("projectile")
+    public Entity spawnProjectile(SpawnData data) {
+        ProjectileComp projectile = new ProjectileComp(data.get("dmg"));
         Point2D dir = data.get("dir");
         Point2D loc = data.get("loc");
-        int speed = Constants.getEnemyShurikenProjectileSpeed();
+        int speed = data.get("speed");
+        Shape shape = data.get("shape");
+        if (data.get("sound") != "") {
+            Sound sound = getAssetLoader().loadSound(data.get("sound"));
+            FXGL.getAudioPlayer().playSound(sound);
+        }
         return entityBuilder()
-                .type(AttackType.SHURIKEN2)
-                .viewWithBBox(new Rectangle(5, 5, Color.CYAN))
+                .type(AttackType.PROJECTILE)
+                .with(new OffscreenCleanComponent())
+                .viewWithBBox(shape)
+                .with(projectile)
                 .at(loc)
                 .with(new ProjectileComponent(dir, speed))
-                .with(new OffscreenCleanComponent())
-                .with(new CollidableComponent(true))
+                .collidable()
                 .build();
     }
-
 
     public static Texture getBombTexture() {
         return bombTexture;

@@ -1,11 +1,19 @@
 package com.group19.javafxgame.component;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.dsl.components.HealthIntComponent;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.group19.javafxgame.Constants;
 import com.group19.javafxgame.Main;
 import com.group19.javafxgame.rooms.RoomComponent;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.util.Duration;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+import static com.group19.javafxgame.soundHandler.CombatSounds.playShotgunSound;
 import static com.group19.javafxgame.soundHandler.DoorSounds.playRoomCleared;
 
 
@@ -65,5 +73,70 @@ public class MonsterComponent extends CharacterComponent {
                 player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
             }
         }
+    }
+
+    public void attack() {
+        attack(2000, 300, 5);
+    }
+    public void attack(int interval, int speed, int damage) {
+        attack(interval, speed, damage, "defaultProjectileSound.mp3", Color.CHARTREUSE);
+    }
+    public void attack(int interval, int speed, int damage, String sound, Color color) {
+        attack(interval, speed, damage, sound, color, 5);
+    }
+    public void attack(int interval, int speed, int damage, String sound, Color color, int size) {
+        attack(interval, speed, damage, sound, new Rectangle(size, size, color));
+    }
+    public void attack(int interval, int speed, int damage, String sound, Shape shape) {
+        getGameTimer().runAtIntervalWhile(() -> {
+            Point2D pos = getEntity().getCenter();
+            Point2D pos2 = Main.getPlayer().getPosition();
+            Point2D dir = pos2.subtract(pos);
+            var projectile = FXGL.spawn("projectile",
+                    new SpawnData(pos).put("dir", dir)
+                            .put("speed", speed).put("dmg", damage).put("loc", pos)
+                            .put("sound", sound).put("shape", shape));
+        }, Duration.millis(interval),  getEntity().activeProperty());
+    }
+
+    public void shotGun() {
+        double cos = Math.cos(Math.PI / 24);
+        double sin = Math.sin(Math.PI / 24);
+        double cos2 = Math.cos(Math.PI / 12);
+        double sin2 = Math.sin(Math.PI / 12);
+        int speed = 300;
+        int damage = 3;
+        String sound = "shotGun.mp3";
+        Rectangle shape = new Rectangle(5, 5, Color.WHITE);
+        getGameTimer().runAtIntervalWhile(() -> {
+            Point2D pos = getEntity().getCenter();
+            Point2D pos2 = Main.getPlayer().getPosition();
+            Point2D dir = pos2.subtract(pos);
+            double x = dir.getX();
+            double y = dir.getY();
+            Point2D dir2 = new Point2D(cos * x - sin * y,
+                    sin * x + cos * y); //rotate 15 degrees left
+            Point2D dir3 = new Point2D(cos * x + sin * y,
+                    -sin * x + cos * y); //rotate 15 degrees right
+            Point2D dir4 = new Point2D(cos2 * x - sin2 * y,
+                    sin2 * x + cos2 * y); //rotate 15 degrees left
+            Point2D dir5 = new Point2D(cos2 * x + sin2 * y,
+                    -sin2 * x + cos2 * y); //rotate 15 degrees right
+            shotHelper(speed, damage, sound, shape, pos, dir);
+            shotHelper(speed, damage, sound, shape, pos, dir2);
+            shotHelper(speed, damage, sound, shape, pos, dir3);
+            shotHelper(speed, damage, sound, shape, pos, dir4);
+            shotHelper(speed, damage, sound, shape, pos, dir5);
+            playShotgunSound();
+        }, Duration.millis(4000),  getEntity().activeProperty());
+    }
+
+    public void shotHelper(int speed, int damage, String sound, Rectangle shape,
+                           Point2D pos, Point2D dir) {
+        shape = new Rectangle(shape.getWidth(), shape.getHeight(), shape.getFill());
+        var projectile = FXGL.spawn("projectile",
+                new SpawnData(pos).put("dir", dir)
+                        .put("speed", speed).put("dmg", damage).put("loc", pos)
+                        .put("sound", sound).put("shape", shape));
     }
 }

@@ -400,6 +400,21 @@ public class Main extends GameApplication {
                     .subtractHealth(sword.getComponent(SwordComponent.class).getDamage());
             monster.getComponent(MonsterComponent.class).checkHP();
         });
+        onCollisionBegin(AttackType.PROJECTILE, CharacterType.PLAYER, (projectile, players) -> {
+            players.getComponent(PlayerComponent.class).subtractHealth(
+                    projectile.getComponent(ProjectileComp.class).getDamage()
+            );
+            playPlayerPainSound();
+            projectile.removeFromWorld();
+            System.out.println(players.getComponent(PlayerComponent.class).getHealth());
+            if (player.getComponent(PlayerComponent.class).getHealth() <= 0) {
+                //TODO: die
+                assert true;
+            }
+        });
+        onCollisionBegin(AttackType.PROJECTILE, LevelType.WALL, (projectile, wall) -> {
+            projectile.removeFromWorld();
+        });
     }
 
     //updates current direction and saves last direction,

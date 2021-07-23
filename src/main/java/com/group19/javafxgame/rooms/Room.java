@@ -4,19 +4,16 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
-import com.group19.javafxgame.Main;
+import com.group19.javafxgame.component.MonsterComponent;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import javafx.geometry.Point2D;
-import javafx.util.Duration;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
 
 public class Room {
 
@@ -383,20 +380,24 @@ public class Room {
         for (int i = 0; i < 3; i++) {
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
-            //TODO: add different monster attacks based on which monster it is
-            //TODO: move the attack to the onAdded() in monsterComponent (see bomb, sword)
-            //I tried the above TODO briefly, but the monster's activeProperty()
-            // was false for some reason
             //probably will create 3 monster subclasses and put in array
-            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
-            getGameTimer().runAtIntervalWhile(() -> {
-                Point2D pos = monster.getCenter();
-                Point2D pos2 = Main.getPlayer().getPosition();
-                Point2D dir = pos2.subtract(pos);
-                FXGL.spawn("Shuriken2",
-                        new SpawnData(pos.getX(), pos.getY()).put("dir", dir)
-                                .put("loc", pos));
-            }, Duration.millis(2000),  monster.activeProperty());
+            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(),
+                    location.getY()));
+            //TODO: here are the 3 monster attacks
+            //The first monster's attack: 25HP monster, 2.5dps, 5dmg, 2sec
+            /*
+            monster.getComponent(MonsterComponent.class).attack(2000, Constants
+                .getEnemyShurikenProjectileSpeed(), 5, "monsterAttackSound1.mp3", Color.CYAN);
+            */
+            //This monster double shoots: low hp, 8dps
+            /*
+            monster.getComponent(MonsterComponent.class).attack(1500, Constants.
+                getEnemyShurikenProjectileSpeed(), 4, "MonsterAttackSound2.mp3", Color.LAWNGREEN);
+            monster.getComponent(MonsterComponent.class).attack(1500, Constants
+                .getEnemyShurikenProjectileSpeed() * 3 / 4, 8, "", Color.RED);
+            */
+            //This last one is a shotgun-shot
+            monster.getComponent(MonsterComponent.class).shotGun();
             list.remove(location);
             monsters.add(monster);
         }

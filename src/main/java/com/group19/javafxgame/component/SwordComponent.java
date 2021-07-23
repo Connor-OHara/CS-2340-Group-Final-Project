@@ -42,8 +42,7 @@ public class SwordComponent extends Component {
             rotation.updateAndGet(v -> (double) (v + Math.PI / 20));
             rotateSword(rotation.get() + finalDirRadians, getEntity());
         }, Duration.millis(20), 10);
-        //I'd think 201 millis would work but it crashes /shrug
-        getGameTimer().runOnceAfter(getEntity()::removeFromWorld, Duration.millis(300));
+        getGameTimer().runOnceAfter(getEntity()::removeFromWorld, Duration.millis(275));
     }
     private void rotateSword(double radians, Entity sword) {
         if (sword == null) {
