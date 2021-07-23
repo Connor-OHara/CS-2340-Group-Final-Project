@@ -32,7 +32,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import com.group19.javafxgame.types.WeaponType;
-import javafx.util.Duration;
 
 
 import java.util.LinkedList;
@@ -75,7 +74,7 @@ public class Main extends GameApplication {
         vars.put("money", Constants.getDefaultMoney());
         vars.put("playerHealthUI", 100);
         //Change to False to Lock Rooms As if playing full game
-        vars.put("DevMode", true);
+        vars.put("DevMode", false);
     }
 
     @Override
@@ -367,13 +366,12 @@ public class Main extends GameApplication {
 
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
             double distance = player.getCenter().distance(explosion.getCenter());
-            double explosionXRadius = explosion.getWidth()/2;
-            double explosionYRadius = explosion.getHeight()/2;
-            double explosionCorrectedRadius = Math.sqrt(
-                    explosionXRadius*explosionXRadius +
-                    explosionYRadius*explosionYRadius
+            double explosionXRadius = explosion.getWidth() / 2;
+            double explosionYRadius = explosion.getHeight() / 2;
+            double explosionCorrectedRadius = Math.sqrt(explosionXRadius * explosionXRadius
+                    + explosionYRadius * explosionYRadius
             );
-            double healthDrop = 35 * (1 - distance/explosionCorrectedRadius);
+            double healthDrop = 35 * (1 - distance / explosionCorrectedRadius);
             player.getComponent(PlayerComponent.class).subtractHealth((int) healthDrop);
             playPlayerPainSound();
         });

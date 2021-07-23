@@ -6,18 +6,14 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.group19.javafxgame.component.MonsterComponent;
 import com.group19.javafxgame.component.PlayerComponent;
-import javafx.application.Platform;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameScene;
-import static com.almasb.fxgl.dsl.FXGLForKtKt.getGameWorld;
 import static org.junit.Assert.assertEquals;
 
 
 public class CombatTest {
-    static PlayerComponent player;
-    static Entity monster;
+    private static PlayerComponent player;
+    private static Entity monster;
 
     @BeforeAll
     public static void setup() {

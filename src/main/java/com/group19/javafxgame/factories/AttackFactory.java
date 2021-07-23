@@ -19,12 +19,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.group19.javafxgame.soundHandler.CombatSounds.*;
 
-//tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class AttackFactory implements EntityFactory {
     //this is static to allow for junit tests to access it
     private static Texture bombTexture;
