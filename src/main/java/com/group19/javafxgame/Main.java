@@ -155,9 +155,7 @@ public class Main extends GameApplication {
 
 
     private void initGameWinScreen() {
-        GameWinSubScene gameWinSubScene = new GameWinSubScene(
-               
-        );
+        GameWinSubScene gameWinSubScene = new GameWinSubScene(player);
         getGameScene().addUINodes(gameWinSubScene.getContentRoot());
     }
 
