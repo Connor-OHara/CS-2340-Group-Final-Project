@@ -37,7 +37,6 @@ import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.group19.javafxgame.soundHandler.CombatSounds.*;
-import static com.group19.javafxgame.soundHandler.DoorSounds.playRoomCleared;
 
 public class Main extends GameApplication {
 
@@ -308,7 +307,6 @@ public class Main extends GameApplication {
                     return;
                 }
                 if (geto("weapon") == WeaponType.SHIELD) {
-                    //TODO: remove bombs when entering other room
                     var bomb = FXGL.spawn("Bomb");
                     bomb.getComponent(PhysicsComponent.class)
                             .overwritePosition(player.getPosition());
@@ -338,35 +336,14 @@ public class Main extends GameApplication {
                     playShurikenSound();
                     playShurikenSound();
                 } else if (geto("weapon") == WeaponType.SWORD) {
-                    //TODO: sword attack
                     Point2D dir = getInput().getMousePositionWorld()
                             .subtract(player.getCenter()).normalize();
                     var sword = FXGL.spawn("Sword",
-                            new SpawnData(player.getX(), player.getY()).put("dir", dir));
-                    //this huge chunk translates the sword to the right direction
-                    rotateSword(dir, sword);
+                            new SpawnData(player.getCenter()).put("dir", dir));
+                    playSwordSound();
                 }
             }
         }, MouseButton.PRIMARY);
-    }
-
-    private static void rotateSword(Point2D dir, Entity sword) {
-        double dirRadians = Math.atan(dir.getY() / dir.getX());
-        if (dir.getX() < 0) {
-            dirRadians += Math.PI;
-        } else if (dir.getY() < 0) {
-            dirRadians += 2 * Math.PI;
-        }
-        double dirDegrees = dirRadians * 180 / Math.PI;
-        Point2D pos = sword.getPosition();
-        sword.setPosition((double) -Constants.getSwordLength() / 2, -2.5);
-        sword.rotateBy(dirDegrees);
-        double cos = Math.cos(dirRadians);
-        double sin = Math.sin(dirRadians);
-        Point2D translate = new Point2D(cos * 12.5 - sin * 4,
-                sin * 12.5 + cos * 4); //rotate 15 degrees left
-        //sword.setPosition(pos);
-        //sword.setPosition(sword.getPosition().add(translate));
     }
 
     @Override
@@ -407,7 +384,7 @@ public class Main extends GameApplication {
         onCollisionBegin(AttackType.SHURIKEN, CharacterType.MONSTER, (shuriken, monster) -> {
             shuriken.removeFromWorld();
             monster.getComponent(MonsterComponent.class).subtractHealth(5);
-            checkMonsterHP(monster);
+            monster.getComponent(MonsterComponent.class).checkHP();
         });
         onCollisionBegin(AttackType.SHURIKEN2, CharacterType.PLAYER, (shuriken, players) -> {
             shuriken.removeFromWorld();
@@ -422,8 +399,14 @@ public class Main extends GameApplication {
         onCollisionBegin(AttackType.EXPLOSION, CharacterType.MONSTER, (explosion, monster) -> {
             monster.getComponent(MonsterComponent.class)
                     .subtractHealth(explosion.getComponent(ExplosionComponent.class).getDamage());
-            checkMonsterHP(monster);
+            monster.getComponent(MonsterComponent.class).checkHP();
         });
+        onCollisionBegin(AttackType.SWORD, CharacterType.MONSTER, (sword, monster) -> {
+            monster.getComponent(MonsterComponent.class)
+                    .subtractHealth(sword.getComponent(SwordComponent.class).getDamage());
+            monster.getComponent(MonsterComponent.class).checkHP();
+        });
+
 
         onCollision(CharacterType.PLAYER, CharacterType.MONSTER, (player, monster) -> {
             monster.getComponent(MonsterInteractionComponent.class)
@@ -453,10 +436,11 @@ public class Main extends GameApplication {
             if (player.getComponent(RoomComponent.class).getCurrentRoom()
                     .getMonsters().isEmpty()) {
                 System.out.println("cleared.");
-                playRoomCleared();
+                //playRoomCleared();
                 player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
             }
         }
+
     }
 
     //updates current direction and saves last direction,

@@ -403,6 +403,9 @@ public class Room {
             var location = list.get(rand.nextInt(list.size()));
 
             //TODO: add different monster attacks based on which monster it is
+            //TODO: move the attack to the onAdded() in monsterComponent (see bomb, sword)
+            //I tried the above TODO briefly, but the monster's activeProperty()
+            // was false for some reason
             //probably will create 3 monster subclasses and put in array
             var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
             getGameTimer().runAtIntervalWhile(() -> {

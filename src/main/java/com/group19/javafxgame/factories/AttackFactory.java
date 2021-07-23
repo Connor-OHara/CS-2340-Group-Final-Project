@@ -78,16 +78,16 @@ public class AttackFactory implements EntityFactory {
     }
     @Spawns("Sword")
     public Entity spawnSword(SpawnData data) {
-        //Point2D dir = data.get("dir");
-        //double dirRadians = Math.atan(dir.getY() / dir.getX()) * 180 / Math.PI ;
-        //System.out.println(dirRadians);
+        Point2D dir = data.get("dir");
+        SwordComponent sword = new SwordComponent(Constants.getDefaultPlayerStrength() / 4, dir);
         Rectangle rect = new Rectangle(0, 0, Constants.getSwordLength(), 5);
         rect.setFill(Color.DIMGRAY);
         return entityBuilder()
                 .type(AttackType.SWORD)
                 .at(data.getX(), data.getY())
                 .viewWithBBox(rect)
-                //.rotate(dirRadians)
+                .collidable()
+                .with(sword)
                 .build();
     }
     @Spawns("Shuriken2")
