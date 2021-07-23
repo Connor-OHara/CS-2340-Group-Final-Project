@@ -3,6 +3,7 @@ package com.group19.javafxgame.rooms;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.almasb.fxgl.entity.components.BoundingBoxComponent;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.group19.javafxgame.Main;
 import com.group19.javafxgame.types.DoorLocation;
@@ -145,7 +146,7 @@ public class Room {
     );
 
     public static final Room START = new Room(
-            "LBR.tmx",
+            "Start.tmx",
             new Point2I(2, 22),
             new Point2I(77, 22),
             new Point2I(39, 2),
@@ -393,21 +394,24 @@ public class Room {
     }
 
     public void addMonsters() {
+        var monsterNums = new ArrayList<Integer>();
+        monsterNums.add(1);
+        monsterNums.add(2);
+        monsterNums.add(3);
         var list = new LinkedList<Point2D>();
-        list.addAll(Arrays.asList(leftSpawn, rightSpawn, topSpawn, bottomSpawn));
         list.addAll(MONSTER_LOCATIONS);
         list = list.stream().filter(Objects::nonNull).collect(Collectors.toCollection(LinkedList::new));
 
         for (int i = 0; i < 3; i++) {
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
-
+            var monsterNum = monsterNums.get(rand.nextInt(monsterNums.size()));
             //TODO: add different monster attacks based on which monster it is
             //TODO: move the attack to the onAdded() in monsterComponent (see bomb, sword)
             //I tried the above TODO briefly, but the monster's activeProperty()
             // was false for some reason
-            //probably will create 3 monster subclasses and put in array
-            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
+            var monster = FXGL.spawn("Monster" + monsterNum, new SpawnData(location.getX(), location.getY()));
+
             getGameTimer().runAtIntervalWhile(() -> {
                 Point2D pos = monster.getCenter();
                 Point2D pos2 = Main.getPlayer().getPosition();

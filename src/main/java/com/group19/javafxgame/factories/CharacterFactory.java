@@ -76,10 +76,81 @@ public class CharacterFactory implements EntityFactory {
                 .build();
     }
 
-    @Spawns("Monster")
-    public Entity spawnMonster(SpawnData data) {
-        //TODO: add more types of monster, and make it random?
+    @Spawns("Monster1")
+    public Entity spawnMonster1(SpawnData data) {
         monsterTexture = FXGL.texture("enemy01.png");
+
+        Point2D startLocation = new Point2D(data.getX(), data.getY());
+        MonsterComponent monster = new MonsterComponent(startLocation);
+        PhysicsComponent physics = new PhysicsComponent();
+
+        var monsterHP = new ProgressBar(false);
+        monsterHP.setFill(Color.LIGHTGREEN);
+        monsterHP.setMaxValue(25);
+        monsterHP.setWidth(45);
+        monsterHP.setTranslateY(0);
+        monsterHP.setTranslateX(-8);
+        monsterHP.currentValueProperty().bind(monster.getHp().valueProperty());
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.setGravityScale(0);
+        bodyDef.setActive(true);
+
+        physics.setBodyType(BodyType.DYNAMIC);
+
+        return FXGL.entityBuilder(data)
+                .type(CharacterType.MONSTER)
+                .with(new IrremovableComponent())
+                .viewWithBBox(monsterTexture)
+                .view(monsterHP)
+                .with(monster)
+                .with(physics)
+                .with(new CollidableComponent(true))
+                .with(new MonsterInteractionComponent(getPhysicsWorld()))
+                .build();
+    }
+
+
+
+    @Spawns("Monster2")
+    public Entity spawnMonster2(SpawnData data) {
+        monsterTexture = FXGL.texture("enemy02.png");
+
+        Point2D startLocation = new Point2D(data.getX(), data.getY());
+        MonsterComponent monster = new MonsterComponent(startLocation);
+        PhysicsComponent physics = new PhysicsComponent();
+
+        var monsterHP = new ProgressBar(false);
+        monsterHP.setFill(Color.LIGHTGREEN);
+        monsterHP.setMaxValue(25);
+        monsterHP.setWidth(45);
+        monsterHP.setTranslateY(0);
+        monsterHP.setTranslateX(-8);
+        monsterHP.currentValueProperty().bind(monster.getHp().valueProperty());
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.setGravityScale(0);
+        bodyDef.setActive(true);
+
+        physics.setBodyType(BodyType.DYNAMIC);
+
+        return FXGL.entityBuilder(data)
+                .type(CharacterType.MONSTER)
+                .with(new IrremovableComponent())
+                .viewWithBBox(monsterTexture)
+                .view(monsterHP)
+                .with(monster)
+                .with(physics)
+                .with(new CollidableComponent(true))
+                .with(new MonsterInteractionComponent(getPhysicsWorld()))
+                .build();
+    }
+
+
+    @Spawns("Monster3")
+    public Entity spawnMonster3(SpawnData data) {
+        //TODO: add more types of monster, and make it random?
+        monsterTexture = FXGL.texture("enemy03.png");
 
         Point2D startLocation = new Point2D(data.getX(), data.getY());
         MonsterComponent monster = new MonsterComponent(startLocation);

@@ -436,7 +436,7 @@ public class Main extends GameApplication {
             if (player.getComponent(RoomComponent.class).getCurrentRoom()
                     .getMonsters().isEmpty()) {
                 System.out.println("cleared.");
-                //playRoomCleared();
+                //TODO: this appeared here and can't find it in repo...//playRoomCleared();
                 player.getComponent(RoomComponent.class).getCurrentRoom().setCleared(true);
             }
         }
