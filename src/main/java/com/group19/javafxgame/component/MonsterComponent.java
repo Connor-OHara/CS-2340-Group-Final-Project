@@ -18,7 +18,7 @@ import static com.group19.javafxgame.soundHandler.DoorSounds.playRoomCleared;
 
 
 public class MonsterComponent extends CharacterComponent {
-
+    private int number;
     private Point2D startLocation;
     private HealthIntComponent hp = new HealthIntComponent(25);
     public MonsterComponent(int health,
@@ -33,9 +33,10 @@ public class MonsterComponent extends CharacterComponent {
                 Constants.getDefaultMonsterPosition());
     }
 
-    public MonsterComponent(Point2D location) {
+    public MonsterComponent(Point2D location, int number) {
         this();
         this.startLocation = location;
+        this.number = number;
     }
 
 
@@ -85,7 +86,19 @@ public class MonsterComponent extends CharacterComponent {
             }
         }
     }
-
+    public void attack(int number) {
+        if (number == 1) {
+            attack(2000, Constants.getEnemyShurikenProjectileSpeed(), 5,
+                    "monsterAttackSound1.mp3", Color.CYAN);
+        } else if (number == 2) {
+            attack(1500, Constants.getEnemyShurikenProjectileSpeed(), 4,
+                    "MonsterAttackSound2.mp3", Color.LAWNGREEN);
+            attack(1500, Constants.getEnemyShurikenProjectileSpeed() * 3 / 4, 8,
+                    "", Color.RED);
+        } else if (number == 3) {
+            shotGun();
+        }
+    }
     public void attack() {
         attack(2000, 300, 5);
     }

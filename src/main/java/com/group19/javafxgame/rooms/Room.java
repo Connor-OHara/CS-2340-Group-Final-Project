@@ -403,21 +403,7 @@ public class Room {
             //probably will create 3 monster subclasses and put in array
             var monster = FXGL.spawn("Monster" + monsterNum,
                     new SpawnData(location.getX(), location.getY()));
-            //TODO: here are the 3 monster attacks
-            //The first monster's attack: 25HP monster, 2.5dps, 5dmg, 2sec
-            /*
-            monster.getComponent(MonsterComponent.class).attack(2000, Constants
-                .getEnemyShurikenProjectileSpeed(), 5, "monsterAttackSound1.mp3", Color.CYAN);
-            */
-            //This monster double shoots: low hp, 8dps
-            /*
-            monster.getComponent(MonsterComponent.class).attack(1500, Constants.
-                getEnemyShurikenProjectileSpeed(), 4, "MonsterAttackSound2.mp3", Color.LAWNGREEN);
-            monster.getComponent(MonsterComponent.class).attack(1500, Constants
-                .getEnemyShurikenProjectileSpeed() * 3 / 4, 8, "", Color.RED);
-            */
-            //This last one is a shotgun-shot
-            monster.getComponent(MonsterComponent.class).shotGun();
+            monster.getComponent(MonsterComponent.class).attack(monsterNum);
             list.remove(location);
             monsters.add(monster);
         }

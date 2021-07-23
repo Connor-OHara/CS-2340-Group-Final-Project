@@ -79,7 +79,7 @@ public class CharacterFactory implements EntityFactory {
         monsterTexture = FXGL.texture("enemy01.png");
 
         Point2D startLocation = new Point2D(data.getX(), data.getY());
-        MonsterComponent monster = new MonsterComponent(startLocation);
+        MonsterComponent monster = new MonsterComponent(startLocation, 1);
         PhysicsComponent physics = new PhysicsComponent();
 
         var monsterHP = new ProgressBar(false);
@@ -115,7 +115,7 @@ public class CharacterFactory implements EntityFactory {
         monsterTexture = FXGL.texture("enemy02.png");
 
         Point2D startLocation = new Point2D(data.getX(), data.getY());
-        MonsterComponent monster = new MonsterComponent(startLocation);
+        MonsterComponent monster = new MonsterComponent(startLocation, 2);
         PhysicsComponent physics = new PhysicsComponent();
 
         var monsterHP = new ProgressBar(false);
@@ -147,11 +147,10 @@ public class CharacterFactory implements EntityFactory {
 
     @Spawns("Monster3")
     public Entity spawnMonster3(SpawnData data) {
-        //TODO: add more types of monster, and make it random?
         monsterTexture = FXGL.texture("enemy03.png");
 
         Point2D startLocation = new Point2D(data.getX(), data.getY());
-        MonsterComponent monster = new MonsterComponent(startLocation);
+        MonsterComponent monster = new MonsterComponent(startLocation, 3);
         PhysicsComponent physics = new PhysicsComponent();
 
         var monsterHP = new ProgressBar(false);
