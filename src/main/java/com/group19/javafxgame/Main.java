@@ -71,7 +71,7 @@ public class Main extends GameApplication {
         vars.put("money", Constants.getDefaultMoney());
         vars.put("playerHealthUI", 100);
         //Change to False to Lock Rooms As if playing full game
-        vars.put("DevMode", false);
+        vars.put("DevMode", true);
     }
 
     @Override
@@ -356,9 +356,13 @@ public class Main extends GameApplication {
                 LevelType.END_GAME_PLATFORM
             )
         );
+
         getPhysicsWorld().addCollisionHandler(
             new PlayerDoorCollisionHandler(CharacterType.PLAYER, LevelType.DOOR)
         );
+
+
+
 
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
             player.getComponent(PlayerComponent.class).subtractHealth(25);
@@ -369,6 +373,8 @@ public class Main extends GameApplication {
                 assert true;
             }
         });
+
+
         onCollisionBegin(AttackType.SHURIKEN, LevelType.WALL, (shuriken, wall) -> {
             shuriken.removeFromWorld();
         });
@@ -414,6 +420,14 @@ public class Main extends GameApplication {
         });
         onCollisionBegin(AttackType.PROJECTILE, LevelType.WALL, (projectile, wall) -> {
             projectile.removeFromWorld();
+        });
+        onCollision(CharacterType.PLAYER, CharacterType.MONSTER, (player, monster) -> {
+            monster.getComponent(MonsterInteractionComponent.class)
+                    .setPosition(monster.getComponent(MonsterComponent.class)
+                            .getStartLocation());
+            PhysicsComponent monsterPhysics = monster.getComponent(PhysicsComponent.class);
+            monsterPhysics.setVelocityX(0.0);
+            monsterPhysics.setVelocityY(0.0);
         });
     }
 

@@ -8,22 +8,17 @@ import com.group19.javafxgame.component.MonsterComponent;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import javafx.geometry.Point2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 public class Room {
-
-    private static final List<Point2D> MONSTER_LOCATIONS = new LinkedList<>();
-    private static final Point2D MONSTER_LOCATION_1 = new Point2D(4 * 16, 24 * 19);
-    private static final Point2D MONSTER_LOCATION_2 = new Point2D(70 * 16, 24 * 19);
-    private static final Point2D MONSTER_LOCATION_3 = new Point2D(7 * 16, 35 * 19);
-    private static final Point2D MONSTER_LOCATION_4 = new Point2D(35 * 16, 12 * 19);
-    private static final Point2D MONSTER_LOCATION_5 = new Point2D(45 * 16, 30 * 19);
-    private static final Point2D MONSTER_LOCATION_6 = new Point2D(7 * 16, 2 * 19);
 
     private static final Room MIDDLE_1 = new Room(
         "Middle1.tmx",
@@ -194,6 +189,24 @@ public class Room {
     private static final HashSet<Room> ROOMS_TOP_DOOR = new HashSet<>();
     private static final HashSet<Room> ROOMS_BOTTOM_DOOR = new HashSet<>();
 
+    private static final List<Point2D> MONSTER_LOCATIONS = new LinkedList<>();
+    private static final Point2D MONSTER_LOCATION_1 = new Point2D(4 * 16, 24 * 19);
+    private static final Point2D MONSTER_LOCATION_2 = new Point2D(70 * 16, 24 * 19);
+    private static final Point2D MONSTER_LOCATION_3 = new Point2D(7 * 16, 35 * 19);
+    private static final Point2D MONSTER_LOCATION_4 = new Point2D(35 * 16, 12 * 19);
+    private static final Point2D MONSTER_LOCATION_5 = new Point2D(45 * 16, 30 * 19);
+    private static final Point2D MONSTER_LOCATION_6 = new Point2D(7 * 16, 2 * 19);
+
+
+    private static final Point2D M2_MLOC1 = new Point2D(17 * 16, 8 * 16);
+    private static final Point2D M2_MLOC2 = new Point2D(38 * 16, 12 * 16);
+    private static final Point2D M2_MLOC3 = new Point2D(70 * 16, 10 * 16);
+    private static final Point2D M2_MLOC4 = new Point2D(15 * 16, 27 * 16);
+    private static final Point2D M2_MLOC5 = new Point2D(55 * 16, 33 * 16);
+
+
+
+
     static {
         ROOMS_LEFT_DOOR.addAll(Arrays.asList(
                 MIDDLE_1,
@@ -260,7 +273,6 @@ public class Room {
                 MONSTER_LOCATION_5,
                 MONSTER_LOCATION_6
         ));
-
     }
 
     private final String filename;
@@ -375,14 +387,22 @@ public class Room {
     }
 
     public void addMonsters() {
+        var monsterNums = new ArrayList<Integer>();
+        monsterNums.add(1);
+        monsterNums.add(2);
+        monsterNums.add(3);
         var list = new LinkedList<Point2D>();
         list.addAll(MONSTER_LOCATIONS);
+        list = list.stream().filter(Objects::nonNull).collect(Collectors
+                .toCollection(LinkedList::new));
+
         for (int i = 0; i < 3; i++) {
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
+            var monsterNum = monsterNums.get(rand.nextInt(monsterNums.size()));
             //probably will create 3 monster subclasses and put in array
-            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(),
-                    location.getY()));
+            var monster = FXGL.spawn("Monster" + monsterNum,
+                    new SpawnData(location.getX(), location.getY()));
             //TODO: here are the 3 monster attacks
             //The first monster's attack: 25HP monster, 2.5dps, 5dmg, 2sec
             /*
@@ -516,4 +536,9 @@ public class Room {
     public void setStart(boolean start) {
         isStart = start;
     }
+
+    public static List<Point2D> getMonsterLocations() {
+        return MONSTER_LOCATIONS;
+    }
+
 }

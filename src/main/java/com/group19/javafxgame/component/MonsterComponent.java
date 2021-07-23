@@ -19,6 +19,7 @@ import static com.group19.javafxgame.soundHandler.DoorSounds.playRoomCleared;
 
 public class MonsterComponent extends CharacterComponent {
 
+    private Point2D startLocation;
     private HealthIntComponent hp = new HealthIntComponent(25);
     public MonsterComponent(int health,
                            int strength,
@@ -30,6 +31,11 @@ public class MonsterComponent extends CharacterComponent {
         this(Constants.getDefaultMonsterHealth(),
                 Constants.getDefaultMonsterStrength(),
                 Constants.getDefaultMonsterPosition());
+    }
+
+    public MonsterComponent(Point2D location) {
+        this();
+        this.startLocation = location;
     }
 
 
@@ -56,6 +62,11 @@ public class MonsterComponent extends CharacterComponent {
     public void subtractHealth(int health) {
         this.health -= health;
         hp.damage(health);
+    }
+
+
+    public Point2D getStartLocation() {
+        return startLocation;
     }
 
     public void checkHP() {
