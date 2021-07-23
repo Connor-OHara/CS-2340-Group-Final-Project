@@ -109,7 +109,8 @@ public class AttackFactory implements EntityFactory {
         Point2D dir = data.get("dir");
         Point2D loc = data.get("loc");
         int speed = data.get("speed");
-        Shape shape = data.get("shape");
+        Rectangle shape = data.get("shape");
+        shape = new Rectangle(shape.getWidth(), shape.getHeight(), shape.getFill());
         if (data.get("sound") != "") {
             Sound sound = getAssetLoader().loadSound(data.get("sound"));
             FXGL.getAudioPlayer().playSound(sound);
