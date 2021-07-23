@@ -1,29 +1,24 @@
 package com.group19.javafxgame.rooms;
 
-import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
+
 import com.almasb.fxgl.entity.component.Component;
 import com.group19.javafxgame.component.PlayerInteractionComponent;
-import com.group19.javafxgame.types.CharacterType;
+
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
-import javafx.geometry.Point2D;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Random;
-import java.util.stream.Collectors;
+
 
 public class RoomComponent extends Component {
 
     private final Room[][] maze = new Room[15][15];
     private Point2I currentLocation;
     private final RoomUtils roomUtils;
+    private int roomGenerationCount = 0;
 
     private final HashSet<Room> visitedRooms = new HashSet<>();
 
@@ -33,6 +28,7 @@ public class RoomComponent extends Component {
         roomUtils = new RoomUtils(maze);
         Room startRoom = Room.START.clone();
         startRoom.setStart(true);
+        startRoom.setCleared(true);
         setRoom(startRoom, currentLocation);
     }
 
@@ -63,6 +59,7 @@ public class RoomComponent extends Component {
     private void setRoom(Room room, Point2I coordinates) {
         maze[coordinates.getY()][coordinates.getX()] = room;
         visitedRooms.add(room);
+        roomGenerationCount++;
     }
 
     private Room generateNewRoom(List<DoorLocation> requiredDoors,
@@ -128,15 +125,19 @@ public class RoomComponent extends Component {
         switch (outDoor) {
         case LEFT:
             interaction.setPosition(newRoom.getLeftSpawn());
+            newRoom.setLastDoor(DoorLocation.LEFT);
             break;
         case RIGHT:
             interaction.setPosition(newRoom.getRightSpawn());
+            newRoom.setLastDoor(DoorLocation.RIGHT);
             break;
         case TOP:
             interaction.setPosition(newRoom.getTopSpawn());
+            newRoom.setLastDoor(DoorLocation.TOP);
             break;
         case BOTTOM:
             interaction.setPosition(newRoom.getBottomSpawn());
+            newRoom.setLastDoor(DoorLocation.BOTTOM);
             break;
         default:
             System.out.println("ERROR IN outDoor Switch case");
@@ -144,8 +145,10 @@ public class RoomComponent extends Component {
         }
 
         currRoom.removeMonsters();
+        currRoom.clearMonstersRemove();
 
-        if (!newRoom.isCleared() && newRoom.isVisited() && !newRoom.isStart() && !newRoom.isFinal()) {
+        if (!newRoom.isCleared() && newRoom.isVisited()
+                && !newRoom.isStart() && !newRoom.isFinal()) {
             newRoom.addMonsters();
         }
         if (newRoom.isFinal()) {
@@ -162,5 +165,8 @@ public class RoomComponent extends Component {
 
     public Room getCurrentRoom() {
         return roomUtils.getRoom(currentLocation);
+    }
+    public int getRoomGenerationCount() {
+        return roomGenerationCount;
     }
 }

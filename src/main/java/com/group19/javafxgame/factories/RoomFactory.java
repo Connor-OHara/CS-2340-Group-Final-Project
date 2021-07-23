@@ -27,6 +27,7 @@ public class RoomFactory implements EntityFactory {
                     )
                 )
                 .with(new PhysicsComponent())
+                .collidable()
                 .build();
     }
 

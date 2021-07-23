@@ -14,6 +14,8 @@ public class PlayerInteractionComponent extends Component {
     private double upVelocity = 0;
     private double downVelocity = 0;
     private PhysicsWorld physicsWorld;
+    private String currDir = null;
+    private String lastDir = null;
 
     public PlayerInteractionComponent(PhysicsWorld physicsWorld) {
         this.physicsWorld = physicsWorld;
@@ -74,6 +76,30 @@ public class PlayerInteractionComponent extends Component {
     public double getYVelocity() {
         return downVelocity - upVelocity;
     }
+
+    public void setCurrDir(String newDir) {
+        currDir = newDir;
+    }
+    public void setLastDir(String newDir) {
+        lastDir = newDir;
+    }
+
+    public String getCurrDir() {
+        return currDir;
+    }
+    public String getLastDir() {
+        return lastDir;
+    }
+
+
+
+
+
+
+
+
+
+
 
     public void setPosition(Point2D location) {
         double newX = physicsWorld.toMeters(location.getX());

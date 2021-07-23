@@ -2,14 +2,13 @@ package com.group19.javafxgame.rooms;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.components.CollidableComponent;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.physics.box2d.dynamics.BodyType;
-import com.group19.javafxgame.Constants;
+import com.group19.javafxgame.Main;
 import com.group19.javafxgame.types.DoorLocation;
 import com.group19.javafxgame.utils.Point2I;
 import javafx.geometry.Point2D;
+import javafx.util.Duration;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,9 +16,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
+
 public class Room {
 
-    private static final List<Point2D> MONSTER_LOCATIONS= new LinkedList<>();
+    private static final List<Point2D> MONSTER_LOCATIONS = new LinkedList<>();
     private static final Point2D MONSTER_LOCATION_1 = new Point2D(4 * 16, 24 * 19);
     private static final Point2D MONSTER_LOCATION_2 = new Point2D(70 * 16, 24 * 19);
     private static final Point2D MONSTER_LOCATION_3 = new Point2D(7 * 16, 35 * 19);
@@ -271,10 +272,12 @@ public class Room {
     private Point2D topSpawn;
     private Point2D bottomSpawn;
     private LinkedList<Entity> monsters = new LinkedList<>();
+    private LinkedList<Entity> monstersRemove = new LinkedList<>();
     private boolean cleared = false;
     private boolean visited = false;
     private boolean isStart = false;
     private boolean isFinal = false;
+    private DoorLocation lastDoor = null;
 
     public Room(String filename,
                 Point2I leftSpawn,
@@ -378,22 +381,42 @@ public class Room {
         var list = new LinkedList<Point2D>();
         list.addAll(MONSTER_LOCATIONS);
         for (int i = 0; i < 3; i++) {
-            var monster = FXGL.spawn("Monster");
             Random rand = new Random();
             var location = list.get(rand.nextInt(list.size()));
+            //TODO: add different monster attacks based on which monster it is
+            //probably will create 3 monster subclasses and put in array
+            var monster = FXGL.spawn("Monster", new SpawnData(location.getX(), location.getY()));
+            getGameTimer().runAtIntervalWhile(() -> {
+                Point2D pos = monster.getCenter();
+                Point2D pos2 = Main.getPlayer().getPosition();
+                Point2D dir = pos2.subtract(pos);
+                FXGL.spawn("Shuriken2",
+                        new SpawnData(pos.getX(), pos.getY()).put("dir", dir)
+                                .put("loc", pos));
+            }, Duration.millis(2000),  monster.activeProperty());
             list.remove(location);
-            monster.getComponent(PhysicsComponent.class).overwritePosition(location);
             monsters.add(monster);
         }
     }
 
     public void removeMonsters() {
-        monsters.forEach(this::removeMonster);
+        monsters.forEach(this::removeMonsterChangeRoom);
+    }
+
+    public void removeMonsterChangeRoom(Entity monster) {
+        monster.removeComponent(IrremovableComponent.class);
+        monster.removeFromWorld();
+        monstersRemove.add(monster);
     }
 
     public void removeMonster(Entity monster) {
         monster.removeComponent(IrremovableComponent.class);
         monster.removeFromWorld();
+        monsters.remove(monster);
+    }
+
+    public void clearMonstersRemove() {
+        monsters.removeAll(monstersRemove);
     }
 
     public void hideMonsters() {
@@ -479,6 +502,13 @@ public class Room {
         return isStart;
     }
 
+    public void setLastDoor(DoorLocation prevDoor) {
+        this.lastDoor = prevDoor;
+    }
+
+    public DoorLocation getLastDoor() {
+        return this.lastDoor;
+    }
     public void setStart(boolean start) {
         isStart = start;
     }

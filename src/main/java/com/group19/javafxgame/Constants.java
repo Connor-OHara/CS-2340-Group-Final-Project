@@ -1,5 +1,6 @@
 package com.group19.javafxgame;
 
+import com.almasb.fxgl.dsl.FXGL;
 import com.group19.javafxgame.types.DifficultyLevel;
 import com.group19.javafxgame.types.WeaponType;
 import javafx.geometry.Point2D;
@@ -11,7 +12,7 @@ public class Constants {
     }
 
     public static String getGameVersion() {
-        return "Development 0.0.1";
+        return "Development 0.1.0 Alpha";
     }
 
     public static int getScreenWidth() {
@@ -66,6 +67,41 @@ public class Constants {
         return 0;
     }
 
+    public static int getDefaultBombRange() {
+        return 48;
+    }
+
+    public static int getEnemyShurikenProjectileSpeed() {
+        DifficultyLevel difficulty = FXGL.geto("difficulty");
+        switch (difficulty) {
+        case INTERMEDIATE:
+            return 600;
+        case VETERAN:
+            return 900;
+        case BEGINNER:
+        default:
+            return 300;
+        }
+    }
+
+    public static int getHealthOnKill() {
+        DifficultyLevel difficulty = FXGL.geto("difficulty");
+        switch (difficulty) {
+        case INTERMEDIATE:
+            return 1;
+        case VETERAN:
+            return 0;
+        case BEGINNER:
+        default:
+            return 5;
+        }
+    }
+    public static double getPlayerAttackSpeed() {
+        return 1;
+    }
+    public static int getSwordLength() {
+        return 15;
+    }
 
 
 }
