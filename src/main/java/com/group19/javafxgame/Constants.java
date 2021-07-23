@@ -100,7 +100,7 @@ public class Constants {
         return 1;
     }
     public static int getSwordLength() {
-        return 15;
+        return 35;
     }
 
 

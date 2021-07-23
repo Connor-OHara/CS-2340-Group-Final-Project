@@ -13,13 +13,12 @@ public class CombatSounds {
 
     //sounds came from https://www.zapsplat.com/
 
-    //TODO: find good explosion sound and add player to bomb
     private static Sound explosionSound = getAssetLoader().loadSound("bomb_explosion.mp3");
     private static Sound playerShurikenSound = getAssetLoader().loadSound("player_shuriken.mp3");
     private static Sound playerPainSound1 = getAssetLoader().loadSound("player_pain1.mp3");
     private static Sound playerPainSound2 = getAssetLoader().loadSound("player_pain2.mp3");
     private static Sound playerPainSound3 = getAssetLoader().loadSound("player_pain3.mp3");
-
+    private static Sound swordSound = getAssetLoader().loadSound("player_sword.mp3");
 
 
     public static void playExplosion() {
@@ -28,6 +27,10 @@ public class CombatSounds {
 
     public static void playShurikenSound() {
         FXGL.getAudioPlayer().playSound(playerShurikenSound);
+    }
+
+    public static void playSwordSound() {
+        FXGL.getAudioPlayer().playSound(swordSound);
     }
 
     public static void playPlayerPainSound() {

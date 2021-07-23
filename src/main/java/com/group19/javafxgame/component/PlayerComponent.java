@@ -18,7 +18,7 @@ public class PlayerComponent extends CharacterComponent {
     }
     public void addAttack() {
         attacks += attacks <= 1 ? 1 : 0;
-        System.out.println(attacks);
+        //System.out.println(attacks);
     }
 
     public int getAttacks() {
