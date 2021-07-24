@@ -64,8 +64,6 @@ public class PlayerDoorCollisionHandler extends CollisionHandler {
             playLockedDoor();
         }
 
-
-
     }
 
 }

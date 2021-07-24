@@ -362,9 +362,6 @@ public class Main extends GameApplication {
             new PlayerDoorCollisionHandler(CharacterType.PLAYER, LevelType.DOOR)
         );
 
-
-
-
         onCollisionBegin(CharacterType.PLAYER, AttackType.EXPLOSION, (player, explosion) -> {
             double distance = player.getCenter().distance(explosion.getCenter());
             double explosionXRadius = explosion.getWidth()/2;
@@ -377,7 +374,6 @@ public class Main extends GameApplication {
             player.getComponent(PlayerComponent.class).subtractHealth((int) healthDrop);
             playPlayerPainSound();
         });
-
 
         onCollisionBegin(AttackType.SHURIKEN, LevelType.WALL, (shuriken, wall) -> {
             shuriken.removeFromWorld();
