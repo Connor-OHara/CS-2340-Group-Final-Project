@@ -40,6 +40,4 @@ public class PlayerComponentTest {
         assertEquals(playerComponent.getLocation().getX(), 53, 0.001);
     }
 
-
-
 }

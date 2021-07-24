@@ -9,17 +9,25 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.components.IrremovableComponent;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.physics.PhysicsComponent;
-import com.group19.javafxgame.component.*;
+import com.group19.javafxgame.component.ExplosionComponent;
+import com.group19.javafxgame.component.MoneyComponent;
+import com.group19.javafxgame.component.MonsterComponent;
+import com.group19.javafxgame.component.MonsterInteractionComponent;
+import com.group19.javafxgame.component.PlayerComponent;
+import com.group19.javafxgame.component.PlayerInteractionComponent;
+import com.group19.javafxgame.component.ProjectileComp;
+import com.group19.javafxgame.component.SwordComponent;
+import com.group19.javafxgame.factories.AttackFactory;
 import com.group19.javafxgame.factories.CharacterFactory;
 import com.group19.javafxgame.factories.MainSceneFactory;
 import com.group19.javafxgame.factories.RoomFactory;
-import com.group19.javafxgame.factories.AttackFactory;
 import com.group19.javafxgame.rooms.PlayerDoorCollisionHandler;
 import com.group19.javafxgame.rooms.PlayerEndGamePlatformCollisionHandler;
 import com.group19.javafxgame.rooms.RoomComponent;
 import com.group19.javafxgame.types.AttackType;
 import com.group19.javafxgame.types.CharacterType;
 import com.group19.javafxgame.types.LevelType;
+import com.group19.javafxgame.types.WeaponType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
@@ -32,10 +40,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import com.group19.javafxgame.types.WeaponType;
 
-
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 

@@ -33,12 +33,12 @@ public class PlayerScoreCalculator {
 
     public int getDifficultyValue() {
         switch (difficultyLevel) {
-            case INTERMEDIATE:
-                return 1;
-            case VETERAN:
-                return 2;
-            default:
-                return 0;
+        case INTERMEDIATE:
+            return 1;
+        case VETERAN:
+            return 2;
+        default:
+            return 0;
         }
     }
 

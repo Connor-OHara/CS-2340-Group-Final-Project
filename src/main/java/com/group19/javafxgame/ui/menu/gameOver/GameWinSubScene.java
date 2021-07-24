@@ -43,7 +43,10 @@ public class GameWinSubScene extends SubScene {
                         FontType.GAME,
                         35);
 
-        PlayerScoreCalculator scoreCalculator = new PlayerScoreCalculator(player, FXGL.geto("difficulty"));
+        PlayerScoreCalculator scoreCalculator = new PlayerScoreCalculator(
+                player,
+                FXGL.geto("difficulty")
+        );
         Text monstersKilled = FXGL.getUIFactoryService()
                 .newText(scoreCalculator.getMonstersKilled() + " Monsters Killed",
                         Color.WHITE,
