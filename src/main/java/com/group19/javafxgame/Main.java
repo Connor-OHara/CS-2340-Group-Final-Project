@@ -81,7 +81,7 @@ public class Main extends GameApplication {
         vars.put("money", Constants.getDefaultMoney());
         vars.put("playerHealthUI", 100);
         //Change to False to Lock Rooms As if playing full game
-        vars.put("DevMode", true);
+        vars.put("DevMode", false);
     }
 
     @Override
