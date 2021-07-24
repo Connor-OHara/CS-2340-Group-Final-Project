@@ -128,7 +128,7 @@ public class MonsterComponent extends CharacterComponent {
         double sin = Math.sin(Math.PI / 24);
         double cos2 = Math.cos(Math.PI / 12);
         double sin2 = Math.sin(Math.PI / 12);
-        int speed = 300;
+        int speed = Math.max(Constants.getEnemyShurikenProjectileSpeed() * 2 / 3, 300);
         int damage = 3;
         String sound = "shotGun.mp3";
         Rectangle shape = new Rectangle(5, 5, Color.WHITE);

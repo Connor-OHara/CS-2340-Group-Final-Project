@@ -7,7 +7,7 @@ import com.group19.javafxgame.rooms.RoomComponent;
 
 public class PlayerScoreCalculator {
 
-    Entity player;
+    private Entity player;
     public PlayerScoreCalculator(Entity player) {
         this.player = player;
     }
@@ -29,10 +29,10 @@ public class PlayerScoreCalculator {
     }
 
     public int getScore() {
-        return 3 * getGold() +
-                getMonstersKilled() +
-                2 * Math.max(0, getHealth()) +
-                4 * getRoomsVisited();
+        return 3 * getGold()
+                + getMonstersKilled()
+                + 2 * Math.max(0, getHealth())
+                + 4 * getRoomsVisited();
     }
 
 }

@@ -67,9 +67,10 @@ public class PlayerComponent extends CharacterComponent {
     }
 
     public void addHealth(int health) {
-        this.health += this.health >= 100 ? 0 : health;
-        FXGL.set("playerHealthUI", FXGL.geti("playerHealthUI")
-                +  (FXGL.geti("playerHealthUI") >= 100 ? 0 : health));
+        this.health += health;
+        this.health = Math.min(this.health, 100);
+        FXGL.set("playerHealthUI", Math.min(FXGL.geti("playerHealthUI")
+                +  health, 100));
     }
     public void incrementMonsterKillCount() {
         monsterKillCount++;

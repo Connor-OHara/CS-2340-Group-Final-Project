@@ -19,12 +19,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.group19.javafxgame.soundHandler.CombatSounds.*;
 
-//tile sprites from DawnBringer https://opengameart.org/content/dawnlike-16x16-universal-rogue-like-tileset-v181
 public class AttackFactory implements EntityFactory {
     //this is static to allow for junit tests to access it
     private static Texture bombTexture;
@@ -109,7 +106,8 @@ public class AttackFactory implements EntityFactory {
         Point2D dir = data.get("dir");
         Point2D loc = data.get("loc");
         int speed = data.get("speed");
-        Shape shape = data.get("shape");
+        Rectangle shape = data.get("shape");
+        shape = new Rectangle(shape.getWidth(), shape.getHeight(), shape.getFill());
         if (data.get("sound") != "") {
             Sound sound = getAssetLoader().loadSound(data.get("sound"));
             FXGL.getAudioPlayer().playSound(sound);
