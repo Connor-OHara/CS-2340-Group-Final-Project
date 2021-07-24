@@ -1,6 +1,7 @@
 package com.group19.javafxgame;
 
 
+import com.almasb.fxgl.app.GameApplication;
 import com.group19.javafxgame.component.PlayerComponent;
 import javafx.geometry.Point2D;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,7 +19,8 @@ public class PlayerComponentTest {
 
     @BeforeAll
     public static void setup() {
-
+        GameApplication.launch(Main.class, new String[] {});
+        System.out.println("New Setup");
     }
 
     @Test
