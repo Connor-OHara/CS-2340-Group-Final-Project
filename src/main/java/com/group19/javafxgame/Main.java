@@ -23,6 +23,7 @@ import com.group19.javafxgame.types.LevelType;
 import com.group19.javafxgame.ui.menu.config.InitialConfigSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameOverSubScene;
 import com.group19.javafxgame.ui.menu.gameOver.GameWinSubScene;
+import com.group19.javafxgame.ui.menu.main.MainMenu;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
@@ -69,12 +70,13 @@ public class Main extends GameApplication {
         vars.put("name", "");
         vars.put("configFinished", 0);
         vars.put("gameOver", 0);
+        vars.put("restartGame", 0);
         vars.put("gameWin", 0);
         vars.put("closeGame", 0);
         vars.put("money", Constants.getDefaultMoney());
         vars.put("playerHealthUI", 100);
         //Change to False to Lock Rooms As if playing full game
-        vars.put("DevMode", false);
+        vars.put("DevMode", true);
     }
 
     @Override
@@ -114,6 +116,14 @@ public class Main extends GameApplication {
         getWorldProperties().<Integer>addListener("closeGame", (prev, now) -> {
             if (now == 1) {
                 Platform.exit();
+            }
+        });
+
+        getWorldProperties().<Integer>addListener("restartGame", (prev, now) -> {
+            System.out.println("Pressed button");
+            if (now == 1) {
+                System.out.println("TESTING");
+                ((MainMenu) getSettings().getSceneFactory().newMainMenu()).resetGame();
             }
         });
 
@@ -169,7 +179,7 @@ public class Main extends GameApplication {
 
     protected void removeGameUI() {
         getGameScene().clearUINodes();
-        List<Entity> entitiesCopy = new LinkedList<Entity>(getGameWorld().getEntities());
+        List<Entity> entitiesCopy = getGameWorld().getEntitiesCopy();
         for (Entity entity: entitiesCopy) {
             entity.removeComponent(IrremovableComponent.class);
             entity.removeFromWorld();
@@ -218,19 +228,22 @@ public class Main extends GameApplication {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                player.getComponent(PlayerInteractionComponent.class).translateLeft();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateLeft);
                 updateFaceDirection(player, "LEFT");
             }
             @Override
             protected void onAction() {
                 super.onAction();
-                player.getComponent(PlayerInteractionComponent.class).translateLeft();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateLeft);
                 updateFaceDirection(player, "LEFT");
             }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                player.getComponent(PlayerInteractionComponent.class).stopLeft();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::stopLeft);
             }
         }, KeyCode.LEFT);
 
@@ -238,19 +251,22 @@ public class Main extends GameApplication {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                player.getComponent(PlayerInteractionComponent.class).translateRight();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateRight);
                 updateFaceDirection(player, "RIGHT");
             }
             @Override
             protected void onAction() {
                 super.onAction();
-                player.getComponent(PlayerInteractionComponent.class).translateRight();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateRight);
                 updateFaceDirection(player, "RIGHT");
             }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                player.getComponent(PlayerInteractionComponent.class).stopRight();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::stopRight);
             }
         }, KeyCode.RIGHT);
 
@@ -258,19 +274,22 @@ public class Main extends GameApplication {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                player.getComponent(PlayerInteractionComponent.class).translateUp();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateUp);
                 updateFaceDirection(player, "UP");
             }
             @Override
             protected void onAction() {
                 super.onAction();
-                player.getComponent(PlayerInteractionComponent.class).translateUp();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateUp);
                 updateFaceDirection(player, "UP");
             }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                player.getComponent(PlayerInteractionComponent.class).stopUp();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::stopUp);
             }
         }, KeyCode.UP);
 
@@ -278,19 +297,22 @@ public class Main extends GameApplication {
             @Override
             protected void onActionBegin() {
                 super.onActionBegin();
-                player.getComponent(PlayerInteractionComponent.class).translateDown();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateDown);
                 updateFaceDirection(player, "DOWN");
             }
             @Override
             protected void onAction() {
                 super.onAction();
-                player.getComponent(PlayerInteractionComponent.class).translateDown();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::translateDown);
                 updateFaceDirection(player, "DOWN");
             }
             @Override
             protected void onActionEnd() {
                 super.onActionEnd();
-                player.getComponent(PlayerInteractionComponent.class).stopDown();
+                player.getComponentOptional(PlayerInteractionComponent.class)
+                        .ifPresent(PlayerInteractionComponent::stopDown);
             }
         }, KeyCode.DOWN);
 
@@ -300,48 +322,49 @@ public class Main extends GameApplication {
                 if (geti("configFinished") == 0 || geti("gameWin") == 1) {
                     return;
                 }
-                PlayerComponent playerComp = player.getComponent(PlayerComponent.class);
-                if (playerComp.getAttacks() >= 1) {
-                    playerComp.attack();
-                } else {
-                    return;
-                }
-                if (geto("weapon") == WeaponType.SHIELD) {
-                    var bomb = FXGL.spawn("Bomb");
-                    bomb.getComponent(PhysicsComponent.class)
-                            .overwritePosition(player.getPosition());
-                } else if (geto("weapon") == WeaponType.SHURIKEN) {
-                    Point2D dir = getInput().getMousePositionWorld()
-                            .subtract(player.getCenter()).normalize();
-                    double cos = Math.cos(Math.PI / 12);
-                    double sin = Math.sin(Math.PI / 12);
-                    double x = dir.getX();
-                    double y = dir.getY();
-                    Point2D dir2 = new Point2D(cos * x - sin * y,
-                            sin * x + cos * y); //rotate 15 degrees left
-                    Point2D dir3 = new Point2D(cos * x + sin * y,
-                            -sin * x + cos * y); //rotate 15 degrees right
+                player.getComponentOptional(PlayerComponent.class).ifPresent(playerComp -> {
+                    if (playerComp.getAttacks() >= 1) {
+                        playerComp.attack();
+                    } else {
+                        return;
+                    }
+                    if (geto("weapon") == WeaponType.SHIELD) {
+                        var bomb = FXGL.spawn("Bomb");
+                        bomb.getComponent(PhysicsComponent.class)
+                                .overwritePosition(player.getPosition());
+                    } else if (geto("weapon") == WeaponType.SHURIKEN) {
+                        Point2D dir = getInput().getMousePositionWorld()
+                                .subtract(player.getCenter()).normalize();
+                        double cos = Math.cos(Math.PI / 12);
+                        double sin = Math.sin(Math.PI / 12);
+                        double x = dir.getX();
+                        double y = dir.getY();
+                        Point2D dir2 = new Point2D(cos * x - sin * y,
+                                sin * x + cos * y); //rotate 15 degrees left
+                        Point2D dir3 = new Point2D(cos * x + sin * y,
+                                -sin * x + cos * y); //rotate 15 degrees right
 
-                    var shuriken = FXGL.spawn("Shuriken",
-                            new SpawnData(player.getX(), player.getY()).put("dir", dir)
-                                    .put("loc", player.getCenter()));
-                    var shuriken2 = FXGL.spawn("Shuriken",
-                            new SpawnData(player.getX(), player.getY()).put("dir", dir2)
-                                    .put("loc", player.getCenter()));
-                    var shuriken3 = FXGL.spawn("Shuriken",
-                            new SpawnData(player.getX(), player.getY()).put("dir", dir3)
-                                    .put("loc", player.getCenter()));
-                    //sounds stacked for more depth
-                    playShurikenSound();
-                    playShurikenSound();
-                    playShurikenSound();
-                } else if (geto("weapon") == WeaponType.SWORD) {
-                    Point2D dir = getInput().getMousePositionWorld()
-                            .subtract(player.getCenter()).normalize();
-                    var sword = FXGL.spawn("Sword",
-                            new SpawnData(player.getCenter()).put("dir", dir));
-                    playSwordSound();
-                }
+                        var shuriken = FXGL.spawn("Shuriken",
+                                new SpawnData(player.getX(), player.getY()).put("dir", dir)
+                                        .put("loc", player.getCenter()));
+                        var shuriken2 = FXGL.spawn("Shuriken",
+                                new SpawnData(player.getX(), player.getY()).put("dir", dir2)
+                                        .put("loc", player.getCenter()));
+                        var shuriken3 = FXGL.spawn("Shuriken",
+                                new SpawnData(player.getX(), player.getY()).put("dir", dir3)
+                                        .put("loc", player.getCenter()));
+                        //sounds stacked for more depth
+                        playShurikenSound();
+                        playShurikenSound();
+                        playShurikenSound();
+                    } else if (geto("weapon") == WeaponType.SWORD) {
+                        Point2D dir = getInput().getMousePositionWorld()
+                                .subtract(player.getCenter()).normalize();
+                        var sword = FXGL.spawn("Sword",
+                                new SpawnData(player.getCenter()).put("dir", dir));
+                        playSwordSound();
+                    }
+                });
             }
         }, MouseButton.PRIMARY);
     }
@@ -422,12 +445,14 @@ public class Main extends GameApplication {
     //updates current direction and saves last direction,
     // calls updateSpriteDir to reflect the sprite
     public void updateFaceDirection(Entity entity, String newDir) {
-        String current = entity.getComponent(PlayerInteractionComponent.class).getCurrDir();
-        entity.getComponent(PlayerInteractionComponent.class).setLastDir(current);
-        entity.getComponent(PlayerInteractionComponent.class).setCurrDir(newDir);
-        current = entity.getComponent(PlayerInteractionComponent.class).getCurrDir();
-        String last = entity.getComponent(PlayerInteractionComponent.class).getLastDir();
-        updateSpriteDir(entity, current, last);
+        entity.getComponentOptional(PlayerInteractionComponent.class).ifPresent(comp -> {
+            String current = comp.getCurrDir();
+            comp.setLastDir(current);
+            comp.setCurrDir(newDir);
+            current = comp.getCurrDir();
+            String last = comp.getLastDir();
+            updateSpriteDir(entity, current, last);
+        });
     }
 
 

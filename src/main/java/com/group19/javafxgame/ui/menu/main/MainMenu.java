@@ -66,6 +66,10 @@ public class MainMenu extends FXGLMenu {
         startButton.setOnAction(e -> fireNewGame());
     }
 
+    public void resetGame() {
+        fireNewGame();
+    }
+
 
     @NotNull
     @Override

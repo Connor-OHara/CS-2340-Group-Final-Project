@@ -41,7 +41,7 @@ public class GameOverSubScene extends SubScene {
                         FontType.GAME,
                         70);
 
-        PlayerScoreCalculator scoreCalculator = new PlayerScoreCalculator(player);
+        PlayerScoreCalculator scoreCalculator = new PlayerScoreCalculator(player, FXGL.geto("difficulty"));
         Text monstersKilled = FXGL.getUIFactoryService()
                 .newText(scoreCalculator.getMonstersKilled() + " Monsters Killed",
                         Color.WHITE,
@@ -79,17 +79,16 @@ public class GameOverSubScene extends SubScene {
             FXGL.set("closeGame", 1);
         });
 
-        quitButton.setMaxWidth(Constants.getScreenWidth() / 2);
-        quitButton.setPrefHeight(40);
+        //restart button
+        Button restartButton = new FXGLButton("Restart");
+        restartButton.setOnAction(e -> {
+            FXGL.set("restartGame", 1);
+        });
 
-        //Button Container
-        double buttonBoxWidth = 200;
-        double tranlsateX = (Constants.getScreenWidth() - buttonBoxWidth) / 2;
-        VBox buttonBox = new VBox(15, quitButton);
-        buttonBox.setPrefWidth(buttonBoxWidth);
-        buttonBox.setFillWidth(true);
-        buttonBox.setTranslateX(tranlsateX);
-        buttonBox.setTranslateY(450);
+        quitButton.setMaxWidth(300);
+        quitButton.setPrefHeight(40);
+        restartButton.setMaxWidth(300);
+        restartButton.setPrefHeight(40);
 
 
         VBox box = new VBox(10);
@@ -103,6 +102,7 @@ public class GameOverSubScene extends SubScene {
         box.getChildren().add(goldText);
         box.getChildren().add(roomsVisitedText);
         box.getChildren().add(totalScoreText);
+        box.getChildren().add(restartButton);
         box.getChildren().add(quitButton);
 
         getContentRoot().getChildren().addAll(box);
